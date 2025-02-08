@@ -15,11 +15,17 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -39,6 +45,13 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    public final Elevator m_elevator = new Elevator();
+
+    public final Intake m_inIntake = new Intake();
+
+    public final Climber m_climber = new Climber();
+
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -62,10 +75,10 @@ public class RobotContainer {
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+       // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+       // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+     //       point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+      //  ));
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -82,7 +95,27 @@ public class RobotContainer {
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+      //  joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+        joystick.rightBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(-1)));
+        joystick.rightBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+
+        joystick.leftBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(.5)));
+        joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+
+        joystick.y().whileTrue(new InstantCommand(() -> m_inIntake.runIntakeSpeed(.2)));
+        joystick.y().onFalse(new InstantCommand(() -> m_inIntake.runIntakeSpeed(0)));
+
+        joystick.a().whileTrue(new InstantCommand(() -> m_inIntake.runIntakeSpeed(-.2)));
+        joystick.a().onFalse(new InstantCommand(() -> m_inIntake.runIntakeSpeed(0)));
+
+        
+        joystick.x().whileTrue(new InstantCommand(() -> m_inIntake.runHopperSpeed(.2)));
+        joystick.x().onFalse(new InstantCommand(() -> m_inIntake.runHopperSpeed(0)));
+
+        
+        joystick.b().whileTrue(new InstantCommand(() -> m_inIntake.runHopperSpeed(-.2)));
+        joystick.b().onFalse(new InstantCommand(() -> m_inIntake.runHopperSpeed(0)));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
