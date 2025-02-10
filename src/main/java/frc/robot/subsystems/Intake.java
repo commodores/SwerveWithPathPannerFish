@@ -13,24 +13,45 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
+import edu.wpi.first.units.PerUnit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-      private final  SparkFlex intakeMotor = new SparkFlex(Constants.IntakeConstants.intakeMotor, MotorType.kBrushless);
-      private final  SparkFlex hopperMotor = new SparkFlex(Constants.IntakeConstants.hopperMotor, MotorType.kBrushless);
-private LaserCan outSensor; 
-private LaserCan inSensor;
+  private final  SparkFlex intakeMotor = new SparkFlex(Constants.IntakeConstants.intakeMotor, MotorType.kBrushless);
+  private final  SparkFlex hopperMotor = new SparkFlex(Constants.IntakeConstants.hopperMotor, MotorType.kBrushless);
+      
+  private LaserCan outSensor; 
+  private LaserCan inSensor;
 
+  //public LaserCan.Measurement measurementOutSensor; 
+  public LaserCan.Measurement measurementInSensor;
+  public LaserCan.Measurement measurementOutSensor;
 
   public Intake() {
-    configureIntakeMotor(intakeMotor);
-    configureHopperMotor(hopperMotor);
+
+  //configureIntakeMotor(intakeMotor);
+  //configureHopperMotor(hopperMotor);
+
+ intakeMotor.configure(
+        Configs.ArmivatorSubsystem.intakeConfig,
+        ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+
+  hopperMotor.configure(
+          Configs.ArmivatorSubsystem.hopperConfig,
+          ResetMode.kResetSafeParameters,
+          PersistMode.kPersistParameters);
 
   outSensor = new LaserCan (8);
   inSensor = new LaserCan (7);
+
+  //outSensor.getMeasurement();
+  inSensor.getMeasurement();
+  outSensor.getMeasurement();
   
   try {
     outSensor.setRangingMode(LaserCan.RangingMode.SHORT);
@@ -47,34 +68,52 @@ private LaserCan inSensor;
   
   }
 
-private void configureIntakeMotor(SparkFlex intakeMotor) {
+/*private void configureIntakeMotor(SparkFlex intakeMotor) { 
         SparkFlexConfig config = new SparkFlexConfig();
         config
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(100);
         intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-}
-private void configureHopperMotor(SparkFlex hopperMotor) {
+}|*/
+
+/*private void configureHopperMotor(SparkFlex hopperMotor) {
         SparkFlexConfig config = new SparkFlexConfig();
         config
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(100);
         hopperMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    }
+    }*/
+
+
+
     public void runIntakeSpeed(double speed){
       intakeMotor.set(speed);
     }
+
     public void runHopperSpeed(double speed){
       hopperMotor.set(speed);
     }
+
+   public double getOutSensorDistance(){
+      LaserCan.Measurement measurementOutSensor = outSensor.getMeasurement();
+      return measurementOutSensor.distance_mm;
+    }
+
+    public double getInSensorDistance(){
+      LaserCan.Measurement measurementInSensor = inSensor.getMeasurement();
+      return measurementInSensor.distance_mm;
+    }
+
+    
+
+
   @Override
   public void periodic() {
 
     // This method will be called once per scheduler run
-    LaserCan.Measurement measurementOutSensor = outSensor.getMeasurement();
-    LaserCan.Measurement measurementInSensor = inSensor.getMeasurement();
-    SmartDashboard.putNumber("Out Sensor", measurementOutSensor.distance_mm);
-    SmartDashboard.putNumber("In Sensor", measurementInSensor.distance_mm);
+   // LaserCan.Measurement measurementOutSensor = outSensor.getMeasurement();
+    SmartDashboard.putNumber("Out Sensor", getOutSensorDistance());
+    SmartDashboard.putNumber("In Sensor", getInSensorDistance());
  
    
     }

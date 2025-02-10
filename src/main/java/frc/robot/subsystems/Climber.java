@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -14,21 +15,23 @@ public class Climber extends SubsystemBase {
 public Climber() {
 
 
-    configureSparkFlex(climberMotor);
-        
+    //configureSparkFlex(climberMotor);
+    climberMotor.configure(
+          Configs.ArmivatorSubsystem.climberConfig,
+          ResetMode.kResetSafeParameters,
+          PersistMode.kPersistParameters);
     }
     
     
-    private void configureSparkFlex(SparkFlex climberMotor) {
+   /*  private void configureSparkFlex(SparkFlex climberMotor) {
         SparkFlexConfig config = new SparkFlexConfig();
         config
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(100);
-        climberMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        
-
+        climberMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters)
       
     }
+        */
     public void runClimberSpeed(double speed){
       climberMotor.set(speed);
     }

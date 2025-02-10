@@ -11,6 +11,9 @@ public final class Configs {
   public static final class ArmivatorSubsystem {
     public static final SparkMaxConfig armConfig = new SparkMaxConfig();
     public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig climberConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig hopperConfig = new SparkFlexConfig();
 
     static {
       // Configure basic settings of the arm motor
@@ -33,7 +36,7 @@ public final class Configs {
           .allowedClosedLoopError(0.25);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
+      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
 
       /*
        * Configure the closed loop controller. We want to make sure we set the
@@ -51,6 +54,21 @@ public final class Configs {
           .maxAcceleration(6000)
           .allowedClosedLoopError(0.5);
 
+
+      intakeConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(100);
+      
+
+      climberConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(100);
+      
+      hopperConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(100);
+        
+      
     }
   }
 }

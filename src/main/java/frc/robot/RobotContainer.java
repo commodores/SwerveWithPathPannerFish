@@ -18,8 +18,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.AutoHopper;
+import frc.robot.commands.AutoIntake;
+//import frc.robot.commands.AutoHopper;
+//import frc.robot.commands.AutoIntake;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -48,9 +52,11 @@ public class RobotContainer {
 
     public final Elevator m_elevator = new Elevator();
 
-    public final Intake m_inIntake = new Intake();
+    public final Intake m_Intake = new Intake();
 
     public final Climber m_climber = new Climber();
+
+    public final Arm m_arm = new Arm();
 
 
     /* Path follower */
@@ -97,25 +103,30 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
       //  joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        joystick.rightBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(-1)));
-        joystick.rightBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+        //Climber
+      //  joystick.rightBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(-1)));
+      //  joystick.rightBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
 
-        joystick.leftBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(.5)));
+       // joystick.leftBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(.5)));
+       // joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+
+        //Intake
+       joystick.x().onTrue(
+            new AutoHopper(m_Intake)
+        .andThen(new AutoIntake(m_Intake))
+        );
+
+        joystick.a().onTrue((new AutoHopper(m_Intake)));
         joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
-
-        joystick.y().whileTrue(new InstantCommand(() -> m_inIntake.runIntakeSpeed(.2)));
-        joystick.y().onFalse(new InstantCommand(() -> m_inIntake.runIntakeSpeed(0)));
-
-        joystick.a().whileTrue(new InstantCommand(() -> m_inIntake.runIntakeSpeed(-.2)));
-        joystick.a().onFalse(new InstantCommand(() -> m_inIntake.runIntakeSpeed(0)));
-
-        
-        joystick.x().whileTrue(new InstantCommand(() -> m_inIntake.runHopperSpeed(.2)));
-        joystick.x().onFalse(new InstantCommand(() -> m_inIntake.runHopperSpeed(0)));
+       
+       // joystick.y().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(.2)));
+       // joystick.y().onFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
+    
+     //   joystick.b().whileTrue(new InstantCommand(() -> m_Intake.runHopperSpeed(.2)));
+      //  joystick.b().onFalse(new InstantCommand(() -> m_Intake.runHopperSpeed(0)));
 
         
-        joystick.b().whileTrue(new InstantCommand(() -> m_inIntake.runHopperSpeed(-.2)));
-        joystick.b().onFalse(new InstantCommand(() -> m_inIntake.runHopperSpeed(0)));
+    
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
