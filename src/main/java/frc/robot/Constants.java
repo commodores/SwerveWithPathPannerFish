@@ -28,6 +28,7 @@ public class Constants {
 
     public static final class ElevatorSetpoints {
         public static final int kFeederStation = 0;
+        public static final int kNeutralPosition = 0;
         public static final int kLevel1 = 0;
         public static final int kLevel2 = 0;
         public static final int kLevel3 = 0;
@@ -36,6 +37,7 @@ public class Constants {
 
     public static final class ArmSetpoints {
         public static final double kFeederStation = 0;
+        public static final double kNeutralPosition = 2.1;
         public static final double kLevel1 = 2.1;
         public static final double kLevel2 = 2.1;
         public static final double kLevel3 = 2.1;

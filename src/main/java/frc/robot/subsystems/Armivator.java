@@ -26,6 +26,7 @@ public class Armivator extends SubsystemBase {
 
   public enum Setpoint {
     kFeederStation,
+    kNeutralPosition,
     kLevel1,
     kLevel2,
     kLevel3,
@@ -120,6 +121,10 @@ public class Armivator extends SubsystemBase {
               armCurrentTarget = ArmSetpoints.kFeederStation;
               elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
               break;
+            case kNeutralPosition:
+              armCurrentTarget = ArmSetpoints.kNeutralPosition;
+              elevatorCurrentTarget = ElevatorSetpoints.kNeutralPosition;
+              break;
             case kLevel1:
               armCurrentTarget = ArmSetpoints.kLevel1;
               elevatorCurrentTarget = ElevatorSetpoints.kLevel1;
@@ -136,6 +141,48 @@ public class Armivator extends SubsystemBase {
               armCurrentTarget = ArmSetpoints.kLevel4;
               elevatorCurrentTarget = ElevatorSetpoints.kLevel4;
               break;
+          }
+        });
+  }
+
+    /**
+   * Command to set the subsystem setpoint. This will set the arm and elevator to their predefined
+   * positions for the given setpoint.
+   */
+  public Command setSetpointCommandNew(Setpoint setpoint) {
+    return this.runOnce(
+        () -> {
+          //Feeder Station
+          if(armCurrentTarget == ArmSetpoints.kNeutralPosition && setpoint == Setpoint.kFeederStation){
+            armCurrentTarget = ArmSetpoints.kFeederStation;
+            elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
+          }
+          //Neutral Position
+          if(setpoint == Setpoint.kNeutralPosition){
+            armCurrentTarget = ArmSetpoints.kNeutralPosition;
+            elevatorCurrentTarget = ElevatorSetpoints.kNeutralPosition;
+          }
+          //L1
+          if(setpoint == Setpoint.kLevel1){
+            armCurrentTarget = ArmSetpoints.kLevel1;
+            elevatorCurrentTarget = ElevatorSetpoints.kLevel1;
+          }
+          //L2
+          if(setpoint == Setpoint.kLevel2){
+            armCurrentTarget = ArmSetpoints.kLevel2;
+            elevatorCurrentTarget = ElevatorSetpoints.kLevel2;
+          }
+
+          //L3
+          if(setpoint == Setpoint.kLevel3){
+            armCurrentTarget = ArmSetpoints.kLevel3;
+            elevatorCurrentTarget = ElevatorSetpoints.kLevel3;
+          }
+
+          //L4
+          if(setpoint == Setpoint.kLevel4){
+            armCurrentTarget = ArmSetpoints.kLevel4;
+            elevatorCurrentTarget = ElevatorSetpoints.kLevel4;
           }
         });
   }
