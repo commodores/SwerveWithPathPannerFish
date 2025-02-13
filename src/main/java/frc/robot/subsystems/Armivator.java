@@ -40,8 +40,7 @@ public class Armivator extends SubsystemBase {
   private SparkFlex armMotor =
       new SparkFlex(Constants.ArmivatorConstants.armMotor, MotorType.kBrushless);
   private SparkClosedLoopController armController = armMotor.getClosedLoopController();
-  //private RelativeEncoder armEncoder = armMotor.getExternalEncoder();
-  private AbsoluteEncoder externalEncoder;
+  private AbsoluteEncoder armEncoder = armMotor.getAbsoluteEncoder();
 
   // Initialize elevator SPARK. We will use MAXMotion position control for the elevator, so we also
   // need to initialize the closed loop controller and encoder.
@@ -70,13 +69,13 @@ public class Armivator extends SubsystemBase {
      * the SPARK loses power. This is useful for power cycles that may occur
      * mid-operation.
      */
-
-     externalEncoder = armMotor.getAbsoluteEncoder();
      
     armMotor.configure(
         Configs.ArmivatorSubsystem.armConfig,
-        ResetMode.kNoResetSafeParameters,
+        ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
+
+    
     elevatorMotor.configure(
         Configs.ArmivatorSubsystem.elevatorConfig,
         ResetMode.kResetSafeParameters,
@@ -85,8 +84,7 @@ public class Armivator extends SubsystemBase {
     elevatorSensor = new TimeOfFlight(4);
     elevatorSensor.setRangingMode(RangingMode.Short, 24);
 
-    // Zero arm and elevator encoders on initialization
-   // AbsoluteEncoder.setPosition(0);
+    // Zero elevator encoder on initialization
     elevatorEncoder.setPosition(0);
 
   }
@@ -166,7 +164,7 @@ public class Armivator extends SubsystemBase {
 
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);
-    SmartDashboard.putNumber("Coral/Arm/Actual Position", externalEncoder.getPosition());
+    SmartDashboard.putNumber("Coral/Arm/Actual Position", armEncoder.getPosition());
     SmartDashboard.putNumber("Coral/Elevator/Target Position", elevatorCurrentTarget);
     SmartDashboard.putNumber("Coral/Elevator/Actual Position", elevatorEncoder.getPosition());
   }

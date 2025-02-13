@@ -3,25 +3,25 @@ package frc.robot;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 public final class Configs {
   
   public static final class ArmivatorSubsystem {
-    public static final SparkMaxConfig armConfig = new SparkMaxConfig();
+    public static final SparkFlexConfig armConfig = new SparkFlexConfig();
+    public static final AbsoluteEncoderConfig armEncoderConfig = new AbsoluteEncoderConfig();
     public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();
     public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
     public static final SparkFlexConfig climberConfig = new SparkFlexConfig();
     public static final SparkFlexConfig hopperConfig = new SparkFlexConfig();
-    private AbsoluteEncoder externalEncoder;
 
     static {
+      // Configure Absolute encoder for arm
+      armEncoderConfig.inverted(true).positionConversionFactor(360);
 
-      
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).apply(armEncoderConfig);
       
       /*
        * Configure the closed loop controller. We want to make sure we set the
@@ -29,9 +29,7 @@ public final class Configs {
        */
       armConfig
           .closedLoop
-          .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
-          
-
+          .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
           // Set PID values for position control
           .p(.2)
           .outputRange(-1, 1)
