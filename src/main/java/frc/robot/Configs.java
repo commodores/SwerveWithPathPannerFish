@@ -18,11 +18,13 @@ public final class Configs {
 
     static {
       // Configure Absolute encoder for arm
-      armEncoderConfig.inverted(true).positionConversionFactor(360);
+     // armEncoderConfig.inverted(true).positionConversionFactor(2.0 * Math.PI);
 
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).apply(armEncoderConfig);
-      
+      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);//apply(armEncoderConfig)
+      armConfig.absoluteEncoder
+        .inverted(true)
+        .positionConversionFactor(2*Math.PI);
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -31,13 +33,16 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
           // Set PID values for position control
-          .p(.2)
+          //.p(.01)
+          .pidf(.01, 0, 0, .02)
+          .positionWrappingEnabled(true)
+          .positionWrappingInputRange(0, 2*Math.PI)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
           .maxVelocity(2000)
           .maxAcceleration(10000)
-          .allowedClosedLoopError(0.25);
+          .allowedClosedLoopError(.05);
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
@@ -56,7 +61,7 @@ public final class Configs {
           // Set MAXMotion parameters for position control
           .maxVelocity(4200)
           .maxAcceleration(6000)
-          .allowedClosedLoopError(0.5);
+          .allowedClosedLoopError(2.0);
 
 
       intakeConfig

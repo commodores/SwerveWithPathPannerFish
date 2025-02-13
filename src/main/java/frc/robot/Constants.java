@@ -31,12 +31,12 @@ public class Constants {
     }
 
     public static final class ArmSetpoints {
-        public static final double kFeederStation = 0;
-        public static final double kNeutralPosition = 0.05;
-        public static final double kLevel1 = 2.1;
-        public static final double kLevel2 = 2.1;
-        public static final double kLevel3 = 2.1;
-        public static final double kLevel4 = 17;
+        public static final double kFeederStation = .436;
+        public static final double kNeutralPosition = .846;
+        public static final double kLevel1 = 0;
+        public static final double kLevel2 = 0;
+        public static final double kLevel3 = 0;
+        public static final double kLevel4 = 0;
     }
 
 }
