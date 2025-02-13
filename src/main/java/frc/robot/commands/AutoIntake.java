@@ -30,7 +30,7 @@ public class AutoIntake extends Command {
   @Override
   public void execute() {
 
-    m_Intake.runIntakeSpeed(.05);
+    m_Intake.runIntakeSpeed(.1);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +43,6 @@ public class AutoIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Intake.getInSensorDistance() > 100 && m_Intake.getOutSensorDistance() < 100;
+    return m_Intake.getInSensorDistance() > 60 && m_Intake.getOutSensorDistance() < 100;
   }
 }

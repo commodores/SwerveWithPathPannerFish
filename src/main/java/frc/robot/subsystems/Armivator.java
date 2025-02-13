@@ -6,9 +6,11 @@ package frc.robot.subsystems;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -38,7 +40,8 @@ public class Armivator extends SubsystemBase {
   private SparkFlex armMotor =
       new SparkFlex(Constants.ArmivatorConstants.armMotor, MotorType.kBrushless);
   private SparkClosedLoopController armController = armMotor.getClosedLoopController();
-  private RelativeEncoder armEncoder = armMotor.getEncoder();
+  //private RelativeEncoder armEncoder = armMotor.getExternalEncoder();
+  private AbsoluteEncoder externalEncoder;
 
   // Initialize elevator SPARK. We will use MAXMotion position control for the elevator, so we also
   // need to initialize the closed loop controller and encoder.
@@ -67,9 +70,12 @@ public class Armivator extends SubsystemBase {
      * the SPARK loses power. This is useful for power cycles that may occur
      * mid-operation.
      */
+
+     externalEncoder = armMotor.getAbsoluteEncoder();
+     
     armMotor.configure(
         Configs.ArmivatorSubsystem.armConfig,
-        ResetMode.kResetSafeParameters,
+        ResetMode.kNoResetSafeParameters,
         PersistMode.kPersistParameters);
     elevatorMotor.configure(
         Configs.ArmivatorSubsystem.elevatorConfig,
@@ -80,7 +86,7 @@ public class Armivator extends SubsystemBase {
     elevatorSensor.setRangingMode(RangingMode.Short, 24);
 
     // Zero arm and elevator encoders on initialization
-    armEncoder.setPosition(0);
+   // AbsoluteEncoder.setPosition(0);
     elevatorEncoder.setPosition(0);
 
   }
@@ -107,42 +113,6 @@ public class Armivator extends SubsystemBase {
     } else if (getElevatorDistance()>=100) {
       wasResetByTOF = false;
     }
-  }
-
-  /**
-   * Command to set the subsystem setpoint. This will set the arm and elevator to their predefined
-   * positions for the given setpoint.
-   */
-  public Command setSetpointCommand(Setpoint setpoint) {
-    return this.runOnce(
-        () -> {
-          switch (setpoint) {
-            case kFeederStation:
-              armCurrentTarget = ArmSetpoints.kFeederStation;
-              elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
-              break;
-            case kNeutralPosition:
-              armCurrentTarget = ArmSetpoints.kNeutralPosition;
-              elevatorCurrentTarget = ElevatorSetpoints.kNeutralPosition;
-              break;
-            case kLevel1:
-              armCurrentTarget = ArmSetpoints.kLevel1;
-              elevatorCurrentTarget = ElevatorSetpoints.kLevel1;
-              break;
-            case kLevel2:
-              armCurrentTarget = ArmSetpoints.kLevel2;
-              elevatorCurrentTarget = ElevatorSetpoints.kLevel2;
-              break;
-            case kLevel3:
-              armCurrentTarget = ArmSetpoints.kLevel3;
-              elevatorCurrentTarget = ElevatorSetpoints.kLevel3;
-              break;
-            case kLevel4:
-              armCurrentTarget = ArmSetpoints.kLevel4;
-              elevatorCurrentTarget = ElevatorSetpoints.kLevel4;
-              break;
-          }
-        });
   }
 
     /**
@@ -196,7 +166,7 @@ public class Armivator extends SubsystemBase {
 
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);
-    SmartDashboard.putNumber("Coral/Arm/Actual Position", armEncoder.getPosition());
+    SmartDashboard.putNumber("Coral/Arm/Actual Position", externalEncoder.getPosition());
     SmartDashboard.putNumber("Coral/Elevator/Target Position", elevatorCurrentTarget);
     SmartDashboard.putNumber("Coral/Elevator/Actual Position", elevatorEncoder.getPosition());
   }

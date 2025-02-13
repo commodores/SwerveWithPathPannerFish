@@ -24,6 +24,8 @@ import frc.robot.commands.AutoIntake;
 //import frc.robot.commands.AutoIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Setpoint;
+import frc.robot.subsystems.Armivator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -50,13 +52,15 @@ public class RobotContainer {
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    public final Elevator m_elevator = new Elevator();
+    //public final Elevator m_elevator = new Elevator();
 
     public final Intake m_Intake = new Intake();
 
     public final Climber m_climber = new Climber();
 
-    public final Arm m_arm = new Arm();
+    //public final Arm m_arm = new Arm();
+
+    public final Armivator m_Armivator = new Armivator();
 
 
     /* Path follower */
@@ -95,13 +99,13 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        //joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        //joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-      //  joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+       // joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Climber
       //  joystick.rightBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(-1)));
@@ -116,8 +120,13 @@ public class RobotContainer {
         .andThen(new AutoIntake(m_Intake))
         );
 
-        joystick.a().onTrue((new AutoHopper(m_Intake)));
-        joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+        //Arm
+        //joystick.a().onTrue(new InstantCommand(() -> m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition)));
+        joystick.b().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
+
+
+       // joystick.a().onTrue((new AutoHopper(m_Intake)));
+        //joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
        
        // joystick.y().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(.2)));
        // joystick.y().onFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
