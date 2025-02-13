@@ -103,12 +103,12 @@ public class Armivator extends SubsystemBase {
 
   /** Zero the elevator encoder when the limit switch is pressed. */
   private void zeroElevatorOnLimitSwitch() {
-    if (!wasResetByTOF && getElevatorDistance() < 100) {
+    if (!wasResetByTOF && getElevatorDistance() < 55) {
       // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
       // prevent constant zeroing while pressed
       elevatorEncoder.setPosition(0);
       wasResetByTOF = true;
-    } else if (getElevatorDistance()>=100) {
+    } else if (getElevatorDistance()>=60) {
       wasResetByTOF = false;
     }
   }
@@ -165,6 +165,7 @@ public class Armivator extends SubsystemBase {
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);
     SmartDashboard.putNumber("Coral/Arm/Actual Position", armEncoder.getPosition());
+    SmartDashboard.putNumber("Elevator Sensor", getElevatorDistance());
     SmartDashboard.putNumber("Coral/Elevator/Target Position", elevatorCurrentTarget);
     SmartDashboard.putNumber("Coral/Elevator/Actual Position", elevatorEncoder.getPosition());
   }

@@ -92,8 +92,8 @@ public class RobotContainer {
         );
 
         //Arm
-        //joystick.a().onTrue(new InstantCommand(() -> m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition)));
-        driver.b().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
+        driver.b().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));//set Neutral
+        driver.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation)); //set to feeder station
 
 
        // joystick.a().onTrue((new AutoHopper(m_Intake)));
