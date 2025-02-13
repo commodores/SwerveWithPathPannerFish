@@ -12,11 +12,6 @@ public class Constants {
         public static final int hopperMotor = 9;
     }
 
-
-    public static final class ElevatorConstants{
-        public static final int elevatorMotor = 3;
-    }
-
     public static final class ClimberConstants{
         public static final int climberMotor = 2;
     }

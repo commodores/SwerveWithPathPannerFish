@@ -37,7 +37,7 @@ public final class Configs {
           // Set MAXMotion parameters for position control
           .maxVelocity(2000)
           .maxAcceleration(10000)
-          .allowedClosedLoopError(0.0025);
+          .allowedClosedLoopError(0.25);
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
@@ -61,16 +61,16 @@ public final class Configs {
 
       intakeConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(100);
+        .smartCurrentLimit(50);
       
 
       climberConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(100);
+        .smartCurrentLimit(50);
       
       hopperConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(100);
+        .smartCurrentLimit(50);
         
       
     }
