@@ -14,9 +14,11 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.OutIntake;
 //import frc.robot.commands.AutoHopper;
 //import frc.robot.commands.AutoIntake;
 import frc.robot.generated.TunerConstants;
@@ -86,17 +88,23 @@ public class RobotContainer {
        // joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
 
         //Intake
+       // driver.b().onTrue( new Outtake(m_Intake));
+       driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(0.5)));
+       driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
+
         driver.x().onTrue(
             new AutoHopper(m_Intake)
         .andThen(new AutoIntake(m_Intake))
         );
 
         //Arm
-        driver.b().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));//set Neutral
         driver.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation)); //set to feeder station
-
-
-       // joystick.a().onTrue((new AutoHopper(m_Intake)));
+        driver.y().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
+        driver.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
+        driver.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
+        driver.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
+        driver.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+        // joystick.a().onTrue((new AutoHopper(m_Intake)));
         //joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
        
        // joystick.y().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(.2)));

@@ -7,19 +7,35 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import  com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.core.CoreTalonFX;
+import frc.robot.Configs;
+
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class Climber extends SubsystemBase {
-    private final  SparkFlex climberMotor = new SparkFlex(Constants.ClimberConstants.climberMotor, MotorType.kBrushless);
-
+    private final TalonFX climberMotor = new TalonFX(0);
+    
 public Climber() {
+
+  // Set your specific configuration parameters here
+ 
+  //climberMotor.configAllSettings(climberConfig);
+  //climberMotor.configure()
+
+
+  //CoreTalonFX m_talonFX;
+
+  //var TalonFXConfigurator = m_talonFX.getConfigurator();
 
 
     //configureSparkFlex(climberMotor);
-    climberMotor.configure(
-          Configs.ArmivatorSubsystem.climberConfig,
-          ResetMode.kResetSafeParameters,
-          PersistMode.kPersistParameters);
+    //climberMotor.configure(
+         // Configs.ArmivatorSubsystem.climberConfig,
+         // .kResetSafeParameters,
+         // .kPersistParameters);
     }
     
     

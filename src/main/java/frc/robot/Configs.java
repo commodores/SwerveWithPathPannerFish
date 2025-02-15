@@ -3,6 +3,10 @@ package frc.robot;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
@@ -13,7 +17,7 @@ public final class Configs {
     public static final AbsoluteEncoderConfig armEncoderConfig = new AbsoluteEncoderConfig();
     public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();
     public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
-    public static final SparkFlexConfig climberConfig = new SparkFlexConfig();
+    public static final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
     public static final SparkFlexConfig hopperConfig = new SparkFlexConfig();
 
     static {
@@ -55,7 +59,7 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.1)
+          .p(0.01)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
@@ -69,9 +73,13 @@ public final class Configs {
         .smartCurrentLimit(50);
       
 
-      climberConfig
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
+      //  climberConfig
+        //.setNeutralMode(NeutralModeValue.Brake)
+      
+        
+    
+      // climberConfig does not support smartCurrentLimit
+      // climberConfig.smartCurrentLimit(50);
       
       hopperConfig
         .idleMode(IdleMode.kBrake)

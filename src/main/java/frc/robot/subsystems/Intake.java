@@ -33,9 +33,6 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
 
-  //configureIntakeMotor(intakeMotor);
-  //configureHopperMotor(hopperMotor);
-
  intakeMotor.configure(
         Configs.ArmivatorSubsystem.intakeConfig,
         ResetMode.kResetSafeParameters,
@@ -49,7 +46,7 @@ public class Intake extends SubsystemBase {
   outSensor = new LaserCan (8);
   inSensor = new LaserCan (7);
 
-  //outSensor.getMeasurement();
+
   inSensor.getMeasurement();
   outSensor.getMeasurement();
   
@@ -67,22 +64,6 @@ public class Intake extends SubsystemBase {
   
   
   }
-
-/*private void configureIntakeMotor(SparkFlex intakeMotor) { 
-        SparkFlexConfig config = new SparkFlexConfig();
-        config
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(100);
-        intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-}|*/
-
-/*private void configureHopperMotor(SparkFlex hopperMotor) {
-        SparkFlexConfig config = new SparkFlexConfig();
-        config
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(100);
-        hopperMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    }*/
 
 
 
