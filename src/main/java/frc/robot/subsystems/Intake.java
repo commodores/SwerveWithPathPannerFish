@@ -34,12 +34,12 @@ public class Intake extends SubsystemBase {
   public Intake() {
 
  intakeMotor.configure(
-        Configs.ArmivatorSubsystem.intakeConfig,
+        Configs.IntakeSubsytem.intakeConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
 
   hopperMotor.configure(
-          Configs.ArmivatorSubsystem.hopperConfig,
+          Configs.IntakeSubsytem.hopperConfig,
           ResetMode.kResetSafeParameters,
           PersistMode.kPersistParameters);
 

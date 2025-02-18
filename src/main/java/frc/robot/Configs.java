@@ -16,9 +16,7 @@ public final class Configs {
     public static final SparkFlexConfig armConfig = new SparkFlexConfig();
     public static final AbsoluteEncoderConfig armEncoderConfig = new AbsoluteEncoderConfig();
     public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();
-    public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
-    public static final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
-    public static final SparkFlexConfig hopperConfig = new SparkFlexConfig();
+   
 
     static {
       // Configure Absolute encoder for arm
@@ -38,15 +36,15 @@ public final class Configs {
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
           // Set PID values for position control
           //.p(.01)
-          .pidf(.01, 0, 0, .02)
+          .pidf(.00005, 0, 0.04, .0175)//2
           .positionWrappingEnabled(true)
           .positionWrappingInputRange(0, 2*Math.PI)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(2000)
-          .maxAcceleration(10000)
-          .allowedClosedLoopError(.05);
+          .maxVelocity(6000)
+          .maxAcceleration(8000)//10000
+          .allowedClosedLoopError(.095);
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
@@ -59,33 +57,32 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.01)
+          .pidf(0.05,0,0,.000000)
+          //.d(0.001)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(4200)
-          .maxAcceleration(6000)
-          .allowedClosedLoopError(2.0);
-
-
-      intakeConfig
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
-      
-
-      //  climberConfig
-        //.setNeutralMode(NeutralModeValue.Brake)
-      
-        
-    
-      // climberConfig does not support smartCurrentLimit
-      // climberConfig.smartCurrentLimit(50);
-      
-      hopperConfig
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
-        
-      
+          .maxVelocity(6000)//4200
+          .maxAcceleration(8000)//6000
+          .allowedClosedLoopError(.5);
     }
   }
-}
+
+  public static final class IntakeSubsytem {
+
+      public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
+      public static final SparkFlexConfig hopperConfig = new SparkFlexConfig();
+
+      static{
+            intakeConfig
+              .idleMode(IdleMode.kBrake)
+              .smartCurrentLimit(50);
+
+            hopperConfig
+              .idleMode(IdleMode.kBrake)
+              .smartCurrentLimit(50);
+            }
+        }
+     }
+  
+  

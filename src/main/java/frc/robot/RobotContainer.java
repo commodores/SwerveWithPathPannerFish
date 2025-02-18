@@ -78,17 +78,22 @@ public class RobotContainer {
         );
 
         // reset the field-centric heading on left bumper press
-        driver.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Climber
-      //  joystick.rightBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(-1)));
-      //  joystick.rightBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+        driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberFoward()));
+        driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
-       // joystick.leftBumper().onTrue(new InstantCommand(() -> m_climber.runClimberSpeed(.5)));
-       // joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
+        driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));
+        driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
+        
+        // Climber Lock
+        driver.y().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
+        driver.a().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
+
+        
 
         //Intake
-       // driver.b().onTrue( new Outtake(m_Intake));
        driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(0.5)));
        driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
 
@@ -98,20 +103,13 @@ public class RobotContainer {
         );
 
         //Arm
-        driver.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation)); //set to feeder station
-        driver.y().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
-        driver.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
-        driver.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
-        driver.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        driver.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
-        // joystick.a().onTrue((new AutoHopper(m_Intake)));
-        //joystick.leftBumper().onFalse(new InstantCommand(() -> m_climber.runClimberSpeed(0)));
-       
-       // joystick.y().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(.2)));
-       // joystick.y().onFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
-    
-     //   joystick.b().whileTrue(new InstantCommand(() -> m_Intake.runHopperSpeed(.2)));
-      //  joystick.b().onFalse(new InstantCommand(() -> m_Intake.runHopperSpeed(0)));
+        operator.y().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation)); //set to feeder station
+        operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
+        operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
+        operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
+        operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
+        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+        
 
         
     
