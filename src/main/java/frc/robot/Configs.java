@@ -34,7 +34,8 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.0005)
+          .p(.004)
+          .d(.001)
           .positionWrappingEnabled(true)
           .positionWrappingInputRange(0, 2*Math.PI)
           .outputRange(-1, 1)
@@ -42,12 +43,13 @@ public final class Configs {
           // Set MAXMotion parameters for position control
           .maxVelocity(6000)
           .maxAcceleration(8000)//10000
-          .allowedClosedLoopError(.095);
+          .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
+      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(80).voltageCompensation(12).inverted(true);
       elevatorConfig.encoder
-        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 25/*Gear Ratio*/)));
+        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 16/*Gear Ratio*/)));
+        //.positionConversionFactor(Units.inchesToMeters(1.0/25 * Math.PI * 1.751));
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -56,14 +58,14 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.05)
+          .p(0.06)
           //.d(0.001)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
           .maxVelocity(6000)//4200
           .maxAcceleration(8000)//6000
-          .allowedClosedLoopError(.5);
+          .allowedClosedLoopError(.005);
     }
   }
 

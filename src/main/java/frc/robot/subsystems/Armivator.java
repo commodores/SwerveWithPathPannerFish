@@ -18,6 +18,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -94,13 +95,13 @@ public class Armivator extends SubsystemBase {
 
   public double getElevatorDistanceInInch(){
 
-    return (elevatorSensor.getRange()*0.03937008)-1;
+    return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008)-1.95);
         
   }
 
   private double calculateFeedforward(double armAngleRadians) {
-    double kG = 0.05; // Gravity compensation gain
-    return kG * Math.cos(armAngleRadians - Math.PI / 4);
+    double kG = .18; // Gravity compensation gain .17
+    return kG * Math.cos(armAngleRadians - 0.4);
   }
 
   private void moveToSetpoint() {

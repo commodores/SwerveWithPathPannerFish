@@ -30,7 +30,7 @@ public class AutoIntake extends Command {
   @Override
   public void execute() {
 
-    m_Intake.runIntakeSpeed(0.1);
+    m_Intake.runIntakeSpeed(0.15);
   }
 
   // Called once the command ends or is interrupted.
