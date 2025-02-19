@@ -28,7 +28,7 @@ public class AutoHopper extends Command {
   public void execute() {
 
     m_Intake.runHopperSpeed(.25);
-    m_Intake.runIntakeSpeed(.2);
+    m_Intake.runIntakeSpeed(.25);
     distanceSensorValue = m_Intake.getInSensorDistance();
   }
 

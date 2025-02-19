@@ -10,12 +10,14 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -56,6 +58,7 @@ public class Armivator extends SubsystemBase {
   private double elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
   private TimeOfFlight elevatorSensor;
 
+ 
   /** Creates a new Arm. */
   public Armivator() {
 
@@ -89,26 +92,32 @@ public class Armivator extends SubsystemBase {
 
   }
 
-  public double getElevatorDistance(){
+  public double getElevatorDistanceInInch(){
 
-    return elevatorSensor.getRange();
+    return (elevatorSensor.getRange()*0.03937008)-1;
         
   }
 
+  private double calculateFeedforward(double armAngleRadians) {
+    double kG = 0.05; // Gravity compensation gain
+    return kG * Math.cos(armAngleRadians - Math.PI / 4);
+  }
+
   private void moveToSetpoint() {
-    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
+    double feedforward = calculateFeedforward(armCurrentTarget);
+    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0,feedforward);
     elevatorClosedLoopController.setReference(
         elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 
   /** Zero the elevator encoder when the limit switch is pressed. */
   private void zeroElevatorOnLimitSwitch() {
-    if (!wasResetByTOF && getElevatorDistance() < 55) {
+    if (!wasResetByTOF && getElevatorDistanceInInch() < 1) {
       // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
       // prevent constant zeroing while pressed
       elevatorEncoder.setPosition(0);
       wasResetByTOF = true;
-    } else if (getElevatorDistance()>=60) {
+    } else if (getElevatorDistanceInInch()>=1) {
       wasResetByTOF = false;
     }
   }
@@ -165,7 +174,7 @@ public class Armivator extends SubsystemBase {
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);
     SmartDashboard.putNumber("Coral/Arm/Actual Position", armEncoder.getPosition());
-    SmartDashboard.putNumber("Elevator Sensor", getElevatorDistance());
+    SmartDashboard.putNumber("Elevator Sensor", getElevatorDistanceInInch());
     SmartDashboard.putNumber("Coral/Elevator/Target Position", elevatorCurrentTarget);
     SmartDashboard.putNumber("Coral/Elevator/Actual Position", elevatorEncoder.getPosition());
   }

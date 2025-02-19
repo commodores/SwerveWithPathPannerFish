@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.playingwithfusion.TimeOfFlight;
-
 import au.grapplerobotics.CanBridge;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -17,14 +15,11 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final boolean kUseLimelight = false;
-
- // private final TimeOfFlight m_rangeSensor = new TimeOfFlight(4);
+  private final boolean kUseLimelight = true;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    CanBridge.runTCP();
-    
+    //CanBridge.runTCP();
 
   }
 

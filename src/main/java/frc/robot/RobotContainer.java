@@ -18,9 +18,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.OutIntake;
-//import frc.robot.commands.AutoHopper;
-//import frc.robot.commands.AutoIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Armivator;
 import frc.robot.subsystems.Climber;
@@ -100,6 +97,7 @@ public class RobotContainer {
         driver.x().onTrue(
             new AutoHopper(m_Intake)
         .andThen(new AutoIntake(m_Intake))
+        .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition))
         );
 
         //Arm
@@ -108,10 +106,7 @@ public class RobotContainer {
         operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
         operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
         operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
-        
-
-        
+        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));        
     
 
         drivetrain.registerTelemetry(logger::telemeterize);

@@ -25,9 +25,9 @@ public class Constants {
         public static final int kFeederStation = 0;
         public static final int kNeutralPosition = 0;
         public static final int kLevel1 = 0;
-        public static final int kLevel2 = 59;
-        public static final int kLevel3 = 121;
-        public static final int kLevel4 = 132;
+        public static final int kLevel2 = 0;
+        public static final int kLevel3 = 0;
+        public static final int kLevel4 = 0;
     }
 
     public static final class ArmSetpoints {

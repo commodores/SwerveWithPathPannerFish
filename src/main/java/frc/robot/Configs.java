@@ -3,6 +3,9 @@ package frc.robot;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.math.util.Units;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -19,11 +22,8 @@ public final class Configs {
    
 
     static {
-      // Configure Absolute encoder for arm
-     // armEncoderConfig.inverted(true).positionConversionFactor(2.0 * Math.PI);
-
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);//apply(armEncoderConfig)
+      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
       armConfig.absoluteEncoder
         .inverted(true)
         .positionConversionFactor(2*Math.PI);
@@ -34,9 +34,7 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          // Set PID values for position control
-          //.p(.01)
-          .pidf(.00005, 0, 0.04, .0175)//2
+          .p(.0005)
           .positionWrappingEnabled(true)
           .positionWrappingInputRange(0, 2*Math.PI)
           .outputRange(-1, 1)
@@ -48,7 +46,8 @@ public final class Configs {
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12).inverted(true);
-
+      elevatorConfig.encoder
+        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 25/*Gear Ratio*/)));
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -57,7 +56,7 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .pidf(0.05,0,0,.000000)
+          .p(0.05)
           //.d(0.001)
           .outputRange(-1, 1)
           .maxMotion
