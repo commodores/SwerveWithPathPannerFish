@@ -23,7 +23,7 @@ public final class Configs {
 
     static {
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(60).voltageCompensation(12);
       armConfig.absoluteEncoder
         .inverted(true)
         .positionConversionFactor(2*Math.PI);
@@ -46,9 +46,9 @@ public final class Configs {
           .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(80).voltageCompensation(12).inverted(true);
+      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(60).voltageCompensation(12).inverted(true);
       elevatorConfig.encoder
-        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 16/*Gear Ratio*/)));
+        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 20/*Gear Ratio*/)));
         //.positionConversionFactor(Units.inchesToMeters(1.0/25 * Math.PI * 1.751));
       /*
        * Configure the closed loop controller. We want to make sure we set the

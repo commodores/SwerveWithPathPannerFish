@@ -95,6 +95,12 @@ public class Armivator extends SubsystemBase {
 
   public double getElevatorDistanceInInch(){
 
+    return (elevatorSensor.getRange()*0.03937008)-1.95;
+        
+  }
+
+  public double getElevatorDistanceInMeter(){
+
     return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008)-1.95);
         
   }
@@ -104,21 +110,25 @@ public class Armivator extends SubsystemBase {
     return kG * Math.cos(armAngleRadians - 0.4);
   }
 
-  private void moveToSetpoint() {
-    double feedforward = calculateFeedforward(armCurrentTarget);
-    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0,feedforward);
+  private void moveToSetpointArm() {
+    // feedforward = calculateFeedforward(armCurrentTarget);
+    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0,feedforward);
+    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
+  }
+
+  private void moveToSetpointElevator() {
     elevatorClosedLoopController.setReference(
         elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 
   /** Zero the elevator encoder when the limit switch is pressed. */
   private void zeroElevatorOnLimitSwitch() {
-    if (!wasResetByTOF && getElevatorDistanceInInch() < 1) {
+    if (!wasResetByTOF && getElevatorDistanceInInch() < .1) {
       // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
       // prevent constant zeroing while pressed
       elevatorEncoder.setPosition(0);
       wasResetByTOF = true;
-    } else if (getElevatorDistanceInInch()>=1) {
+    } else if (getElevatorDistanceInInch()>=.1) {
       wasResetByTOF = false;
     }
   }
@@ -169,7 +179,8 @@ public class Armivator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    moveToSetpoint();
+    moveToSetpointArm();
+    moveToSetpointElevator();
     zeroElevatorOnLimitSwitch();
 
     // Display subsystem values
