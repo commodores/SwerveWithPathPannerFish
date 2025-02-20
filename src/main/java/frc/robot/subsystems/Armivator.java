@@ -10,6 +10,7 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -28,7 +29,6 @@ public class Armivator extends SubsystemBase {
 
   public enum Setpoint {
     kFeederStation,
-    kNeutralPosition,
     kLevel1,
     kLevel2,
     kLevel3,
@@ -92,42 +92,48 @@ public class Armivator extends SubsystemBase {
 
   public double getElevatorDistanceInInch(){
 
-    return (elevatorSensor.getRange()*0.03937008);
+    return (elevatorSensor.getRange()*0.03937008)-2;
         
   }
 
   public double getElevatorDistanceInMeter(){
 
-    return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008));
+    return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008)-2);
         
   }
     
 
   private void moveToSetpoint() {
-    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
+    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, .175);//0.015,0.01
+    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
     elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 
   /** Zero the elevator encoder when the laser reads min. */
   private void zeroElevatorOnLaser() {
-    if (!wasZeroResetByTOF && getElevatorDistanceInInch() < .1) {
+    if (!wasZeroResetByTOF && getElevatorDistanceInInch() < 1) {
       // Zero the encoder laser sees min to
       // prevent constant zeroing while retracted
       elevatorEncoder.setPosition(0);
       wasZeroResetByTOF = true;
-    } else if (getElevatorDistanceInInch()>=.1) {
+    } else if (getElevatorDistanceInInch()>=2) {
       wasZeroResetByTOF = false;
     }
+      
+      /*if(getElevatorDistanceInInch() < .2){
+        elevatorEncoder.setPosition(0);
+      }
+         */
   }
 
   /** Max the elevator encoder when the laser reads max. */
   private void maxElevatorOnLaser() {
-    if (!wasMaxResetByTOF && getElevatorDistanceInInch() >= 32) {
+    if (!wasMaxResetByTOF && getElevatorDistanceInInch() >= 25.7) {
       // Max the encoder laser sees max to
       // prevent constant maxing while extended
-      elevatorEncoder.setPosition(120000);
+      elevatorEncoder.setPosition(96.8);
       wasMaxResetByTOF = true;
-    } else if (getElevatorDistanceInInch()<32) {
+    } else if (getElevatorDistanceInInch()<25) {
       wasMaxResetByTOF = false;
     }
   }
@@ -140,34 +146,30 @@ public class Armivator extends SubsystemBase {
     return this.runOnce(
         () -> {
           //Feeder Station
-          if(armCurrentTarget == ArmSetpoints.kNeutralPosition && setpoint == Setpoint.kFeederStation){
+          if(armCurrentTarget == ArmSetpoints.kLevel1 && setpoint == Setpoint.kFeederStation){
             armCurrentTarget = ArmSetpoints.kFeederStation;
             elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
           }
-          //Neutral Position
-          if(setpoint == Setpoint.kNeutralPosition){
-            armCurrentTarget = ArmSetpoints.kNeutralPosition;
-            elevatorCurrentTarget = ElevatorSetpoints.kNeutralPosition;
-          }
+    
           //L1
           if(setpoint == Setpoint.kLevel1){
             armCurrentTarget = ArmSetpoints.kLevel1;
             elevatorCurrentTarget = ElevatorSetpoints.kLevel1;
           }
           //L2
-          if(setpoint == Setpoint.kLevel2){
+          if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kLevel2){
             armCurrentTarget = ArmSetpoints.kLevel2;
             elevatorCurrentTarget = ElevatorSetpoints.kLevel2;
           }
 
           //L3
-          if(setpoint == Setpoint.kLevel3){
+          if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kLevel3){
             armCurrentTarget = ArmSetpoints.kLevel3;
             elevatorCurrentTarget = ElevatorSetpoints.kLevel3;
           }
 
           //L4
-          if(setpoint == Setpoint.kLevel4){
+          if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kLevel4){
             armCurrentTarget = ArmSetpoints.kLevel4;
             elevatorCurrentTarget = ElevatorSetpoints.kLevel4;
           }

@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.AutoReverse;
+import frc.robot.commands.ShootLvlFour;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Armivator;
 import frc.robot.subsystems.Climber;
@@ -87,28 +89,37 @@ public class RobotContainer {
         driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
         
         // Climber Lock
-        driver.y().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
-        driver.a().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
+        operator.start().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
+        operator.back().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
 
         
 
-        //Intake
-       driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(0.5)));
+        //Intake and Hopper buttons
+        //intake lvl 1-3
+       driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(1)));
        driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
 
+       //intake lvl 4
+       operator.y().whileTrue(new ShootLvlFour(m_Intake));
+       //intake reverse
+       operator.x().whileTrue(new AutoReverse(m_Intake));
+
+        //intake
         driver.x().onTrue(
-            new AutoHopper(m_Intake)
+            (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
+        .andThen(new AutoHopper(m_Intake))
         .andThen(new AutoIntake(m_Intake))
-        .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition))
+        .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)
+            
         );
 
         //Arm
-        operator.y().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation)); //set to feeder station
-        operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kNeutralPosition));
+        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
         operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
         operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
-        operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));        
+        operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
+        operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+               
     
 
         drivetrain.registerTelemetry(logger::telemeterize);

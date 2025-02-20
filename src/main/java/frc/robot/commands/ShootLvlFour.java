@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoIntake extends Command {
+public class ShootLvlFour extends Command {
 
   private final Intake m_Intake;
 
   /** Creates a new AutoIntake. */
-  public AutoIntake(Intake intakeSub) {
+  public ShootLvlFour(Intake intakeSub) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Intake = intakeSub;
     addRequirements(m_Intake);
@@ -30,7 +30,7 @@ public class AutoIntake extends Command {
   @Override
   public void execute() {
 
-    m_Intake.runIntakeSpeed(0.2);
+    m_Intake.runIntakeSpeed(-0.5);//0.1
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +43,6 @@ public class AutoIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Intake.getInSensorDistance() < 100 && m_Intake.getOutSensorDistance() < 100;
+    return true;
   }
 }
