@@ -10,14 +10,11 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,7 +51,8 @@ public class Armivator extends SubsystemBase {
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
   // Member variables for subsystem state management
-  private boolean wasResetByTOF = false;
+  private boolean wasZeroResetByTOF = false;
+  private boolean wasMaxResetByTOF = false;
   private double armCurrentTarget = ArmSetpoints.kFeederStation;
   private double elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
   private TimeOfFlight elevatorSensor;
@@ -90,46 +88,47 @@ public class Armivator extends SubsystemBase {
 
     // Zero elevator encoder on initialization
     elevatorEncoder.setPosition(0);
-
   }
 
   public double getElevatorDistanceInInch(){
 
-    return (elevatorSensor.getRange()*0.03937008)-1.95;
+    return (elevatorSensor.getRange()*0.03937008);
         
   }
 
   public double getElevatorDistanceInMeter(){
 
-    return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008)-1.95);
+    return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008));
         
   }
+    
 
-  private double calculateFeedforward(double armAngleRadians) {
-    double kG = .18; // Gravity compensation gain .17
-    return kG * Math.cos(armAngleRadians - 0.4);
-  }
-
-  private void moveToSetpointArm() {
-    // feedforward = calculateFeedforward(armCurrentTarget);
-    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0,feedforward);
+  private void moveToSetpoint() {
     armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
+    elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 
-  private void moveToSetpointElevator() {
-    elevatorClosedLoopController.setReference(
-        elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
-  }
-
-  /** Zero the elevator encoder when the limit switch is pressed. */
-  private void zeroElevatorOnLimitSwitch() {
-    if (!wasResetByTOF && getElevatorDistanceInInch() < .1) {
-      // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
-      // prevent constant zeroing while pressed
+  /** Zero the elevator encoder when the laser reads min. */
+  private void zeroElevatorOnLaser() {
+    if (!wasZeroResetByTOF && getElevatorDistanceInInch() < .1) {
+      // Zero the encoder laser sees min to
+      // prevent constant zeroing while retracted
       elevatorEncoder.setPosition(0);
-      wasResetByTOF = true;
+      wasZeroResetByTOF = true;
     } else if (getElevatorDistanceInInch()>=.1) {
-      wasResetByTOF = false;
+      wasZeroResetByTOF = false;
+    }
+  }
+
+  /** Max the elevator encoder when the laser reads max. */
+  private void maxElevatorOnLaser() {
+    if (!wasMaxResetByTOF && getElevatorDistanceInInch() >= 32) {
+      // Max the encoder laser sees max to
+      // prevent constant maxing while extended
+      elevatorEncoder.setPosition(120000);
+      wasMaxResetByTOF = true;
+    } else if (getElevatorDistanceInInch()<32) {
+      wasMaxResetByTOF = false;
     }
   }
 
@@ -179,9 +178,9 @@ public class Armivator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    moveToSetpointArm();
-    moveToSetpointElevator();
-    zeroElevatorOnLimitSwitch();
+    moveToSetpoint();
+    zeroElevatorOnLaser();
+    maxElevatorOnLaser();
 
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);

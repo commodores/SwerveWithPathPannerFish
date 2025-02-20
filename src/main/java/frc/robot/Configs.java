@@ -6,10 +6,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.util.Units;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
@@ -23,7 +19,7 @@ public final class Configs {
 
     static {
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(60).voltageCompensation(12);
+      armConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
       armConfig.absoluteEncoder
         .inverted(true)
         .positionConversionFactor(2*Math.PI);
@@ -46,10 +42,7 @@ public final class Configs {
           .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(60).voltageCompensation(12).inverted(true);
-      elevatorConfig.encoder
-        .positionConversionFactor((((Units.inchesToMeters(1.751/*Sprocket Diameter*/)*Math.PI) / 20/*Gear Ratio*/)));
-        //.positionConversionFactor(Units.inchesToMeters(1.0/25 * Math.PI * 1.751));
+      elevatorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).inverted(true);
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -58,8 +51,7 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.06)
-          //.d(0.001)
+          .p(0.001)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
