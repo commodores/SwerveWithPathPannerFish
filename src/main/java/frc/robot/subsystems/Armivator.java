@@ -16,10 +16,13 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Configs;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmSetpoints;
@@ -41,6 +44,7 @@ public class Armivator extends SubsystemBase {
       new SparkFlex(Constants.ArmivatorConstants.armMotor, MotorType.kBrushless);
   private SparkClosedLoopController armController = armMotor.getClosedLoopController();
   private AbsoluteEncoder armEncoder = armMotor.getAbsoluteEncoder();
+  private ArmFeedforward armfeedforward = new ArmFeedforward(0.01, .99, .54, .03);
 
   // Initialize elevator SPARK. We will use MAXMotion position control for the elevator, so we also
   // need to initialize the closed loop controller and encoder.
@@ -49,13 +53,33 @@ public class Armivator extends SubsystemBase {
   private SparkClosedLoopController elevatorClosedLoopController =
       elevatorMotor.getClosedLoopController();
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
+  private ElevatorFeedforward elevatorfeedforward = new ElevatorFeedforward(0.01, 0.12, 9.12, 0.02);
 
   // Member variables for subsystem state management
   private boolean wasZeroResetByTOF = false;
-  private boolean wasMaxResetByTOF = false;
   private double armCurrentTarget = ArmSetpoints.kFeederStation;
   private double elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
   private TimeOfFlight elevatorSensor;
+
+  // ARM SysID Routine
+  private final SysIdRoutine armSysIdRoutine = new SysIdRoutine(
+    new SysIdRoutine.Config(),
+    new SysIdRoutine.Mechanism(
+        armMotor::setVoltage,
+        null,
+        this
+    )
+  );
+
+  // Elevator SysID Routine
+  private final SysIdRoutine elevatorSysIdRoutine = new SysIdRoutine(
+    new SysIdRoutine.Config(),
+    new SysIdRoutine.Mechanism(
+        armMotor::setVoltage,
+        null,
+        this
+    )
+  );
 
  
   /** Creates a new Arm. */
@@ -101,44 +125,42 @@ public class Armivator extends SubsystemBase {
     return Units.inchesToMeters((elevatorSensor.getRange()*0.03937008)-2);
         
   }
-    
+
+  private double calculateArmFeedForward(){
+    // Assuming 420 RPM, converted to rad/s
+    return armfeedforward.calculate(armCurrentTarget-1, 420 * (2 * Math.PI / 60)); // 43.98 rad/s
+  }
+
+  private double calculateElevatorFeedForward(){
+    return elevatorfeedforward.calculate((2000 * 2 * Math.PI) / 60);
+  }    
 
   private void moveToSetpoint() {
-    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, .175);//0.015,0.01
-    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
-    elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
+    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateArmFeedForward());
+    elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateElevatorFeedForward());
   }
 
   /** Zero the elevator encoder when the laser reads min. */
   private void zeroElevatorOnLaser() {
-    if (!wasZeroResetByTOF && getElevatorDistanceInInch() < 1) {
+    if (!wasZeroResetByTOF && getElevatorDistanceInInch() < .2) {
       // Zero the encoder laser sees min to
       // prevent constant zeroing while retracted
       elevatorEncoder.setPosition(0);
       wasZeroResetByTOF = true;
     } else if (getElevatorDistanceInInch()>=2) {
       wasZeroResetByTOF = false;
-    }
-      
-      /*if(getElevatorDistanceInInch() < .2){
-        elevatorEncoder.setPosition(0);
-      }
-         */
+    }      
   }
 
-  /** Max the elevator encoder when the laser reads max. */
-  private void maxElevatorOnLaser() {
-    if (!wasMaxResetByTOF && getElevatorDistanceInInch() >= 25.7) {
-      // Max the encoder laser sees max to
-      // prevent constant maxing while extended
-      elevatorEncoder.setPosition(96.8);
-      wasMaxResetByTOF = true;
-    } else if (getElevatorDistanceInInch()<25) {
-      wasMaxResetByTOF = false;
-    }
+  public double getArmSetpoint() {
+    return armCurrentTarget;
   }
 
-    /**
+  public double getElevatorSetpoint() {
+    return elevatorCurrentTarget;
+  }
+
+   /**
    * Command to set the subsystem setpoint. This will set the arm and elevator to their predefined
    * positions for the given setpoint.
    */
@@ -146,7 +168,7 @@ public class Armivator extends SubsystemBase {
     return this.runOnce(
         () -> {
           //Feeder Station
-          if(armCurrentTarget == ArmSetpoints.kLevel1 && setpoint == Setpoint.kFeederStation){
+          if(elevatorCurrentTarget == ElevatorSetpoints.kLevel1 && setpoint == Setpoint.kFeederStation){
             armCurrentTarget = ArmSetpoints.kFeederStation;
             elevatorCurrentTarget = ElevatorSetpoints.kFeederStation;
           }
@@ -176,13 +198,28 @@ public class Armivator extends SubsystemBase {
         });
   }
 
+  public Command armSysIdQuasistatic(SysIdRoutine.Direction direction) {
+      return armSysIdRoutine.quasistatic(direction);
+  }
+
+  public Command armSysIdDynamic(SysIdRoutine.Direction direction) {
+      return armSysIdRoutine.dynamic(direction);
+  }
+
+  public Command elevatorSysIdQuasistatic(SysIdRoutine.Direction direction) {
+      return elevatorSysIdRoutine.quasistatic(direction);
+  }
+
+  public Command elevatorSysIdDynamic(SysIdRoutine.Direction direction) {
+      return elevatorSysIdRoutine.dynamic(direction);
+  }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     moveToSetpoint();
     zeroElevatorOnLaser();
-    maxElevatorOnLaser();
 
     // Display subsystem values
     SmartDashboard.putNumber("Coral/Arm/Target Position", armCurrentTarget);

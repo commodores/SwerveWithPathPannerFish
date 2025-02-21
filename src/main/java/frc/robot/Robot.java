@@ -4,9 +4,11 @@
 
 package frc.robot;
 
-import au.grapplerobotics.CanBridge;
+import org.littletonrobotics.urcl.URCL;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field);
 
   }
+
+  @Override
+  public void robotInit() {
+    URCL.start(DataLogManager.getLog());
+  } 
 
   @Override
   public void robotPeriodic() {

@@ -2,48 +2,29 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs;
-import frc.robot.Constants;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import  com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.LimitSwitchConfig;
-import com.revrobotics.spark.config.SparkFlexConfig;
-
-import java.util.ResourceBundle.Control;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.core.CoreTalonFX;
-import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.playingwithfusion.CANVenom.ControlMode;
 
-import frc.robot.Configs;
-
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class Climber extends SubsystemBase {
     private final TalonFX climberMotor = new TalonFX(13, "drivecan");
     private final Servo climberServo = new Servo(9);
     private boolean locked = false;
-public Climber() {
-  
+    
+    
+    public Climber() {
+      
+      final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
+    
+      climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+      climberConfig.CurrentLimits.SupplyCurrentLimit = 40;
+      climberMotor.getConfigurator().apply(climberConfig);
 
-  final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
- 
-  climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-  climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-  climberConfig.CurrentLimits.SupplyCurrentLimit = 40;
-  climberMotor.getConfigurator().apply(climberConfig);
+      unLockClimber();
 
-  unLockClimber();
-  
-
-
-}
-  
+    }  
 
     public void climberFoward(){
       if (!locked) {
@@ -83,11 +64,10 @@ public Climber() {
       
     }
 
-
-
     @Override
     public void periodic(){
       
     }
+
   }
 

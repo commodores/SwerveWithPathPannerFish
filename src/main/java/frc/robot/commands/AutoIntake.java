@@ -43,6 +43,6 @@ public class AutoIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Intake.getInSensorDistance() < 100 && m_Intake.getOutSensorDistance() < 100;
+    return m_Intake.getInSensorDistance() > 100 && m_Intake.getOutSensorDistance() < 100;
   }
 }

@@ -19,7 +19,15 @@ public final class Configs {
 
     static {
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+      armConfig.idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(40)
+        .voltageCompensation(12)
+        .softLimit
+        .reverseSoftLimit(.441)
+        .reverseSoftLimitEnabled(true)
+        .forwardSoftLimit(3.74)
+        .forwardSoftLimitEnabled(true);
+      
       armConfig.absoluteEncoder
         .inverted(true)
         .positionConversionFactor(2*Math.PI);
@@ -30,20 +38,26 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.004)//.004//.005
-          //.i(.000003) //.0000001
-          //.d(.018)
+          .p(.004)
           .positionWrappingEnabled(true)
           .positionWrappingInputRange(0, 2*Math.PI)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(1000)
-          .maxAcceleration(6000)//10000
+          .maxVelocity(2500)
+          .maxAcceleration(250)
           .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).inverted(true);
+      elevatorConfig.idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(40)
+        .voltageCompensation(12)
+        .inverted(true)
+        .softLimit
+        .reverseSoftLimit(0)
+        .reverseSoftLimitEnabled(true)
+        .forwardSoftLimit(96.8)
+        .forwardSoftLimitEnabled(true);;
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -52,14 +66,12 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.0125)//0.0125
-          //.d(.04)
-          
+          .p(0.0125)          
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(2200)//4200
-          .maxAcceleration(6000)//6000
+          .maxVelocity(2000)//4200
+          .maxAcceleration(200)//6000
           .allowedClosedLoopError(.5);
     }
   }

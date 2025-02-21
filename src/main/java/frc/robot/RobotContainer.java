@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoReverse;
+import frc.robot.commands.AutoScore;
 import frc.robot.commands.ShootLvlFour;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Armivator;
@@ -48,11 +50,11 @@ public class RobotContainer {
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    public final Intake m_Intake = new Intake();
+    public final static Intake m_Intake = new Intake();
 
-    public final Climber m_climber = new Climber();
+    public final static Climber m_climber = new Climber();
 
-    public final Armivator m_Armivator = new Armivator();
+    public final static Armivator m_Armivator = new Armivator();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -78,6 +80,13 @@ public class RobotContainer {
             )
         );
 
+        // Run SysId routines when holding back/start and X/Y.
+        // Note that each routine should be run exactly once in a single log.
+        driver.back().and(driver.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        driver.back().and(driver.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        driver.start().and(driver.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        driver.start().and(driver.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -96,21 +105,28 @@ public class RobotContainer {
 
         //Intake and Hopper buttons
         //intake lvl 1-3
-       driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(1)));
-       driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
+        //driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(1)));
+        //driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
 
+       
+       
        //intake lvl 4
-       operator.y().whileTrue(new ShootLvlFour(m_Intake));
+       //operator.y().whileTrue(new ShootLvlFour(m_Intake));
        //intake reverse
-       operator.x().whileTrue(new AutoReverse(m_Intake));
+       //operator.x().whileTrue(new AutoReverse(m_Intake));
 
         //intake
         driver.x().onTrue(
             (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
-        .andThen(new AutoHopper(m_Intake))
-        .andThen(new AutoIntake(m_Intake))
-        .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)
-            
+            .andThen(new AutoHopper(m_Intake))
+            .andThen(new AutoIntake(m_Intake))
+            .andThen(new AutoReverse(m_Intake))
+            .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)            
+        );
+
+        //Score
+        driver.b().onTrue(
+            new AutoScore(m_Intake)
         );
 
         //Arm
