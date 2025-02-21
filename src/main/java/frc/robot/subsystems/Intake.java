@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
@@ -12,6 +14,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
@@ -67,6 +71,12 @@ public class Intake extends SubsystemBase {
     hopperMotor.set(speed);
   }
 
+  public void runBothManual(double speed){
+    hopperMotor.set(speed);
+    intakeMotor.set(speed);
+  }
+
+
   public double getOutSensorDistance(){
     LaserCan.Measurement measurementOutSensor = outSensor.getMeasurement();
     return measurementOutSensor.distance_mm;
@@ -76,6 +86,7 @@ public class Intake extends SubsystemBase {
     LaserCan.Measurement measurementInSensor = inSensor.getMeasurement();
     return measurementInSensor.distance_mm;
   }
+
 
   @Override
   public void periodic() {

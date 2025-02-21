@@ -102,19 +102,6 @@ public class RobotContainer {
         operator.back().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
 
         
-
-        //Intake and Hopper buttons
-        //intake lvl 1-3
-        //driver.b().whileTrue(new InstantCommand(() -> m_Intake.runIntakeSpeed(1)));
-        //driver.b().whileFalse(new InstantCommand(() -> m_Intake.runIntakeSpeed(0)));
-
-       
-       
-       //intake lvl 4
-       //operator.y().whileTrue(new ShootLvlFour(m_Intake));
-       //intake reverse
-       //operator.x().whileTrue(new AutoReverse(m_Intake));
-
         //intake
         driver.x().onTrue(
             (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
@@ -129,12 +116,26 @@ public class RobotContainer {
             new AutoScore(m_Intake)
         );
 
+        //Manual Intake and Hopper
+
+        operator.leftBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(1.0)));
+        operator.leftBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
+        operator.rightBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(-1.0)));
+        operator.rightBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
+        
+
         //Arm
         operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
         operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
         operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
         operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
         operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+
+        //ArmSysID
+        //operator.povRight().whileTrue(m_Armivator.armSysIdDynamic(Direction.kForward));
+        //operator.povLeft().whileTrue(m_Armivator.armSysIdDynamic(Direction.kReverse));
+        //operator.povUp().whileTrue(m_Armivator.armSysIdQuasistatic(Direction.kForward));
+        //operator.povDown().whileTrue(m_Armivator.armSysIdQuasistatic(Direction.kReverse));
                
     
 

@@ -28,7 +28,7 @@ public class AutoReverse extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.runIntakeSpeed(-0.1);
+    m_Intake.runIntakeSpeed(-0.08);
   }
 
   // Called once the command ends or is interrupted.

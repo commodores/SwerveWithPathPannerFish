@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Volt;
+
+import edu.wpi.first.units.measure.Voltage;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.AbsoluteEncoder;
@@ -44,7 +48,6 @@ public class Armivator extends SubsystemBase {
       new SparkFlex(Constants.ArmivatorConstants.armMotor, MotorType.kBrushless);
   private SparkClosedLoopController armController = armMotor.getClosedLoopController();
   private AbsoluteEncoder armEncoder = armMotor.getAbsoluteEncoder();
-  private ArmFeedforward armfeedforward = new ArmFeedforward(0.01, .99, .54, .03);
 
   // Initialize elevator SPARK. We will use MAXMotion position control for the elevator, so we also
   // need to initialize the closed loop controller and encoder.
@@ -53,7 +56,6 @@ public class Armivator extends SubsystemBase {
   private SparkClosedLoopController elevatorClosedLoopController =
       elevatorMotor.getClosedLoopController();
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
-  private ElevatorFeedforward elevatorfeedforward = new ElevatorFeedforward(0.01, 0.12, 9.12, 0.02);
 
   // Member variables for subsystem state management
   private boolean wasZeroResetByTOF = false;
@@ -63,7 +65,12 @@ public class Armivator extends SubsystemBase {
 
   // ARM SysID Routine
   private final SysIdRoutine armSysIdRoutine = new SysIdRoutine(
-    new SysIdRoutine.Config(),
+    new SysIdRoutine.Config(
+      null,
+      Volt.of(4),
+      null,
+      null
+    ),
     new SysIdRoutine.Mechanism(
         armMotor::setVoltage,
         null,
@@ -73,7 +80,12 @@ public class Armivator extends SubsystemBase {
 
   // Elevator SysID Routine
   private final SysIdRoutine elevatorSysIdRoutine = new SysIdRoutine(
-    new SysIdRoutine.Config(),
+    new SysIdRoutine.Config(
+      null,
+      Volt.of(4),
+      null,
+      null
+    ),
     new SysIdRoutine.Mechanism(
         armMotor::setVoltage,
         null,
@@ -127,17 +139,30 @@ public class Armivator extends SubsystemBase {
   }
 
   private double calculateArmFeedForward(){
-    // Assuming 420 RPM, converted to rad/s
-    return armfeedforward.calculate(armCurrentTarget-1, 420 * (2 * Math.PI / 60)); // 43.98 rad/s
+    if(armCurrentTarget == ArmSetpoints.kFeederStation){
+      return .05;
+    } else if(armCurrentTarget == ArmSetpoints.kLevel1){
+      return .35;
+    } else if(armCurrentTarget == ArmSetpoints.kLevel2){
+      return .2;
+    } else if(armCurrentTarget == ArmSetpoints.kLevel3){
+      return .2;
+    } else if(armCurrentTarget == ArmSetpoints.kLevel4){
+      return .05;
+    } else {
+      return .1;
+    }
+      
   }
 
   private double calculateElevatorFeedForward(){
-    return elevatorfeedforward.calculate((2000 * 2 * Math.PI) / 60);
+    return .5;
   }    
 
   private void moveToSetpoint() {
     armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateArmFeedForward());
-    elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateElevatorFeedForward());
+    //elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateElevatorFeedForward());
+    elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 
   /** Zero the elevator encoder when the laser reads min. */

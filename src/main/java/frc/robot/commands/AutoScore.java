@@ -38,9 +38,9 @@ public class AutoScore extends Command {
   @Override
   public void execute() {
     if(armSetpoint == ArmSetpoints.kLevel4 && elevatorSetpoint == ElevatorSetpoints.kLevel4){
-      m_Intake.runIntakeSpeed(-.5);
+      m_Intake.runIntakeSpeed(-1);
     } else {
-      m_Intake.runIntakeSpeed(0.5);
+      m_Intake.runIntakeSpeed(1);
     }
   }
 

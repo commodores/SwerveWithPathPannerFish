@@ -4,7 +4,6 @@ package frc.robot;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.math.util.Units;
 
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
@@ -19,14 +18,15 @@ public final class Configs {
 
     static {
       // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kBrake)
+      armConfig.idleMode(IdleMode.kCoast)
         .smartCurrentLimit(40)
         .voltageCompensation(12)
         .softLimit
         .reverseSoftLimit(.441)
         .reverseSoftLimitEnabled(true)
-        .forwardSoftLimit(3.74)
-        .forwardSoftLimitEnabled(true);
+        .forwardSoftLimit(4)
+        .forwardSoftLimitEnabled(true)
+        ;
       
       armConfig.absoluteEncoder
         .inverted(true)
@@ -38,25 +38,23 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.004)
-          .positionWrappingEnabled(true)
-          .positionWrappingInputRange(0, 2*Math.PI)
+          .p(.005)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(2500)
-          .maxAcceleration(250)
-          .allowedClosedLoopError(.01);
+          .maxVelocity(6000)
+          .maxAcceleration(8000)
+          .allowedClosedLoopError(.05);
 
       // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kBrake)
+      elevatorConfig.idleMode(IdleMode.kCoast)
         .smartCurrentLimit(40)
         .voltageCompensation(12)
         .inverted(true)
         .softLimit
         .reverseSoftLimit(0)
         .reverseSoftLimitEnabled(true)
-        .forwardSoftLimit(96.8)
+        .forwardSoftLimit(60.7)
         .forwardSoftLimitEnabled(true);;
       /*
        * Configure the closed loop controller. We want to make sure we set the
@@ -70,8 +68,8 @@ public final class Configs {
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(2000)//4200
-          .maxAcceleration(200)//6000
+          .maxVelocity(6000)//4200
+          .maxAcceleration(8000)//6000
           .allowedClosedLoopError(.5);
     }
   }
