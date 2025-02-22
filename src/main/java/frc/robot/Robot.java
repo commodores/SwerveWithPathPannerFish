@@ -7,6 +7,7 @@ package frc.robot;
 import org.littletonrobotics.urcl.URCL;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -45,11 +46,11 @@ public class Robot extends TimedRobot {
   }
 
   private void updateVisionPose() {
-    var driveState = m_robotContainer.drivetrain.getState();
+    var driveState = RobotContainer.drivetrain.getState();
     double headingDeg = driveState.Pose.getRotation().getDegrees();
     double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
     
-    LimelightHelpers.SetRobotOrientation("limelight-front", headingDeg, 0, 0, 0, 0, 0);
+    LimelightHelpers.SetRobotOrientation("limelight-front", headingDeg, 0, 0, 0, 0, 0);//may need yaw rate
     LimelightHelpers.SetRobotOrientation("limelight-back", headingDeg, 0, 0, 0, 0, 0);
     
     var llMeasurement1 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
@@ -65,16 +66,39 @@ public class Robot extends TimedRobot {
         validSources++;
     }
     
-    if (llMeasurement2 != null && llMeasurement2.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+    //if (llMeasurement2 != null && llMeasurement2.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+    //    if (validSources > 0) {
+    //        fusedPose = new Pose2d(
+    //            (fusedPose.getX() + llMeasurement2.pose.getX()) / 2.0,
+    //            (fusedPose.getY() + llMeasurement2.pose.getY()) / 2.0,
+    //            fusedPose.getRotation()
+    //        );
+    //        bestTimestamp = Math.max(bestTimestamp, llMeasurement2.timestampSeconds);
+    //    } else {
+    //        fusedPose = llMeasurement2.pose;
+    //        bestTimestamp = llMeasurement2.timestampSeconds;
+    //    }
+    //    validSources++;
+    //}
+
+    if (llMeasurement2 != null && llMeasurement2.tagCount > 0) {
+        Pose2d rearPose = llMeasurement2.pose;
+
+        // Apply a 180-degree rotation to the rear Limelight’s pose to align it with field coordinates
+        rearPose = new Pose2d(
+            rearPose.getTranslation(),
+            rearPose.getRotation().plus(Rotation2d.fromDegrees(180))
+        );
+
         if (validSources > 0) {
             fusedPose = new Pose2d(
-                (fusedPose.getX() + llMeasurement2.pose.getX()) / 2.0,
-                (fusedPose.getY() + llMeasurement2.pose.getY()) / 2.0,
+                (fusedPose.getX() + rearPose.getX()) / 2.0,
+                (fusedPose.getY() + rearPose.getY()) / 2.0,
                 fusedPose.getRotation()
             );
             bestTimestamp = Math.max(bestTimestamp, llMeasurement2.timestampSeconds);
         } else {
-            fusedPose = llMeasurement2.pose;
+            fusedPose = rearPose;
             bestTimestamp = llMeasurement2.timestampSeconds;
         }
         validSources++;
@@ -82,7 +106,7 @@ public class Robot extends TimedRobot {
     
     if (validSources > 0) {
         double visionStdDev = 0.5 / Math.sqrt(validSources);
-        m_robotContainer.drivetrain.addVisionMeasurement(fusedPose, bestTimestamp, visionStdDev);
+        RobotContainer.drivetrain.addVisionMeasurement(fusedPose, bestTimestamp, visionStdDev);
     }
 
     SmartDashboard.putNumber("Limelight Front X", llMeasurement1 != null ? llMeasurement1.pose.getX() : -1);
