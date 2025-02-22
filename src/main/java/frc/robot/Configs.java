@@ -38,13 +38,13 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.005)
+          .p(.004)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
           .maxVelocity(6000)
           .maxAcceleration(8000)
-          .allowedClosedLoopError(.05);
+          .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast)
@@ -70,7 +70,7 @@ public final class Configs {
           // Set MAXMotion parameters for position control
           .maxVelocity(6000)//4200
           .maxAcceleration(8000)//6000
-          .allowedClosedLoopError(.5);
+          .allowedClosedLoopError(.25);//.5
     }
   }
 

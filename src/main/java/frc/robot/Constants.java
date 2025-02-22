@@ -27,6 +27,8 @@ public class Constants {
         public static final double kLevel2 = 26;
         public static final double kLevel3 = 60;
         public static final double kLevel4 = 60;
+        public static final double kAlgaeLow = 0;
+        public static final double kAlgaeHigh = 34.3;
     }
 
     public static final class ArmSetpoints {
@@ -35,6 +37,9 @@ public class Constants {
         public static final double kLevel2 = .846;
         public static final double kLevel3 = .846;
         public static final double kLevel4 = 3.58;
+        public static final double kAlgaeLow = 2.64;
+        public static final double kAlgaeHigh = 2.64;
+
     }
 
 }

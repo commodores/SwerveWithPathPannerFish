@@ -98,8 +98,8 @@ public class RobotContainer {
         driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
         
         // Climber Lock
-        operator.start().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
-        operator.back().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
+        //driver.start().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
+        //driver.back().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
 
         
         //intake
@@ -130,6 +130,12 @@ public class RobotContainer {
         operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
         operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
         operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+
+        //Algae
+
+        operator.rightTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeHigh));
+        operator.leftTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeLow));
+
 
         //ArmSysID
         //operator.povRight().whileTrue(m_Armivator.armSysIdDynamic(Direction.kForward));

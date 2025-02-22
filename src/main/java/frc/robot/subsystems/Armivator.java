@@ -39,7 +39,9 @@ public class Armivator extends SubsystemBase {
     kLevel1,
     kLevel2,
     kLevel3,
-    kLevel4;
+    kLevel4,
+    kAlgaeLow,
+    kAlgaeHigh;
   }
 
   // Initialize arm SPARK. We will use MAXMotion position control for the arm, so we also need to
@@ -148,7 +150,11 @@ public class Armivator extends SubsystemBase {
     } else if(armCurrentTarget == ArmSetpoints.kLevel3){
       return .2;
     } else if(armCurrentTarget == ArmSetpoints.kLevel4){
-      return .05;
+      return .075;
+    } else if(armCurrentTarget == ArmSetpoints.kAlgaeLow){
+      return .3;
+    } else if(armCurrentTarget == ArmSetpoints.kAlgaeHigh){
+      return .3;
     } else {
       return .1;
     }
@@ -219,6 +225,18 @@ public class Armivator extends SubsystemBase {
           if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kLevel4){
             armCurrentTarget = ArmSetpoints.kLevel4;
             elevatorCurrentTarget = ElevatorSetpoints.kLevel4;
+          }
+
+          //Algae Low
+          if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kAlgaeLow){
+            armCurrentTarget = ArmSetpoints.kAlgaeLow;
+            elevatorCurrentTarget = ElevatorSetpoints.kAlgaeLow;
+          }
+
+          //Algae High
+          if(armCurrentTarget != ArmSetpoints.kFeederStation && setpoint == Setpoint.kAlgaeHigh){
+            armCurrentTarget = ArmSetpoints.kAlgaeHigh;
+            elevatorCurrentTarget = ElevatorSetpoints.kAlgaeHigh;
           }
         });
   }
