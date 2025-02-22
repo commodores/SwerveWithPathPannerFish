@@ -19,13 +19,13 @@ public final class Configs {
     static {
       // Configure basic settings of the arm motor
       armConfig.idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(40)
+        .smartCurrentLimit(50)
         .voltageCompensation(12)
         .softLimit
         .reverseSoftLimit(.441)
         .reverseSoftLimitEnabled(true)
-        .forwardSoftLimit(4)
-        .forwardSoftLimitEnabled(true)
+        //.forwardSoftLimit(4)
+        //.forwardSoftLimitEnabled(true)
         ;
       
       armConfig.absoluteEncoder
@@ -38,24 +38,25 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.004)
+          .p(.008)
+          //.d(.01)
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
           .maxVelocity(6000)
-          .maxAcceleration(8000)
+          .maxAcceleration(10000)
           .allowedClosedLoopError(.01);
 
       // Configure basic settings of the elevator motor
       elevatorConfig.idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(40)
+        .smartCurrentLimit(50)
         .voltageCompensation(12)
         .inverted(true)
         .softLimit
         .reverseSoftLimit(0)
-        .reverseSoftLimitEnabled(true)
-        .forwardSoftLimit(60.7)
-        .forwardSoftLimitEnabled(true);;
+        .reverseSoftLimitEnabled(true);
+        //.forwardSoftLimit(60.7)
+        //.forwardSoftLimitEnabled(true);
       /*
        * Configure the closed loop controller. We want to make sure we set the
        * feedback sensor as the primary encoder.
@@ -64,12 +65,12 @@ public final class Configs {
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control
-          .p(0.0125)          
+          .p(0.02)          
           .outputRange(-1, 1)
           .maxMotion
           // Set MAXMotion parameters for position control
-          .maxVelocity(6000)//4200
-          .maxAcceleration(8000)//6000
+          .maxVelocity(4200)//4200
+          .maxAcceleration(6000)//6000
           .allowedClosedLoopError(.25);//.5
     }
   }
