@@ -4,16 +4,15 @@
 
 package frc.robot;
 
-import org.littletonrobotics.urcl.URCL;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import com.ctre.phoenix6.Utils;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -35,7 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    //URCL.start(DataLogManager.getLog());
+    
   } 
 
   @Override
@@ -50,23 +49,58 @@ public class Robot extends TimedRobot {
      * This example is sufficient to show that vision integration is possible, though exact implementation
      * of how to use vision should be tuned per-robot and to the team's specification.
      */
-    if (kUseLimelight) {
-      var driveState = m_robotContainer.drivetrain.getState();
+    if (kUseLimelight) 
+    {
+      var driveState = RobotContainer.drivetrain.getState();
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-      LimelightHelpers.SetRobotOrientation("limelight-front", headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement1 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
-      if (llMeasurement1 != null && llMeasurement1.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement1.pose, llMeasurement1.timestampSeconds);
-      }
+      // Limelight names
+      String[] limelights = {"limelight-front", "limelight-back"};
 
-      LimelightHelpers.SetRobotOrientation("limelight-back", headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-back");
-      if (llMeasurement2 != null && llMeasurement2.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
-        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement2.pose, llMeasurement2.timestampSeconds);
+      // Place to store standard deviations of the limelights' readings
+      double limelightAvgStdDev[] = new double[limelights.length];
+
+      // Constants for dynamic standard deviation threshold
+      double baseStdDev = 0.2; // Base standard deviation at close range
+      double k_d = 0.05;       // Scaling factor for distance
+      double k_t = 0.1;        // Reward for additional tags
+
+      // Process each Limelight
+      for (int i = 0; i < limelights.length; i++) 
+      {
+        String limelightName = limelights[i];
+
+        // Calculate the average standard deviation for this Limelight
+        double[] stddevs = NetworkTableInstance.getDefault()
+          .getTable(limelightName)
+          .getEntry("stddevs")
+          .getDoubleArray(new double[6]);
+
+        limelightAvgStdDev[i] = (stddevs[0] + stddevs[1] + stddevs[5]) / 3;
+
+        // Retrieve vision measurement from the Limelight
+        var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+
+        if (llMeasurement != null && llMeasurement.tagCount > 0) 
+        {
+          // Calculate dynamic standard deviation threshold
+          double dynamicThreshold = baseStdDev + (k_d * llMeasurement.avgTagDist) - (k_t * llMeasurement.tagCount);
+
+          // Check conditions: dynamic threshold and angular velocity
+          if (limelightAvgStdDev[i] < dynamicThreshold && Math.abs(omegaRps) < 2.0) 
+          {
+            LimelightHelpers.SetRobotOrientation(limelightName, headingDeg, 0, 0, 0, 0, 0);
+            RobotContainer.drivetrain.addVisionMeasurement
+            (
+              llMeasurement.pose, 
+              Utils.fpgaToCurrentTime(llMeasurement.timestampSeconds)
+            );
+          }
+        }
       }
     }
+  
 
     updatePose(RobotContainer.drivetrain.getState().Pose);
   }

@@ -7,8 +7,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TimestampedDoubleArray;
-import frc.robot.LimelightHelpers.LimelightResults;
-import frc.robot.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -1491,6 +1489,26 @@ public class LimelightHelpers {
             d = 5;
         }
         setLimelightNTDouble(limelightName, "fiducial_downscale_set", d);
+    }
+
+    /**
+     * Returns the standard deviations (uncertainties) for vision measurements
+     * for the specified limelight. These values should be tuned for your system.
+     * 
+     * @param limelightName the name of the limelight ("limelight-front" or "limelight-back")
+     * @return a double array with {stdDevX, stdDevY, stdDevTheta}
+     */
+    public static double[] getVisionStdDevs(String limelightName) {
+        if (limelightName.equals("limelight-front")) {
+            // Example values for the front limelight (tune as needed)
+            return new double[]{0.3, 0.3, Math.toRadians(5)};
+        } else if (limelightName.equals("limelight-back")) {
+            // Example values for the back limelight (tune as needed)
+            return new double[]{0.5, 0.5, Math.toRadians(10)};
+        } else {
+            // Default fallback values
+            return new double[]{1.0, 1.0, Math.toRadians(30)};
+        }
     }
     
     /**
