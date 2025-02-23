@@ -11,6 +11,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,9 +25,11 @@ import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoReverse;
 import frc.robot.commands.AutoScore;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Armivator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 
 
@@ -53,18 +58,22 @@ public class RobotContainer {
 
     public final static Climber m_climber = new Climber();
 
-    public final static Armivator m_Armivator = new Armivator();
+    //public final static Armivator m_Armivator = new Armivator();
+
+    public final static Arm m_Arm = new Arm();
+    public final static Elevator m_Elevator = new Elevator();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Mode", autoChooser);
-
-        
+        SmartDashboard.putData("Auto Mode", autoChooser);      
 
         configureBindings();
+
+        addArmDebugCommands();
+        addElevatorDebugCommands();
     }
 
     private void configureBindings() {
@@ -95,13 +104,13 @@ public class RobotContainer {
 
         
         //intake
-        driver.x().onTrue(
-            (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
-            .andThen(new AutoHopper(m_Intake))
-            .andThen(new AutoIntake(m_Intake))
-            .andThen(new AutoReverse(m_Intake))
-            .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)            
-        );
+        //driver.x().onTrue(
+        //    (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
+        //    .andThen(new AutoHopper(m_Intake))
+        //    .andThen(new AutoIntake(m_Intake))
+        //    .andThen(new AutoReverse(m_Intake))
+        //    .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)            
+        //);
 
         //Score
         driver.b().onTrue(
@@ -117,16 +126,16 @@ public class RobotContainer {
         
 
         //Arm
-        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
-        operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
-        operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
-        operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+        //operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
+        //operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
+        //operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
+        //operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
+        //operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
 
         //Algae
 
-        operator.rightTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeHigh));
-        operator.leftTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeLow));
+        //operator.rightTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeHigh));
+        //operator.leftTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeLow));
 
 
         //ArmSysID
@@ -143,5 +152,20 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
+    }
+
+    private void addArmDebugCommands() {
+        ShuffleboardTab debugTabPivot = Shuffleboard.getTab("arm pivot");
+        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(0.0));
+        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(45.0));
+        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(90.0));
+
+    }
+
+    private void addElevatorDebugCommands() {
+        ShuffleboardTab debugTab = Shuffleboard.getTab("Elevator");
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(1)));
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(3)));
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(5)));
     }
 }

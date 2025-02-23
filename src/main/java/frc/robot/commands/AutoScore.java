@@ -28,18 +28,18 @@ public class AutoScore extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armSetpoint = RobotContainer.m_Armivator.getArmSetpoint();
-    elevatorSetpoint = RobotContainer.m_Armivator.getElevatorSetpoint();
+    //armSetpoint = RobotContainer.m_Armivator.getArmSetpoint();
+    //elevatorSetpoint = RobotContainer.m_Armivator.getElevatorSetpoint();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(armSetpoint == ArmSetpoints.kLevel4 && elevatorSetpoint == ElevatorSetpoints.kLevel4){
-      m_Intake.runIntakeSpeed(-1);
-    } else {
-      m_Intake.runIntakeSpeed(1);
-    }
+    //if(armSetpoint == ArmSetpoints.kLevel4 && elevatorSetpoint == ElevatorSetpoints.kLevel4){
+    //  m_Intake.runIntakeSpeed(-1);
+    //} else {
+    //  m_Intake.runIntakeSpeed(1);
+    //}
   }
 
   // Called once the command ends or is interrupted.
