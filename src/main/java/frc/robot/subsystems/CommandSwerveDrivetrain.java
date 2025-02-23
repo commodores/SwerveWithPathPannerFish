@@ -16,17 +16,14 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -293,30 +290,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
-    }
-
-    /**
-     * Adds a vision measurement to the Kalman Filter. This will correct the odometry pose estimate
-     * while still accounting for measurement noise.
-     *
-     * @param visionRobotPoseMeters The pose of the robot as measured by the vision camera.
-     * @param timestampSeconds The timestamp of the vision measurement in seconds.
-     */
-    //@Override
-    //public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
-    //    super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
-    //}
-
-    //@Override
-    public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds, double tagCount) {
-        double stdDev = 0.5 / Math.sqrt(tagCount + 1);
-        Matrix<N3, N1> visionStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
-        visionStdDevs.set(0, 0, stdDev);
-        visionStdDevs.set(1, 0, stdDev);
-        visionStdDevs.set(2, 0, Units.degreesToRadians(2.0));
-
-        double correctedTimestamp = Timer.getFPGATimestamp() - (timestampSeconds / 1000.0);
-        super.addVisionMeasurement(visionRobotPoseMeters, correctedTimestamp, visionStdDevs);
     }
 
     /**
