@@ -164,8 +164,8 @@ public class RobotContainer {
 
     private void addElevatorDebugCommands() {
         ShuffleboardTab debugTab = Shuffleboard.getTab("Elevator");
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(1)));
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(3)));
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(Units.feetToMeters(5)));
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(1));
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(3));
+        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(5));
     }
 }

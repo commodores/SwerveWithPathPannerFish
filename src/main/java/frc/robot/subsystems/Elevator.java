@@ -18,7 +18,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,14 +31,7 @@ import com.revrobotics.RelativeEncoder;
 
 public class Elevator extends SubsystemBase {
 
-    public static final double K_ELEVATOR_GEARING = 4.0;
-    public static final double K_CARRIAGE_MASS = 2.0; // kg
-    public static final double K_MIN_ELEVATOR_HEIGHT = Units.inchesToMeters(0);
-    public static final double K_MAX_ELEVATOR_HEIGHT = Units.inchesToMeters(20  );
-    public static final DCMotor K_ELEVATOR_GEARBOX = DCMotor.getVex775Pro(4);
-    public static final double K_ELEVATOR_DRUM_RADIUS = Units.inchesToMeters(2.0);
     public static final double ELEVATOR_ERROR = Units.inchesToMeters(3);
-
 
     private final SparkFlex m_elevatorMotor;    
     private final RelativeEncoder m_encoder;
