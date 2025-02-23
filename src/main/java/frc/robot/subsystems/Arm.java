@@ -57,11 +57,11 @@ public class Arm extends SubsystemBase {
         armConfig.closedLoop.positionWrappingMinInput(0);
         armConfig.closedLoop.positionWrappingMaxInput(360);
         armConfig.closedLoop.p(0.001);
-        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(.5, .5));
+        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(360, 1200));
         m_profilePID.enableContinuousInput(0, 360);
         
         // Create a new ArmFeedforward with gains kS, kG, kV, and kA
-        feedforward = new ArmFeedforward(0, 0, 0, 0);
+        feedforward = new ArmFeedforward(0.1, 1.44, 0.41, 0.06);
 
         armConfig.signals.absoluteEncoderPositionPeriodMs(20);
         armConfig.signals.absoluteEncoderVelocityPeriodMs(20);

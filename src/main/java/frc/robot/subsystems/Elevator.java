@@ -72,10 +72,10 @@ public class Elevator extends SubsystemBase {
         m_sparkPidController = m_elevatorMotor.getClosedLoopController();
         elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
 
-        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0.5, 0.5));
+        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(270, 900));
 
         // Create a new ElevatorFeedforward with gains kS, kG, kV, and kA
-        feedforward = new ElevatorFeedforward(0, 0, 0, 0);
+        feedforward = new ElevatorFeedforward(0.01, 0.36, 3.13, 0.05);
 
         m_elevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
