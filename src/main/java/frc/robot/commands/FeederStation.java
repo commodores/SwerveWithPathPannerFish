@@ -8,32 +8,40 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.ElevatorSetpoints;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Armivator;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Armivator.Setpoint;
 import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class LevelOnePose extends Command {
-  private final Armivator m_Armivator;
+public class FeederStation extends Command {
+  
+  private final Elevator m_Elevator;
+  private final Arm m_Arm;
+
   /** Creates a new LevelOnePose. */
-  public LevelOnePose(Armivator armivatorSub) {
-    m_Armivator = armivatorSub;
-    addRequirements(m_Armivator);
+  public FeederStation(Arm armSub, Elevator elevatorSub) {
+    m_Arm = armSub;
+    m_Elevator = elevatorSub;
+    addRequirements(m_Arm, m_Elevator);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1);
+     //Feeder Station
+    m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kFeederStation).schedule();
+    m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kFeederStation).schedule(); 
+    m_Arm.setArmSetpoint(0);
+    m_Elevator.setElevatorSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1);
   
   }
 
@@ -44,6 +52,6 @@ public class LevelOnePose extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

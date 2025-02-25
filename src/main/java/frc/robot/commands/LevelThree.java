@@ -5,52 +5,55 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Intake;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.ElevatorSetpoints;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Armivator;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Armivator.Setpoint;
+import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoScore extends Command {
+public class LevelThree extends Command {
+  
+  private final Elevator m_Elevator;
+  private final Arm m_Arm;
 
-  private final Intake m_Intake;
+  /** Creates a new LevelOnePose. */
+  public LevelThree(Arm armSub, Elevator elevatorSub) {
+    m_Arm = armSub;
+    m_Elevator = elevatorSub;
+    addRequirements(m_Arm, m_Elevator);
 
-  private double armSetpoint;
-  private double elevatorSetpoint;
-
-  /** Creates a new AutoIntake. */
-  public AutoScore(Intake intakeSub ) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Intake = intakeSub;
-    addRequirements(m_Intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armSetpoint = RobotContainer.m_Arm.getArmSetpoint();
+     //Level Three
+     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kLevel3).schedule();
+     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kLevel3).schedule();
+     m_Arm.setArmSetpoint(3);
+     m_Elevator.setElevatorSetpoint(3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(armSetpoint == 4){
-      m_Intake.runIntakeSpeed(-1);
-    } else {
-      m_Intake.runIntakeSpeed(1);
-    }
+    
+    
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  
-    m_Intake.runIntakeSpeed(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Intake.getInSensorDistance() > 100 && m_Intake.getOutSensorDistance() > 100;
+    return false;
   }
 }

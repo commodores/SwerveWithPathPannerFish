@@ -23,12 +23,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmivatorConstants;
+import frc.robot.subsystems.Armivator.Setpoint;
 
 public class Arm extends SubsystemBase {
     private final SparkFlex m_armMotor;
     private final AbsoluteEncoder m_absoluteEncoder;
 
-    private static final double PIVOT_ERROR = 3;
+    
     private static final double GEAR_RATIO = 1;
 
     private final SparkClosedLoopController m_sparkPidController;
@@ -36,8 +37,10 @@ public class Arm extends SubsystemBase {
     private final ProfiledPIDController m_profilePID;
 
     private final ArmFeedforward feedforward;
-    private static final double ALLOWABLE_ERROR = .5; //TODO change allowable error to make it more accurate or to make scoring faster
+    private static final double ALLOWABLE_ERROR = 1; //TODO change allowable error to make it more accurate or to make scoring faster
     private double m_armGoalAngle = Double.MIN_VALUE;
+
+    private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
     public Arm() {
         m_armMotor = new SparkFlex(ArmivatorConstants.armMotor, MotorType.kBrushless);
@@ -45,49 +48,55 @@ public class Arm extends SubsystemBase {
         m_sparkPidController = m_armMotor.getClosedLoopController();
 
         SparkMaxConfig armConfig = new SparkMaxConfig();
-
-        armConfig.idleMode(IdleMode.kBrake)
+        armConfig
+            .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(60)
-            .inverted(true)
-            .softLimit
-            .reverseSoftLimit(.441)
-            .reverseSoftLimitEnabled(true)
-            .forwardSoftLimit(4)
-            .forwardSoftLimitEnabled(true);
-        
+            .inverted(false);
+           // .softLimit
+            //.reverseSoftLimit(17)
+            //.reverseSoftLimitEnabled(true)
+            //.forwardSoftLimit(208)
+            //.forwardSoftLimitEnabled(true);
+
+
+        m_sparkPidController = m_armMotor.getClosedLoopController();
+
         armConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-            .positionWrappingEnabled(true)
-            .positionWrappingMinInput(0)
-            .positionWrappingMaxInput(360)
-            .p(0.001)
-            .minOutput(-.5)
-            .maxOutput(.5);
-        
-        armConfig.signals
-            .absoluteEncoderPositionPeriodMs(20)
-            .absoluteEncoderVelocityPeriodMs(20);
-        
-        armConfig.absoluteEncoder
-            .inverted(true)
-            .positionConversionFactor(360.0 / GEAR_RATIO)
-            .velocityConversionFactor(360.0 / GEAR_RATIO / 60);
-        
-        m_armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);       
-        
-        
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .positionWrappingEnabled(true)
+        .positionWrappingMinInput(0)
+        .positionWrappingMaxInput(360)
+        .p(0.015)
+        //.d(0.01)
+        //.i(0.0001)
+        .minOutput(-1)
+        .maxOutput(1);
+        //m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(360, 1200));
         m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(360, 1200));
         m_profilePID.enableContinuousInput(0, 360);
+        m_profilePID.setTolerance(ALLOWABLE_ERROR);
         
         // Create a new ArmFeedforward with gains kS, kG, kV, and kA
-        //feedforward = new ArmFeedforward(0.1, 1.44, 0.41, 0.06);
-        feedforward = new ArmFeedforward(0, 0, 0, 0);
+        //feedforward = new ArmFeedforward(0.01, 1.44, 0.41, 0.06);
+        feedforward = new ArmFeedforward(0.001, 1.44, 0.41, 0.06);
 
+        armConfig.signals.absoluteEncoderPositionPeriodMs(20);
+        armConfig.signals.absoluteEncoderVelocityPeriodMs(20);
+
+        armConfig.absoluteEncoder.inverted(true);
+        armConfig.absoluteEncoder.positionConversionFactor(360.0 / GEAR_RATIO);
+        armConfig.absoluteEncoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
+
+
+        m_armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        setpoint = -1;
+        
     }
 
     public void moveArmToAngle(double goal) {
         m_armGoalAngle = goal;
-        double currentAngle = getRelativeAngle();
+        double currentAngle = getAngle();
         m_profilePID.calculate(currentAngle, goal);
         TrapezoidProfile.State setpoint = m_profilePID.getSetpoint();
 
@@ -101,14 +110,16 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Arm Angle", getRelativeAngle());
-        SmartDashboard.putNumber("Arm Velocity", getRelativeVelocity());
+        SmartDashboard.putNumber("Arm Angle", getAngle());
+        SmartDashboard.putNumber("Arm Velocity", getVelocity());
         SmartDashboard.putNumber("Arm Goal Angle", m_armGoalAngle);
+        SmartDashboard.putBoolean("Arm At Goal", isArmAtGoal());
+        SmartDashboard.putNumber("Arm Setpoint", setpoint);
     }
 
 
     public boolean isArmAtGoal() {
-        double error = m_armGoalAngle - getRelativeAngle();
+        double error = m_armGoalAngle - getAngle();
         return Math.abs(error) < ALLOWABLE_ERROR;
     }
 
@@ -128,26 +139,34 @@ public class Arm extends SubsystemBase {
         m_armMotor.set(speed);
     }
 
-    public double getRelativeAngle() {
+    public double getAngle() {
         return m_absoluteEncoder.getPosition();
     }
 
-    public double getRelativeVelocity() {
+    public double getVelocity() {
         return m_absoluteEncoder.getVelocity();
     }
 
-    public double getAbsoluteAngle() {
-        return m_absoluteEncoder.getPosition();
-    }
-
     private void resetPidController() {
-        m_profilePID.reset(getRelativeAngle(), getRelativeVelocity());
+        m_profilePID.reset(getAngle(), getVelocity());
     }
 
     public boolean isAtGoalAngle() {
-        return (Math.abs(this.getRelativeAngle() - this.getArmGoalAngle()) <= Arm.PIVOT_ERROR);
+        return (Math.abs(this.getAngle() - this.getArmGoalAngle()) <= Arm.ALLOWABLE_ERROR);
     }
 
+    public double getArmSetpoint() {
+        return setpoint;
+    }
+
+    public void setArmSetpoint(double setSetpoint) {
+        setpoint = setSetpoint;
+    }
+
+    ////////////////
+    //command factories yay :))
+    ////////////////
+    ///
     public Command createMoveArmtoAngleCommand(Double angle) {
         return createResetPidControllerCommand().andThen(runEnd(() -> moveArmToAngle(angle), this::stop)).withName("Go to angle" + angle);
     }
