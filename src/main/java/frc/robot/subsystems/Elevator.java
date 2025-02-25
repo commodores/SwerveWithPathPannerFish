@@ -42,7 +42,9 @@ public class Elevator extends SubsystemBase {
     private final ElevatorFeedforward feedforward;
 
     private double m_goalHeight;
+    private boolean wasZeroResetByTOF = false;
 
+    private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
     public Elevator() {
 
@@ -58,29 +60,32 @@ public class Elevator extends SubsystemBase {
           .inverted(true)
           .softLimit
           .reverseSoftLimit(0)
-          .reverseSoftLimitEnabled(true);
+          .reverseSoftLimitEnabled(true)
+          .forwardSoftLimit(27)
+          .forwardSoftLimitEnabled(true);
 
         elevatorConfig
-          .absoluteEncoder
-          .positionConversionFactor(1.375);//4 to 1 gear ratio .8755 radius spool
+          .encoder
+          .positionConversionFactor(1.0998);//4 to 1 gear ratio .8755 radius spool
         
         elevatorConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .p(.001)
+          .p(.15)
           .minOutput(-.5)
           .maxOutput(.5);
 
         m_sparkPidController = m_elevatorMotor.getClosedLoopController();
         elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
 
-        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(270, 900));
+        m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(270, 900));// vel 270 acl 900
 
         // Create a new ElevatorFeedforward with gains kS, kG, kV, and kA
-        feedforward = new ElevatorFeedforward(0.01, 0.36, 3.13, 0.05);
+        // feedforward = new ElevatorFeedforward(0.0001, 0.36, 3.13, 0.05);
+        feedforward = new ElevatorFeedforward(0., 0., 0, 0.0);
 
         m_elevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+        setpoint = -1;
     }
 
     public double getHeight() {
@@ -105,6 +110,19 @@ public class Elevator extends SubsystemBase {
         return getElevatorDistanceInInch()>=20;
     }
 
+    /** Zero the elevator encoder when the laser reads min. */
+  private void zeroElevatorOnLaser() {
+    if (!wasZeroResetByTOF && isAtBottom()) {
+      // Zero the encoder laser sees min to
+      // prevent constant zeroing while retracted
+      m_encoder.setPosition(0);
+      wasZeroResetByTOF = true;
+    } else if (getElevatorDistanceInInch()>=2) {
+      wasZeroResetByTOF = false;
+    }      
+  }
+
+
     public void stop() {
         m_elevatorMotor.set(0);
     }
@@ -116,10 +134,13 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Elevator Height", getHeight());
-        SmartDashboard.putNumber("Elevator Distance", getElevatorDistanceInInch());
+        SmartDashboard.putNumber("Elevator Laser", getElevatorDistanceInInch());
         SmartDashboard.putBoolean("Elevator at bottom", isAtBottom());
         SmartDashboard.putBoolean("Elevator at top", isAtTop());
         SmartDashboard.putNumber("Elevator Goal Height", m_goalHeight);
+        SmartDashboard.putNumber("Elevator Setpoint", setpoint);
+
+        zeroElevatorOnLaser();
     }
 
     public double getEncoderVel() {
@@ -146,6 +167,14 @@ public class Elevator extends SubsystemBase {
 
     public boolean isAtGoalHeight() {
         return Math.abs(getHeight() - m_goalHeight) <= ELEVATOR_ERROR;
+    }
+
+    public double getElevatorSetpoint() {
+        return setpoint;
+    }
+
+    public void setElevatorSetpoint(double setSetpoint) {
+        setpoint = setSetpoint;
     }
 
     //command factories//
