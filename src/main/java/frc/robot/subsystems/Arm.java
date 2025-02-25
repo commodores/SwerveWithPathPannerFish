@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -42,50 +41,51 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         m_armMotor = new SparkFlex(ArmivatorConstants.armMotor, MotorType.kBrushless);
-
-        m_absoluteEncoder = m_armMotor.getAbsoluteEncoder();
-
-
-        SparkMaxConfig armConfig = new SparkMaxConfig();
-        armConfig.idleMode(IdleMode.kBrake);
-        armConfig.smartCurrentLimit(60);
-        armConfig.inverted(true);
-
-
+        m_absoluteEncoder = m_armMotor.getAbsoluteEncoder();        
         m_sparkPidController = m_armMotor.getClosedLoopController();
 
+        SparkMaxConfig armConfig = new SparkMaxConfig();
+
+        armConfig.idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(60)
+            .inverted(true)
+            .softLimit
+            .reverseSoftLimit(.441)
+            .reverseSoftLimitEnabled(true)
+            .forwardSoftLimit(4)
+            .forwardSoftLimitEnabled(true);
+        
         armConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-        .positionWrappingEnabled(true)
-        .positionWrappingMinInput(0)
-        .positionWrappingMaxInput(360)
-        .p(0.001)
-        .minOutput(-.5)
-        .maxOutput(.5);
+            .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+            .positionWrappingEnabled(true)
+            .positionWrappingMinInput(0)
+            .positionWrappingMaxInput(360)
+            .p(0.001)
+            .minOutput(-.5)
+            .maxOutput(.5);
+        
+        armConfig.signals
+            .absoluteEncoderPositionPeriodMs(20)
+            .absoluteEncoderVelocityPeriodMs(20);
+        
+        armConfig.absoluteEncoder
+            .inverted(true)
+            .positionConversionFactor(360.0 / GEAR_RATIO)
+            .velocityConversionFactor(360.0 / GEAR_RATIO / 60);
+        
+        m_armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);       
+        
+        
         m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(360, 1200));
         m_profilePID.enableContinuousInput(0, 360);
         
         // Create a new ArmFeedforward with gains kS, kG, kV, and kA
-        feedforward = new ArmFeedforward(0.1, 1.44, 0.41, 0.06);
+        //feedforward = new ArmFeedforward(0.1, 1.44, 0.41, 0.06);
+        feedforward = new ArmFeedforward(0, 0, 0, 0);
 
-        armConfig.signals.absoluteEncoderPositionPeriodMs(20);
-        armConfig.signals.absoluteEncoderVelocityPeriodMs(20);
-
-        armConfig.absoluteEncoder.inverted(true);
-        armConfig.absoluteEncoder.positionConversionFactor(360.0 / GEAR_RATIO);
-        armConfig.absoluteEncoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
-
-        //armConfig.absoluteEncoder.inverted(true);
-        armConfig.absoluteEncoder.positionConversionFactor(360.0 / GEAR_RATIO);
-        armConfig.absoluteEncoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
-
-        m_armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        
-        //syncRelativeEncoder();
     }
 
     public void moveArmToAngle(double goal) {
-
         m_armGoalAngle = goal;
         double currentAngle = getRelativeAngle();
         m_profilePID.calculate(currentAngle, goal);
@@ -97,11 +97,6 @@ public class Arm extends SubsystemBase {
         m_sparkPidController.setReference(setpoint.position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForwardVolts);
         SmartDashboard.putNumber("feedForwardVolts", feedForwardVolts);
     }
-
-
-    //private void syncRelativeEncoder() {
-    //    m_relativeEncoder.setPosition(m_absoluteEncoder.getPosition());
-    //}
     
 
     @Override
@@ -153,10 +148,6 @@ public class Arm extends SubsystemBase {
         return (Math.abs(this.getRelativeAngle() - this.getArmGoalAngle()) <= Arm.PIVOT_ERROR);
     }
 
-    ////////////////
-    //command factories yay :))
-    ////////////////
-    ///
     public Command createMoveArmtoAngleCommand(Double angle) {
         return createResetPidControllerCommand().andThen(runEnd(() -> moveArmToAngle(angle), this::stop)).withName("Go to angle" + angle);
     }
