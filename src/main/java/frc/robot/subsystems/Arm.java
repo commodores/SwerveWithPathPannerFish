@@ -59,8 +59,6 @@ public class Arm extends SubsystemBase {
             //.forwardSoftLimitEnabled(true);
 
 
-        m_sparkPidController = m_armMotor.getClosedLoopController();
-
         armConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
         .positionWrappingEnabled(true)
