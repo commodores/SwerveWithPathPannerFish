@@ -138,15 +138,15 @@ public class Armivator extends SubsystemBase {
 
   private double calculateArmFeedForward(){
     if(armCurrentTarget == ArmSetpoints.kFeederStation){
-      return .05;
+      return .001;
     } else if(armCurrentTarget == ArmSetpoints.kLevel1){
-      return .35;
+      return .25;
     } else if(armCurrentTarget == ArmSetpoints.kLevel2){
       return .2;
     } else if(armCurrentTarget == ArmSetpoints.kLevel3){
       return .2;
     } else if(armCurrentTarget == ArmSetpoints.kLevel4){
-      return .05;
+      return .001;
     } else if(armCurrentTarget == ArmSetpoints.kAlgaeLow){
       return .3;
     } else if(armCurrentTarget == ArmSetpoints.kAlgaeHigh){

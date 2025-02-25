@@ -25,8 +25,8 @@ public class Constants {
         public static final double kFeederStation = 0;
         public static final double kLevel1 = 0;
         public static final double kLevel2 = 9;//26;
-        public static final double kLevel3 = 20; //60;
-        public static final double kLevel4 = 20; //60;
+        public static final double kLevel3 = 23; //60;
+        public static final double kLevel4 = 23; //60;
         public static final double kAlgaeLow = 0;
         public static final double kAlgaeHigh = 11; //34.3;
     }
