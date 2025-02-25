@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleStartPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LevelOnePose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PickUpPath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FeederPose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoHopper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoReverse"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SecondScorePath"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LevelOnePose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

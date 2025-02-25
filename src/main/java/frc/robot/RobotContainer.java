@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,6 +25,8 @@ import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoReverse;
 import frc.robot.commands.AutoScore;
+import frc.robot.commands.FeederPose;
+import frc.robot.commands.LevelOnePose;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Armivator;
@@ -58,22 +61,33 @@ public class RobotContainer {
 
     public final static Climber m_climber = new Climber();
 
-    //public final static Armivator m_Armivator = new Armivator();
+    public final static Armivator m_Armivator = new Armivator();
 
-    public final static Arm m_Arm = new Arm();
-    public final static Elevator m_Elevator = new Elevator();
+    //public final static Arm m_Arm = new Arm();
+    //public final static Elevator m_Elevator = new Elevator();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+
+
+        NamedCommands.registerCommand("AutoHopper", new AutoHopper(m_Intake));
+        NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
+        NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
+        NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake));
+        NamedCommands.registerCommand("LevelOnePose", new LevelOnePose(m_Armivator).withTimeout(.1));
+        NamedCommands.registerCommand("FeederPose", new FeederPose(m_Armivator));
+
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);      
 
         configureBindings();
 
-        addArmDebugCommands();
-        addElevatorDebugCommands();
+     
+        
+        //addArmDebugCommands();
+        //addElevatorDebugCommands();
     }
 
     private void configureBindings() {
@@ -104,13 +118,13 @@ public class RobotContainer {
 
         
         //intake
-        //driver.x().onTrue(
-        //    (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
-        //    .andThen(new AutoHopper(m_Intake))
-        //    .andThen(new AutoIntake(m_Intake))
-        //    .andThen(new AutoReverse(m_Intake))
-        //    .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)            
-        //);
+        driver.x().onTrue(
+            (m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation))
+            .andThen(new AutoHopper(m_Intake))
+            .andThen(new AutoIntake(m_Intake))
+            .andThen(new AutoReverse(m_Intake))
+            .andThen(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1)).withTimeout(5)            
+        );
 
         //Score
         driver.b().onTrue(
@@ -126,16 +140,18 @@ public class RobotContainer {
         
 
         //Arm
-        //operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
-        //operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
-        //operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
-        //operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        //operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+        operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
+        operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
+        operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
+        operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
+        operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
+
+        //operator.povDown().onTrue(m_Arm.createMoveArmtoAngleCommand(10.0));
 
         //Algae
 
-        //operator.rightTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeHigh));
-        //operator.leftTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeLow));
+        operator.rightTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeHigh));
+        operator.leftTrigger().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kAlgaeLow));
 
 
         //ArmSysID
@@ -154,18 +170,18 @@ public class RobotContainer {
         return autoChooser.getSelected();
     }
 
-    private void addArmDebugCommands() {
-        ShuffleboardTab debugTabPivot = Shuffleboard.getTab("arm pivot");
-        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(0.0));
-        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(45.0));
-        debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(90.0));
+    //private void addArmDebugCommands() {
+    //    ShuffleboardTab debugTabPivot = Shuffleboard.getTab("arm pivot");
+    //    debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(0.0));
+    //    debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(45.0));
+    //    debugTabPivot.add(m_Arm.createMoveArmtoAngleCommand(90.0));
 
-    }
+    //}
 
-    private void addElevatorDebugCommands() {
-        ShuffleboardTab debugTab = Shuffleboard.getTab("Elevator");
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(1));
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(3));
-        debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(5));
-    }
+    //private void addElevatorDebugCommands() {
+    //    ShuffleboardTab debugTab = Shuffleboard.getTab("Elevator");
+    //    debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(1));
+    //    debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(3));
+    //    debugTab.add(m_Elevator.createMoveElevatorToHeightCommand(5));
+    //}
 }

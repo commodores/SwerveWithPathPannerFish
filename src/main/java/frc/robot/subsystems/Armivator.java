@@ -10,6 +10,7 @@ import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -145,7 +146,7 @@ public class Armivator extends SubsystemBase {
     } else if(armCurrentTarget == ArmSetpoints.kLevel3){
       return .2;
     } else if(armCurrentTarget == ArmSetpoints.kLevel4){
-      return .075;
+      return .05;
     } else if(armCurrentTarget == ArmSetpoints.kAlgaeLow){
       return .3;
     } else if(armCurrentTarget == ArmSetpoints.kAlgaeHigh){
@@ -161,9 +162,9 @@ public class Armivator extends SubsystemBase {
   }    
 
   private void moveToSetpoint() {
-    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateArmFeedForward());
+    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateArmFeedForward());
     //elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0, calculateElevatorFeedForward());
-    armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
+    //armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
     elevatorClosedLoopController.setReference(elevatorCurrentTarget, ControlType.kMAXMotionPositionControl);
   }
 

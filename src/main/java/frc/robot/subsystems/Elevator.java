@@ -67,7 +67,9 @@ public class Elevator extends SubsystemBase {
         elevatorConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .p(.001);
+          .p(.001)
+          .minOutput(-.5)
+          .maxOutput(.5);
 
         m_sparkPidController = m_elevatorMotor.getClosedLoopController();
         elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);

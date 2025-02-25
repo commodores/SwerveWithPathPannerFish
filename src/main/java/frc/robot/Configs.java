@@ -38,7 +38,7 @@ public final class Configs {
       armConfig
           .closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.008)
+          .p(.004)
           //.d(.01)
           .outputRange(-1, 1)
           .maxMotion

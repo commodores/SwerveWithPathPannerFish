@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -26,7 +27,6 @@ import frc.robot.Constants.ArmivatorConstants;
 
 public class Arm extends SubsystemBase {
     private final SparkFlex m_armMotor;
-    private final RelativeEncoder m_relativeEncoder;
     private final AbsoluteEncoder m_absoluteEncoder;
 
     private static final double PIVOT_ERROR = 3;
@@ -42,7 +42,7 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         m_armMotor = new SparkFlex(ArmivatorConstants.armMotor, MotorType.kBrushless);
-        m_relativeEncoder = m_armMotor.getEncoder();
+
         m_absoluteEncoder = m_armMotor.getAbsoluteEncoder();
 
 
@@ -51,12 +51,17 @@ public class Arm extends SubsystemBase {
         armConfig.smartCurrentLimit(60);
         armConfig.inverted(true);
 
+
         m_sparkPidController = m_armMotor.getClosedLoopController();
 
-        armConfig.closedLoop.positionWrappingEnabled(true);
-        armConfig.closedLoop.positionWrappingMinInput(0);
-        armConfig.closedLoop.positionWrappingMaxInput(360);
-        armConfig.closedLoop.p(0.001);
+        armConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .positionWrappingEnabled(true)
+        .positionWrappingMinInput(0)
+        .positionWrappingMaxInput(360)
+        .p(0.001)
+        .minOutput(-.5)
+        .maxOutput(.5);
         m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(360, 1200));
         m_profilePID.enableContinuousInput(0, 360);
         
@@ -66,12 +71,17 @@ public class Arm extends SubsystemBase {
         armConfig.signals.absoluteEncoderPositionPeriodMs(20);
         armConfig.signals.absoluteEncoderVelocityPeriodMs(20);
 
-        armConfig.encoder.positionConversionFactor(360.0 / GEAR_RATIO);
-        armConfig.encoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
+        armConfig.absoluteEncoder.inverted(true);
+        armConfig.absoluteEncoder.positionConversionFactor(360.0 / GEAR_RATIO);
+        armConfig.absoluteEncoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
+
+        //armConfig.absoluteEncoder.inverted(true);
+        armConfig.absoluteEncoder.positionConversionFactor(360.0 / GEAR_RATIO);
+        armConfig.absoluteEncoder.velocityConversionFactor(360.0 / GEAR_RATIO / 60);
 
         m_armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        syncRelativeEncoder();
+        //syncRelativeEncoder();
     }
 
     public void moveArmToAngle(double goal) {
@@ -89,9 +99,9 @@ public class Arm extends SubsystemBase {
     }
 
 
-    private void syncRelativeEncoder() {
-        m_relativeEncoder.setPosition(m_absoluteEncoder.getPosition());
-    }
+    //private void syncRelativeEncoder() {
+    //    m_relativeEncoder.setPosition(m_absoluteEncoder.getPosition());
+    //}
     
 
     @Override
@@ -124,11 +134,11 @@ public class Arm extends SubsystemBase {
     }
 
     public double getRelativeAngle() {
-        return m_relativeEncoder.getPosition();
+        return m_absoluteEncoder.getPosition();
     }
 
     public double getRelativeVelocity() {
-        return m_relativeEncoder.getVelocity();
+        return m_absoluteEncoder.getVelocity();
     }
 
     public double getAbsoluteAngle() {
