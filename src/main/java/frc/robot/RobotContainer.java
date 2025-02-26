@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AlignToBranch;
 import frc.robot.commands.AutoHopper;
@@ -72,8 +73,18 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
         NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake));
-        //NamedCommands.registerCommand("LevelOnePose", new LevelOnePose(m_Armivator).withTimeout(.1));
-        //NamedCommands.registerCommand("FeederPose", new FeederPose(m_Armivator));
+
+        NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("LevelOne", new LevelOne(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("LevelTwo", new LevelTwo(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("LevelThree", new LevelThree(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("LevelFour", new LevelFour(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("AlgaeLow", new LowAlgae(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("AlgaeHigh", new HighAlgae(m_Arm, m_Elevator));
+
+        NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToBranch(drivetrain, true));
+        NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToBranch(drivetrain, false));
+        
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);      
@@ -165,7 +176,11 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        //return autoChooser.getSelected();
+        return new SequentialCommandGroup(
+        new InstantCommand(() -> drivetrain.resetPose(drivetrain.getState().Pose)), // Reset pose before running auto
+        autoChooser.getSelected() // Run the selected auto path
+    );
     }
 
 }
