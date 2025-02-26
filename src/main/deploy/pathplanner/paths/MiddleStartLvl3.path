@@ -38,8 +38,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "LevelOnePose",
-      "waypointRelativePos": 0.153846153846149,
+      "name": "LevelThree",
+      "waypointRelativePos": 0.12153950033760633,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -57,7 +57,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "StartingPaths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

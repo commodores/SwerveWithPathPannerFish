@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleStartPath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LevelOnePose"
+            "pathName": "MiddleStartLvl1"
           }
         },
         {
@@ -25,13 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PickUpPath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FeederPose"
+            "pathName": "FeederRightSide"
           }
         },
         {
@@ -55,13 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SecondScorePath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LevelOnePose"
+            "pathName": "ScoreLvlOneSide6"
           }
         },
         {
