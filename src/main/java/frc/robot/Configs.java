@@ -1,77 +1,65 @@
-
 package frc.robot;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 public final class Configs {
   
   public static final class ArmivatorSubsystem {
     public static final SparkFlexConfig armConfig = new SparkFlexConfig();
-    public static final AbsoluteEncoderConfig armEncoderConfig = new AbsoluteEncoderConfig();
-    public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();
-   
+    public static final SparkFlexConfig elevatorConfig = new SparkFlexConfig();   
 
     static {
-      // Configure basic settings of the arm motor
-      armConfig.idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
-        .voltageCompensation(12)
-        .softLimit
-        .reverseSoftLimit(.441)
-        .reverseSoftLimitEnabled(true)
-        //.forwardSoftLimit(4)
-        //.forwardSoftLimitEnabled(true)
-        ;
-      
-      armConfig.absoluteEncoder
-        .inverted(true)
-        .positionConversionFactor(2*Math.PI);
-      /*
-       * Configure the closed loop controller. We want to make sure we set the
-       * feedback sensor as the primary encoder.
-       */
       armConfig
-          .closedLoop
-          .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .p(.005)
-          //.d(.01)
-          .outputRange(-1, 1)
-          .maxMotion
-          // Set MAXMotion parameters for position control
-          .maxVelocity(6000)
-          .maxAcceleration(10000)
-          .allowedClosedLoopError(.01);
+            .idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(60)
+            .inverted(false);
 
-      // Configure basic settings of the elevator motor
-      elevatorConfig.idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
-        .voltageCompensation(12)
+      armConfig
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .positionWrappingEnabled(true)
+        .positionWrappingMinInput(0)
+        .positionWrappingMaxInput(360)
+        .p(0.015)
+        //.d(0.01)
+        //.i(0.0001)
+        .minOutput(-1)
+        .maxOutput(1);
+
+      armConfig
+        .signals
+        .absoluteEncoderPositionPeriodMs(20)
+        .absoluteEncoderVelocityPeriodMs(20);
+
+      armConfig
+        .absoluteEncoder
+        .inverted(true)
+        .positionConversionFactor(360.0)
+        .velocityConversionFactor(360.0 / 60);
+
+      elevatorConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(60)
         .inverted(true)
         .softLimit
         .reverseSoftLimit(0)
-        .reverseSoftLimitEnabled(true);
-        //.forwardSoftLimit(60.7)
-        //.forwardSoftLimitEnabled(true);
-      /*
-       * Configure the closed loop controller. We want to make sure we set the
-       * feedback sensor as the primary encoder.
-       */
+        .reverseSoftLimitEnabled(true)
+        .forwardSoftLimit(27)
+        .forwardSoftLimitEnabled(true);
+
       elevatorConfig
-          .closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          // Set PID values for position control
-          .p(0.008)          
-          .outputRange(-1, 1)
-          .maxMotion
-          // Set MAXMotion parameters for position control
-          .maxVelocity(4200)//4200
-          .maxAcceleration(6000)//6000
-          .allowedClosedLoopError(.25);//.5
+        .encoder
+        .positionConversionFactor(1.0998);//4 to 1 gear ratio .8755 radius spool
+      
+      elevatorConfig
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .p(.15)
+        .minOutput(-.5)
+        .maxOutput(.5);      
     }
   }
 
@@ -91,5 +79,3 @@ public final class Configs {
             }
         }
      }
-  
-  

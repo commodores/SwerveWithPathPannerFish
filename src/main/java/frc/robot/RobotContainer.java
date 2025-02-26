@@ -12,22 +12,16 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.ElevatorSetpoints;
-//import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.AlignToBranch;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoReverse;
 import frc.robot.commands.AutoScore;
-import frc.robot.commands.FeederPose;
 import frc.robot.commands.FeederStation;
 import frc.robot.commands.HighAlgae;
 import frc.robot.commands.LevelFour;
@@ -37,12 +31,10 @@ import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Armivator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-
 
 
 public class RobotContainer {
@@ -55,8 +47,8 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    //private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-    //        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -68,8 +60,6 @@ public class RobotContainer {
     public final static Intake m_Intake = new Intake();
 
     public final static Climber m_climber = new Climber();
-
-    //public final static Armivator m_Armivator = new Armivator();
 
     public final static Arm m_Arm = new Arm();
     public final static Elevator m_Elevator = new Elevator();
@@ -106,6 +96,17 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+        // Align to LEFT branch
+        driver.povLeft().onTrue(new AlignToBranch(drivetrain, true));
+
+        // Align to RIGHT branch
+        driver.povRight().onTrue(new AlignToBranch(drivetrain, false));
+
+        // Drive forward straight
+        driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
+        // Drive reverse straight
+        driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
+
         //Climber
         driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberFoward()));
         driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
@@ -139,15 +140,14 @@ public class RobotContainer {
         operator.rightBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
         
 
-        //Arm
-        //operator.povLeft().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kFeederStation));
-        //operator.povDown().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel1));
-        //operator.povRight().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel2));
-        //operator.a().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel3));
-        //operator.povUp().onTrue(m_Armivator.setSetpointCommandNew(Armivator.Setpoint.kLevel4));
-
         // Arm and Elevator Position Commands
-        operator.povLeft().onTrue(new FeederStation(m_Arm, m_Elevator));
+        operator.povLeft().onTrue(
+            new InstantCommand(() -> {
+                if (m_Elevator.getElevatorSetpoint()<2) {
+                    new FeederStation(m_Arm, m_Elevator).schedule();
+                }
+            })
+        );
         operator.povDown().onTrue(new LevelOne(m_Arm, m_Elevator));
         operator.povRight().onTrue(new LevelTwo(m_Arm, m_Elevator));
         operator.a().onTrue(new LevelThree(m_Arm, m_Elevator));
@@ -157,15 +157,7 @@ public class RobotContainer {
         //Algae
 
         operator.rightTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
-        operator.leftTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));
-
-
-        //ArmSysID
-        //operator.povRight().whileTrue(m_Armivator.armSysIdDynamic(Direction.kForward));
-        //operator.povLeft().whileTrue(m_Armivator.armSysIdDynamic(Direction.kReverse));
-        //operator.povUp().whileTrue(m_Armivator.armSysIdQuasistatic(Direction.kForward));
-        //operator.povDown().whileTrue(m_Armivator.armSysIdQuasistatic(Direction.kReverse));
-               
+        operator.leftTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));               
     
 
         drivetrain.registerTelemetry(logger::telemeterize);

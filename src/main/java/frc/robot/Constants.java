@@ -22,23 +22,23 @@ public class Constants {
     }
 
     public static final class ElevatorSetpoints {
-        public static final double kFeederStation = 0.0;
-        public static final double kLevel1 = 0.0;
-        public static final double kLevel2 = 9.0;//26;
-        public static final double kLevel3 = 23.0; //60;
-        public static final double kLevel4 = 27.0; //60;
-        public static final double kAlgaeLow = 2.5;
-        public static final double kAlgaeHigh = 16.18; //34.3;
+        public static final double kFeederStation = 0.0;//---Position 0
+        public static final double kLevel1 = 0.0;       //---Position 1
+        public static final double kLevel2 = 9.0;       //---Position 2
+        public static final double kLevel3 = 23.0;      //---Position 3
+        public static final double kLevel4 = 27.0;      //---Position 4
+        public static final double kAlgaeLow = 2.5;     //---Position 5
+        public static final double kAlgaeHigh = 16.18;  //---Position 6
     }
 
     public static final class ArmSetpoints {
-        public static final double kFeederStation = 19.00;//.441;
-        public static final double kLevel1 = 68.7549;//1.2;
-        public static final double kLevel2 = 48.47223; //.846;
-        public static final double kLevel3 = 48.47223; //.846;
-        public static final double kLevel4 = 212.00; //3.58;
-        public static final double kAlgaeLow = 151.2609;//2.64;
-        public static final double kAlgaeHigh = 151.2609; //2.64;
+        public static final double kFeederStation = 19.00;  //---Position 0
+        public static final double kLevel1 = 68.7549;       //---Position 1
+        public static final double kLevel2 = 48.47223;      //---Position 2
+        public static final double kLevel3 = 48.47223;      //---Position 3
+        public static final double kLevel4 = 212.00;        //---Position 4
+        public static final double kAlgaeLow = 151.2609;    //---Position 5
+        public static final double kAlgaeHigh = 151.2609;   //---Position 6
 
     }
 

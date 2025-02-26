@@ -12,10 +12,6 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -23,6 +19,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants.ArmivatorConstants;
 
 import com.playingwithfusion.TimeOfFlight;
@@ -51,32 +48,12 @@ public class Elevator extends SubsystemBase {
         m_elevatorMotor = new SparkFlex(ArmivatorConstants.elevatorMotor, MotorType.kBrushless);
         m_encoder = m_elevatorMotor.getEncoder();
         m_elevatorSensor = new TimeOfFlight(4);
-
-        SparkMaxConfig elevatorConfig = new SparkMaxConfig();
-        
-        elevatorConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(60)
-          .inverted(true)
-          .softLimit
-          .reverseSoftLimit(0)
-          .reverseSoftLimitEnabled(true)
-          .forwardSoftLimit(27)
-          .forwardSoftLimitEnabled(true);
-
-        elevatorConfig
-          .encoder
-          .positionConversionFactor(1.0998);//4 to 1 gear ratio .8755 radius spool
-        
-        elevatorConfig
-          .closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .p(.15)
-          .minOutput(-.5)
-          .maxOutput(.5);
-
         m_sparkPidController = m_elevatorMotor.getClosedLoopController();
-        elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+
+        m_elevatorMotor.configure(
+        Configs.ArmivatorSubsystem.elevatorConfig,
+        ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
 
         m_profilePID = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(270, 900));// vel 270 acl 900
 
@@ -84,7 +61,6 @@ public class Elevator extends SubsystemBase {
         // feedforward = new ElevatorFeedforward(0.0001, 0.36, 3.13, 0.05);
         feedforward = new ElevatorFeedforward(0., 0., 0, 0.0);
 
-        m_elevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         setpoint = -1;
     }
 
