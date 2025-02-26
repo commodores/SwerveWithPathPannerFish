@@ -3,9 +3,9 @@
   "robotLength": 0.978,
   "holonomicMode": true,
   "pathFolders": [
-    "FeederStationPaths",
-    "ScoringPaths",
-    "StartingPaths"
+    "LeftPaths",
+    "MiddlePaths",
+    "RightPaths"
   ],
   "autoFolders": [
     "New Folder"

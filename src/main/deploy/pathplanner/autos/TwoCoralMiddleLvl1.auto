@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleStartLvl1"
+            "pathName": "LvlOneStartMiddle"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FeederRightSide"
+            "pathName": "LvlOneFeederRightSide"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ScoreLvlOneSide6"
+            "pathName": "LvlOneStartLeft"
           }
         },
         {
