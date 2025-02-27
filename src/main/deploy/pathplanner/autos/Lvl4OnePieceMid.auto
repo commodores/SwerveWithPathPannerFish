@@ -9,6 +9,12 @@
           "data": {
             "pathName": "LvlFourStartMiddle"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
         }
       ]
     }

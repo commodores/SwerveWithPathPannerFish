@@ -20,8 +20,8 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final boolean kUseLimelight = true;
-  private final boolean useMegaTag2 = false; //set to false to use MegaTag1
+  private final boolean kUseLimelight = false;
+  private final boolean useMegaTag2 = true; //set to false to use MegaTag1
   private boolean doRejectUpdate = false;
 
   private final Field2d field;
