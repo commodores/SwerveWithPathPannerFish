@@ -19,7 +19,7 @@ public class Climber extends SubsystemBase {
     
       climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-      climberConfig.CurrentLimits.SupplyCurrentLimit = 40;
+      climberConfig.CurrentLimits.SupplyCurrentLimit = 80;
       climberMotor.getConfigurator().apply(climberConfig);
 
       unLockClimber();
