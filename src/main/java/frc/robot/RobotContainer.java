@@ -75,7 +75,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake));
 
         NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));
-        NamedCommands.registerCommand("LevelOne", new LevelOne(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("LevelOne", new LevelOne(m_Arm, m_Elevator).withTimeout(.5));
         NamedCommands.registerCommand("LevelTwo", new LevelTwo(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelThree", new LevelThree(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelFour", new LevelFour(m_Arm, m_Elevator));

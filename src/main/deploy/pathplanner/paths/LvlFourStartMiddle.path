@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.434749999999999,
-        "y": 3.8495
+        "x": 6.790984505982244,
+        "y": 3.9949850730287486
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.89875,
-        "y": 3.8495
+        "x": 5.8619877049180324,
+        "y": 4.186834016393442
       },
       "prevControl": {
-        "x": 7.00075,
-        "y": 3.8495
+        "x": 6.607157866475552,
+        "y": 4.038384823055048
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,8 +38,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "LevelFour",
-      "waypointRelativePos": 0.12153950033760633,
+      "name": "LevelOne",
+      "waypointRelativePos": 0.28089128966913895,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -57,7 +57,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "MiddlePaths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
