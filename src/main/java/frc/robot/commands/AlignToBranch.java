@@ -12,7 +12,7 @@ public class AlignToBranch extends Command {
     private static final double TX_TOLERANCE = 1.0; // Alignment tolerance
     //private static final double TY_TOLERANCE = 1.0; // Strafe tolerance
     private static final double BRANCH_OFFSET_METERS = 0.1647; // 6.482 inches to meters
-    private static final String LIMELIGHT_NAME = "limelight-front";
+    private static final String LIMELIGHT_NAME = "limelight-right";
     private final boolean targetLeftBranch;
 
     public AlignToBranch(CommandSwerveDrivetrain drivetrain, boolean targetLeftBranch) {
