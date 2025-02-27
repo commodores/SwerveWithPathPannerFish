@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
+import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.ArmivatorConstants;
 
 public class Arm extends SubsystemBase {
@@ -29,7 +30,7 @@ public class Arm extends SubsystemBase {
     private final ProfiledPIDController m_profilePID;
     private final ArmFeedforward feedforward;
     private static final double ALLOWABLE_ERROR = 1; //TODO change allowable error to make it more accurate or to make scoring faster
-    private double m_armGoalAngle = Double.MIN_VALUE;
+    private double m_armGoalAngle = ArmSetpoints.kFeederStation;///Double.MIN_VALUE;
     private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
     public Arm() {
@@ -53,10 +54,9 @@ public class Arm extends SubsystemBase {
         
     }
 
-    public void moveArmToAngle(double goal) {
-        m_armGoalAngle = goal;
+    public void moveArmToAngle() {
         double currentAngle = getAngle();
-        m_profilePID.calculate(currentAngle, goal);
+        m_profilePID.calculate(currentAngle, m_armGoalAngle);
         TrapezoidProfile.State setpoint = m_profilePID.getSetpoint();
 
         //double feedForwardVolts = m_wpiFeedForward.calculateWithVelocities(currentAngle, m_relativeEncoder.getVelocity(), setpoint.velocity);
@@ -65,10 +65,19 @@ public class Arm extends SubsystemBase {
         m_sparkPidController.setReference(setpoint.position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForwardVolts);
         SmartDashboard.putNumber("feedForwardVolts", feedForwardVolts);
     }
+
+    public void resetAndMoveArmToAngle(double setpoint){
+        resetPidController();
+        m_armGoalAngle = setpoint;
+
+    }
     
 
     @Override
     public void periodic() {
+
+        moveArmToAngle();
+
         SmartDashboard.putNumber("Arm Angle", getAngle());
         SmartDashboard.putNumber("Arm Velocity", getVelocity());
         SmartDashboard.putNumber("Arm Goal Angle", m_armGoalAngle);
@@ -122,17 +131,14 @@ public class Arm extends SubsystemBase {
         setpoint = setSetpoint;
     }
 
-    public void resetAndMoveArmToAngle(double angle){
-        resetPidController();
-        moveArmToAngle(angle);
-    }
+  
 
     ////////////////
     //command factories
     ////////////////
     ///
     public Command createMoveArmtoAngleCommand(Double angle) {
-        return createResetPidControllerCommand().andThen(runEnd(() -> moveArmToAngle(angle), this::stop)).withName("Go to angle" + angle);
+        return createResetPidControllerCommand().andThen(runEnd(() -> moveArmToAngle(), this::stop)).withName("Go to angle" + angle);
     }
 
     private Command createResetPidControllerCommand() {

@@ -29,8 +29,8 @@ public class LevelOne extends Command {
   @Override
   public void initialize() {
      //Level 1
-     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kLevel1).schedule();
-     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kLevel1).schedule();
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel2);
+     m_Elevator.setNewHeight(ElevatorSetpoints.kLevel1);
      m_Arm.setArmSetpoint(1);
      m_Elevator.setElevatorSetpoint(1);
   }
@@ -48,6 +48,6 @@ public class LevelOne extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

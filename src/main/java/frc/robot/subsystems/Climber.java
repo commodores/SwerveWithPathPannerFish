@@ -28,12 +28,12 @@ public class Climber extends SubsystemBase {
 
     public void climberFoward(){
       if (!locked) {
-      climberMotor.set(-1);
+      climberMotor.set(-.5);
       }
     }
 
     public void climberBack(){
-      climberMotor.set(.5);
+      climberMotor.set(.372);
     }
 
     public void stopClimber(){

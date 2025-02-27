@@ -30,6 +30,7 @@ import frc.robot.commands.LevelOne;
 import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
+import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -72,10 +73,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoHopper", new AutoHopper(m_Intake));
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
-        NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake));
+        NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(1.5));
+        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(5));
+
 
         NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));
-        NamedCommands.registerCommand("LevelOne", new LevelOne(m_Arm, m_Elevator).withTimeout(.01));
+        NamedCommands.registerCommand("LevelOne", new LevelOne(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelTwo", new LevelTwo(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelThree", new LevelThree(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelFour", new LevelFour(m_Arm, m_Elevator));

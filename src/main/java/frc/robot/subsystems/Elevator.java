@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ArmivatorConstants;
+import frc.robot.Constants.ElevatorSetpoints;
 
 import com.playingwithfusion.TimeOfFlight;
 
@@ -38,7 +39,7 @@ public class Elevator extends SubsystemBase {
     private final SparkClosedLoopController m_sparkPidController;
     private final ElevatorFeedforward feedforward;
 
-    private double m_goalHeight;
+    private double m_goalHeight = ElevatorSetpoints.kFeederStation;
     private boolean wasZeroResetByTOF = false;
 
     private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
@@ -109,6 +110,9 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        goToHeight();
+
         SmartDashboard.putNumber("Elevator Height", getHeight());
         SmartDashboard.putNumber("Elevator Laser", getElevatorDistanceInInch());
         SmartDashboard.putBoolean("Elevator at bottom", isAtBottom());
@@ -116,16 +120,16 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator Goal Height", m_goalHeight);
         SmartDashboard.putNumber("Elevator Setpoint", setpoint);
 
-        zeroElevatorOnLaser();
+       // zeroElevatorOnLaser();
     }
 
     public double getEncoderVel() {
         return m_encoder.getVelocity();
     }
 
-    public void goToHeight(double goalHeight) {
-        m_profilePID.calculate(getHeight(), goalHeight);
-        m_goalHeight = goalHeight;
+    public void goToHeight() {
+        m_profilePID.calculate(getHeight(), m_goalHeight);
+        
         TrapezoidProfile.State setpoint = m_profilePID.getSetpoint();
 
         double feedForwardVolts = feedforward.calculateWithVelocities(
@@ -134,6 +138,11 @@ public class Elevator extends SubsystemBase {
 
         m_sparkPidController.setReference(setpoint.position, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedForwardVolts);
         SmartDashboard.putNumber("feedForwardVolts", feedForwardVolts);
+
+    }
+
+    public void setNewHeight(double goalHeight){
+        m_goalHeight = goalHeight;
 
     }
 
@@ -160,7 +169,7 @@ public class Elevator extends SubsystemBase {
 
     public Command createMoveElevatorToHeightCommand(double height) {
         return createResetPidControllerCommand().andThen(
-        runEnd(() -> goToHeight(height), m_elevatorMotor::stopMotor)).withName("Elevator go to height" + height);
+        runEnd(() -> goToHeight(), m_elevatorMotor::stopMotor)).withName("Elevator go to height" + height);
     }
 
 

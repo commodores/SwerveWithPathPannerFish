@@ -29,8 +29,8 @@ public class HighAlgae extends Command {
   @Override
   public void initialize() {
      //High Algae
-     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kAlgaeHigh).schedule();;
-     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kAlgaeHigh).schedule();;
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kAlgaeHigh);
+     m_Elevator.setNewHeight(ElevatorSetpoints.kAlgaeHigh);
      m_Arm.setArmSetpoint(6);
      m_Elevator.setElevatorSetpoint(6);
   

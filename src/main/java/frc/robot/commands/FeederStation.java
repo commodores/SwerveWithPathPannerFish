@@ -28,8 +28,8 @@ public class FeederStation extends Command {
   @Override
   public void initialize() {
      //Feeder Station
-    m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kFeederStation).schedule();
-    m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kFeederStation).schedule(); 
+    m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kFeederStation);
+    m_Elevator.setNewHeight(ElevatorSetpoints.kFeederStation);
     m_Arm.setArmSetpoint(0);
     m_Elevator.setElevatorSetpoint(0);
   }

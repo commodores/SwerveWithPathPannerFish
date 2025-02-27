@@ -29,8 +29,8 @@ public class LevelThree extends Command {
   @Override
   public void initialize() {
      //Level Three
-     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kLevel3).schedule();
-     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kLevel3).schedule();
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel3);
+     m_Elevator.setNewHeight(ElevatorSetpoints.kLevel3);
      m_Arm.setArmSetpoint(3);
      m_Elevator.setElevatorSetpoint(3);
   }

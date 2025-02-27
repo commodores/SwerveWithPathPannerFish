@@ -20,9 +20,7 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final boolean kUseLimelight = false;
-  private final boolean useMegaTag2 = true; //set to false to use MegaTag1
-  private boolean doRejectUpdate = false;
+  private final boolean kUseLimelight = true;
 
   private final Field2d field;
 
@@ -59,10 +57,11 @@ public class Robot extends TimedRobot {
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
       // Limelight names
-      String[] limelights = {"limelight-left", "limelight-right"};
+      String[] limelights = {"limelight-front"};
 
       // Place to store standard deviations of the limelights' readings
       double limelightAvgStdDev[] = new double[limelights.length];
+      
 
       // Constants for dynamic standard deviation threshold
       double baseStdDev = 0.2; // Base standard deviation at close range
@@ -72,8 +71,8 @@ public class Robot extends TimedRobot {
       // Process each Limelight
       for (int i = 0; i < limelights.length; i++) 
       {
-        doRejectUpdate = false;
         String limelightName = limelights[i];
+        LimelightHelpers.SetRobotOrientation(limelightName, headingDeg, 0, 0, 0, 0, 0);
 
         // Calculate the average standard deviation for this Limelight
         double[] stddevs = NetworkTableInstance.getDefault()
@@ -83,55 +82,25 @@ public class Robot extends TimedRobot {
 
         limelightAvgStdDev[i] = (stddevs[0] + stddevs[1] + stddevs[5]) / 3;
 
-        if(useMegaTag2 == false)
+        // Retrieve vision measurement from the Limelight
+        var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+
+        if (llMeasurement != null && llMeasurement.tagCount > 0) 
+        {
+          // Calculate dynamic standard deviation threshold
+          double dynamicThreshold = baseStdDev + (k_d * llMeasurement.avgTagDist) - (k_t * llMeasurement.tagCount);
+
+          // Check conditions: dynamic threshold and angular velocity
+          if (limelightAvgStdDev[i] < dynamicThreshold && Math.abs(omegaRps) < 2.0) 
           {
-            LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightName);
-            
-            if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-            {
-              if(mt1.rawFiducials[0].ambiguity > .7)
-              {
-                doRejectUpdate = true;
-              }
-              if(mt1.rawFiducials[0].distToCamera > 3)
-              {
-                doRejectUpdate = true;
-              }
-            }
-            if(mt1.tagCount == 0)
-            {
-              doRejectUpdate = true;
-            }
-
-            if(!doRejectUpdate)
-            {
-              RobotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-              RobotContainer.drivetrain.addVisionMeasurement(
-                  mt1.pose,
-                  mt1.timestampSeconds);
-            }
-          } else if(useMegaTag2)
-          {
-            // Retrieve vision measurement from the Limelight
-            var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
-
-            if (llMeasurement != null && llMeasurement.tagCount > 0) 
-            {
-              // Calculate dynamic standard deviation threshold
-              double dynamicThreshold = baseStdDev + (k_d * llMeasurement.avgTagDist) - (k_t * llMeasurement.tagCount);
-
-              // Check conditions: dynamic threshold and angular velocity
-              if (limelightAvgStdDev[i] < dynamicThreshold && Math.abs(omegaRps) < 2.0) 
-              {
-                LimelightHelpers.SetRobotOrientation(limelightName, headingDeg, 0, 0, 0, 0, 0);
-                RobotContainer.drivetrain.addVisionMeasurement
-                (
-                  llMeasurement.pose, 
-                  Utils.fpgaToCurrentTime(llMeasurement.timestampSeconds)
-                );
-              }
-            }
+            LimelightHelpers.SetRobotOrientation(limelightName, headingDeg, 0, 0, 0, 0, 0);
+            RobotContainer.drivetrain.addVisionMeasurement
+            (
+              llMeasurement.pose, 
+              Utils.fpgaToCurrentTime(llMeasurement.timestampSeconds)
+            );
           }
+        }
       }
     }
   

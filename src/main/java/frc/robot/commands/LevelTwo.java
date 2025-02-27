@@ -29,8 +29,8 @@ public class LevelTwo extends Command {
   @Override
   public void initialize() {
      //Level 2
-     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kLevel2).schedule();
-     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kLevel2).schedule();
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel2);
+     m_Elevator.setNewHeight(ElevatorSetpoints.kLevel2);
      m_Arm.setArmSetpoint(2);
      m_Elevator.setElevatorSetpoint(2);
   

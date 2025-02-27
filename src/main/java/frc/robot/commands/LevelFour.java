@@ -29,8 +29,8 @@ public class LevelFour extends Command {
   @Override
   public void initialize() {
      //Level 4
-     m_Arm.createMoveArmtoAngleCommand(ArmSetpoints.kLevel4).schedule();
-     m_Elevator.createMoveElevatorToHeightCommand(ElevatorSetpoints.kLevel4).schedule();
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel4);
+     m_Elevator.setNewHeight(ElevatorSetpoints.kLevel4);
      m_Arm.setArmSetpoint(4);
      m_Elevator.setElevatorSetpoint(4);  
   }
