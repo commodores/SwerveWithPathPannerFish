@@ -122,6 +122,11 @@ public class Arm extends SubsystemBase {
         setpoint = setSetpoint;
     }
 
+    public void resetAndMoveArmToAngle(double angle){
+        resetPidController();
+        moveArmToAngle(angle);
+    }
+
     ////////////////
     //command factories
     ////////////////
