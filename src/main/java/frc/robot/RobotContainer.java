@@ -74,7 +74,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
         NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(1.5));
-        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(5));
+        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(3));
 
 
         NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));
@@ -122,8 +122,8 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
 
         //Climber
-        //driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberFoward()));//Get ready to CLimb!!!
-        //driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
+        driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberFoward()));//Get ready to CLimb!!!
+        driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
         driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
         driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));

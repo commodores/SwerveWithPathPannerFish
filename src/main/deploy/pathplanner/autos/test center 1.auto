@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "lvl4StartLeft"
+            "pathName": "test center"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
-  "folder": null,
+  "resetOdom": false,
+  "folder": "test positions",
   "choreoAuto": false
 }
