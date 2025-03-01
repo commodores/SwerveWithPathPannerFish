@@ -23,12 +23,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "RemoveAlgae"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [

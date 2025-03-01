@@ -170,8 +170,8 @@ public class RobotContainer {
 
         //Algae
 
-        operator.rightTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
-        operator.leftTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));               
+        operator.leftTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
+        operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));               
     
 
         drivetrain.registerTelemetry(logger::telemeterize);
