@@ -135,10 +135,14 @@ public class RobotContainer {
         
         //intake
         driver.x().onTrue(
-            new AutoHopper(m_Intake)
-            .andThen(new AutoIntake(m_Intake))
-            .andThen(new AutoReverse(m_Intake))
-            .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(5)            
+            new InstantCommand(() -> {
+                if (m_Elevator.getElevatorSetpoint()==0) {
+                    new AutoHopper(m_Intake)
+                        .andThen(new AutoIntake(m_Intake))
+                        .andThen(new AutoReverse(m_Intake))
+                        .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(5);
+                }
+            })
         );
 
         //Score
