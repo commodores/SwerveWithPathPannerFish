@@ -122,7 +122,7 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
 
         //Climber
-        driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberFoward()));//Get ready to CLimb!!!
+        driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberForward()));//Get ready to CLimb!!!
         driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
         driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
