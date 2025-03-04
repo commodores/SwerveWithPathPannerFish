@@ -39,18 +39,6 @@
           "data": {
             "name": "AutoReverse"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FeedertoReef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
-          }
         }
       ]
     }

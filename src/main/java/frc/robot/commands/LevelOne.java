@@ -29,7 +29,7 @@ public class LevelOne extends Command {
   @Override
   public void initialize() {
      //Level 1
-     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel2);
+     m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kLevel1);
      m_Elevator.setNewHeight(ElevatorSetpoints.kLevel1);
      m_Arm.setArmSetpoint(1);
      m_Elevator.setElevatorSetpoint(1);

@@ -31,7 +31,7 @@ public class Arm extends SubsystemBase {
     private final ArmFeedforward feedforward;
     private static final double ALLOWABLE_ERROR = 1; //TODO change allowable error to make it more accurate or to make scoring faster
     private double m_armGoalAngle = ArmSetpoints.kFeederStation;///Double.MIN_VALUE;
-    private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
+    private double setpoint;//0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
     public Arm() {
         m_armMotor = new SparkFlex(ArmivatorConstants.armMotor, MotorType.kBrushless);
@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
         // Create a new ArmFeedforward with gains kS, kG, kV, and kA
         feedforward = new ArmFeedforward(0.001, 1.44, 0.41, 0.06);
 
-        setpoint = -1;
+        setpoint = 0;
         
     }
 

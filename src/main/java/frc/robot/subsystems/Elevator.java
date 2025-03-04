@@ -42,7 +42,7 @@ public class Elevator extends SubsystemBase {
     private double m_goalHeight = ElevatorSetpoints.kFeederStation;
     private boolean wasZeroResetByTOF = false;
 
-    private double setpoint;//(-1 power on,0 feeder,1,2,3,4, 5 algae low, 6 algae high)
+    private double setpoint;//(0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
     public Elevator() {
 
@@ -62,7 +62,7 @@ public class Elevator extends SubsystemBase {
         // feedforward = new ElevatorFeedforward(0.0001, 0.36, 3.13, 0.05);
         feedforward = new ElevatorFeedforward(0., 0., 0, 0.0);
 
-        setpoint = -1;
+        setpoint = 0;
     }
 
     public double getHeight() {

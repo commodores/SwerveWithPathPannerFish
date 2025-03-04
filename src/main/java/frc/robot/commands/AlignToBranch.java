@@ -9,7 +9,7 @@ public class AlignToBranch extends Command {
     private final CommandSwerveDrivetrain drivetrain;
 
     // PID Constants
-    private static final double kP_Rotation = 0.02;
+    private static final double kP_Rotation = 0.2;
     private static final double kP_Strafe = 0.05;
 
     // Tolerances & Limits
@@ -17,7 +17,7 @@ public class AlignToBranch extends Command {
     private static final double TX_DEADBAND = 0.5; // Prevents tiny corrections
     private static final double MAX_STRAFE_SPEED = 0.6; // Prevents overshoot
     private static final double MIN_SCALING_FACTOR = 0.2; // Prevents stalling
-    private static final double TX_ROTATION_THRESHOLD = 2.0; // Only rotate after reaching this tx threshold
+    private static final double TX_ROTATION_THRESHOLD = 5.0; // Only rotate after reaching this tx threshold
     private static final int REQUIRED_STABLE_FRAMES = 5; // Frames needed to "lock in"
 
     // Limelight Constants
@@ -68,7 +68,7 @@ public void execute() {
         drivetrain.applyRequest(() -> 
             new SwerveRequest.RobotCentric()
                 .withVelocityX(0) // No forward movement
-                .withVelocityY(adjustedStrafe) // Strafe first
+                .withVelocityY(0) // Strafe first
                 .withRotationalRate(rotationSpeed[0]) // Rotate only after lateral alignment
         ).schedule();
 

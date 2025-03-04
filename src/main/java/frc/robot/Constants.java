@@ -32,11 +32,11 @@ public class Constants {
     }
 
     public static final class ArmSetpoints {
-        public static final double kFeederStation = 19.00;  //---Position 0
-        public static final double kLevel1 = 68.7549;       //---Position 1
-        public static final double kLevel2 = 48.47223;      //---Position 2
-        public static final double kLevel3 = 48.47223;      //---Position 3
-        public static final double kLevel4 = 212.00;        //---Position 4
+        public static final double kFeederStation = 31.00;  //---Position 0
+        public static final double kLevel1 = 63;       //---Position 1
+        public static final double kLevel2 = 51;      //---Position 2
+        public static final double kLevel3 = 51;      //---Position 3
+        public static final double kLevel4 = 212;        //---Position 4
         public static final double kAlgaeLow = 151.2609;    //---Position 5
         public static final double kAlgaeHigh = 151.2609;   //---Position 6
 
