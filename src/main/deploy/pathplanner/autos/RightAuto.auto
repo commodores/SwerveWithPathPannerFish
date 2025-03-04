@@ -11,33 +11,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "lvl4FeederRight"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoHopper"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoReverse"
+            "pathName": "get2r"
           }
         }
       ]

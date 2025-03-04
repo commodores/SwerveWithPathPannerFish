@@ -11,9 +11,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "AutoScore"
+            "pathName": "get2"
           }
         }
       ]
