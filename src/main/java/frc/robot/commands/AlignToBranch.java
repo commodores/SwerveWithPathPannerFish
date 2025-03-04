@@ -71,12 +71,15 @@ public void execute() {
                 .withVelocityY(adjustedStrafe) // Strafe first
                 .withRotationalRate(rotationSpeed[0]) // Rotate only after lateral alignment
         ).schedule();
+
+        return;
     }
 }
 
     @Override
     public boolean isFinished() {
         if (Math.abs(LimelightHelpers.getTX(LIMELIGHT_NAME)) <= TX_TOLERANCE) {
+        
             stableFrames++;
         } else {
             stableFrames = 0;

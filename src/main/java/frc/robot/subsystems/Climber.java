@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class Climber extends SubsystemBase {
@@ -18,8 +19,8 @@ public class Climber extends SubsystemBase {
     private static final double DEGREES_PER_ROTATION = 360.0 / GEAR_RATIO;  // 1.6071 degrees per rotation
 
     private static final double START_ANGLE = 7.0;     // Initial angle from parallel
-    private static final double GRAB_ANGLE = 90.0;     // Perpendicular to floor
-    private static final double CLIMB_ANGLE = -10.0;   // 100 degrees past perpendicular
+    private static final double GRAB_ANGLE = 82.51595633370536;     // Perpendicular to floor
+    private static final double CLIMB_ANGLE = -26.0;   // 100 degrees past perpendicular
 
     public Climber() {
         final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
@@ -27,6 +28,9 @@ public class Climber extends SubsystemBase {
         climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         climberConfig.CurrentLimits.SupplyCurrentLimit = 60;
+        climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+       // climberMotor.setInverted(locked ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise);
 
         climberMotor.getConfigurator().apply(climberConfig);
 
@@ -44,7 +48,7 @@ public class Climber extends SubsystemBase {
 
     public void climberForward() {
         if (!locked && getClimberPositionDegrees() < GRAB_ANGLE) {
-            climberMotor.set(-0.5);
+            climberMotor.set(0.5);
         } else {
             stopClimber();
         }
@@ -52,7 +56,7 @@ public class Climber extends SubsystemBase {
 
     public void climberBack() {
         if (getClimberPositionDegrees() > CLIMB_ANGLE) {
-            climberMotor.set(0.372);
+            climberMotor.set(-0.372);
         } else {
             stopClimber();
         }

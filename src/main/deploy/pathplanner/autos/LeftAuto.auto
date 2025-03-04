@@ -15,42 +15,6 @@
           "data": {
             "name": "AutoScore"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Lvl4FeederLeftBack"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoHopper"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FeedertoReef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
-          }
         }
       ]
     }
