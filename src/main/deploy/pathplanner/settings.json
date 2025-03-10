@@ -7,9 +7,13 @@
     "MiddlePaths",
     "RightPaths"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 5.0,
-  "defaultMaxAccel": 5.0,
+  "autoFolders": [
+    "Left",
+    "Center",
+    "Right"
+  ],
+  "defaultMaxVel": 4.1,
+  "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
@@ -18,7 +22,7 @@
   "robotTrackwidth": 0.5588,
   "driveWheelRadius": 0.04826,
   "driveGearing": 6.75,
-  "maxDriveSpeed": 3.5,
+  "maxDriveSpeed": 4.1,
   "driveMotorType": "falcon500",
   "driveCurrentLimit": 80.0,
   "wheelCOF": 1.7,

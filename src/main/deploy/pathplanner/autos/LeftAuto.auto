@@ -11,15 +11,87 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "get2"
+            "pathName": "get2l"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoHopper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoReverse"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "score2l"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "get3l"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoHopper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoReverse"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "score3l"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left",
   "choreoAuto": false
 }

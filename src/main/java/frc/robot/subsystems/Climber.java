@@ -47,19 +47,15 @@ public class Climber extends SubsystemBase {
     }
 
     public void climberForward() {
-        if (!locked && getClimberPositionDegrees() < GRAB_ANGLE) {
-            climberMotor.set(0.5);
+        if (!locked) {
+            climberMotor.set(0.3);
         } else {
             stopClimber();
         }
     }
 
     public void climberBack() {
-        if (getClimberPositionDegrees() > CLIMB_ANGLE) {
-            climberMotor.set(-0.372);
-        } else {
-            stopClimber();
-        }
+            climberMotor.set(-1.0);
     }
 
     public void stopClimber() {

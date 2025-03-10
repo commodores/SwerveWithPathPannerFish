@@ -26,8 +26,8 @@ public final class Configs {
         .p(0.015)
         //.d(0.01)
         //.i(0.0001)
-        .minOutput(-.7)
-        .maxOutput(.7);
+        .minOutput(-.75)
+        .maxOutput(.75);
 
       armConfig
         .signals
@@ -58,8 +58,8 @@ public final class Configs {
         .closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .p(.15)
-        .minOutput(-.4)
-        .maxOutput(.4);      
+        .minOutput(-.45)
+        .maxOutput(.45);      
     }
   }
 

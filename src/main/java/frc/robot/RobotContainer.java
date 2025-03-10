@@ -101,9 +101,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * (MaxSpeed*.8)) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * (MaxSpeed*.8)) // Drive left with negative X (left)
+                    .withRotationalRate(-driver.getRightX() * (MaxAngularRate*.8)) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -111,10 +111,15 @@ public class RobotContainer {
         driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // Align to LEFT branch
-        driver.povLeft().onTrue(new AlignToBranch(drivetrain, true));
+       // driver.povLeft().onTrue(new AlignToBranch(drivetrain, true));
 
         // Align to RIGHT branch
-        driver.povRight().onTrue(new AlignToBranch(drivetrain, false));
+       // driver.povRight().onTrue(new AlignToBranch(drivetrain, false));
+
+        //Drive right straight
+        driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5)));
+        //Drive left straight
+        driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5)));
 
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
@@ -147,10 +152,11 @@ public class RobotContainer {
 
         //intake
         driver.x().onTrue(
-            new AutoHopper(m_Intake)
+            new FeederStation(m_Arm,m_Elevator).withTimeout(.001)
+                .andThen(new AutoHopper(m_Intake))
                 .andThen(new AutoIntake(m_Intake))
                 .andThen(new AutoReverse(m_Intake))
-                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(5)
+                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10)
         );
 
         //Score

@@ -68,7 +68,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void runBothManual(double speed){
-    hopperMotor.set(speed*.03);
+    hopperMotor.set(speed*.5);
     intakeMotor.set(speed);
   }
 
