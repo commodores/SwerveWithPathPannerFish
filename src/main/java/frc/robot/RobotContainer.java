@@ -37,6 +37,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pooper;
 
 
 public class RobotContainer {
@@ -65,6 +66,8 @@ public class RobotContainer {
 
     public final static Arm m_Arm = new Arm();
     public final static Elevator m_Elevator = new Elevator();
+
+    public final static Pooper m_Pooper = new Pooper();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -189,7 +192,14 @@ public class RobotContainer {
         //Algae
 
         operator.leftTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
-        operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));               
+        operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));
+        
+        //Pooper
+
+        operator.x().onTrue(new InstantCommand(() -> m_Pooper.runPooper(1.0)));
+        operator.x().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
+        operator.y().onTrue(new InstantCommand(() -> m_Pooper.runPooper(-1.0)));
+        operator.y().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
     
 
         drivetrain.registerTelemetry(logger::telemeterize);
