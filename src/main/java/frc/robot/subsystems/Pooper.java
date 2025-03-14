@@ -24,18 +24,11 @@ public class Pooper extends SubsystemBase {
 
   /** Creates a new Pooper. */
   public Pooper() {
-    final TalonFXConfiguration pooperConfig = new TalonFXConfiguration();
-
-    pooperConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    pooperConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-    pooperConfig.CurrentLimits.SupplyCurrentLimit = 60;
-    //pooperConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
-    pooperMotor.getConfigurator().apply(pooperConfig);
+    
   }
 
   public void runPooper(double speed) {
-    pooperMotor.set(speed);
+    
   }
 
   @Override
