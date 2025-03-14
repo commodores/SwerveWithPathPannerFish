@@ -8,11 +8,19 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmivatorConstants;
+import frc.robot.Constants.PooperConstants;
 
 public class Pooper extends SubsystemBase {
-  private final TalonFX pooperMotor = new TalonFX(14, "drivecan");
+ 
+  private final SparkFlex pooperArm = new SparkFlex(PooperConstants.pooperMotor, MotorType.kBrushless);
+  private final SparkFlex pooperIntake = new SparkFlex(PooperConstants.pooperIntake, MotorType.kBrushless);
+ 
+  
 
   /** Creates a new Pooper. */
   public Pooper() {

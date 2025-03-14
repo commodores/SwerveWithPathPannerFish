@@ -21,6 +21,11 @@ public class Constants {
         public static final int elevatorMotor = 3;
     }
 
+    public static final class PooperConstants{
+        public static final int pooperMotor = 10;
+        public static final int pooperIntake = 11;
+    }
+
     public static final class ElevatorSetpoints {
         public static final double kFeederStation = 0.0;//---Position 0
         public static final double kLevel1 = 0.0;       //---Position 1
