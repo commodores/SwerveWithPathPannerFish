@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -18,7 +17,6 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.PooperArmSetpoints;
@@ -85,7 +83,7 @@ public class Pooper extends SubsystemBase {
     @Override
     public void periodic() {
 
-        moveArmToAngle();
+        //moveArmToAngle();
 
         SmartDashboard.putNumber("Pooper Arm Angle", getAngle());
         SmartDashboard.putNumber(" Pooper Arm Velocity", getVelocity());
@@ -140,7 +138,7 @@ public class Pooper extends SubsystemBase {
         setpoint = setSetpoint;
     }
 
-    public void setIntake(double speed) {
+    public void setIntakeSpeed(double speed) {
         m_pooperIntakeMotor.set(speed);
     }
 
