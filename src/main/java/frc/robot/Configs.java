@@ -77,5 +77,43 @@ public final class Configs {
               .idleMode(IdleMode.kBrake)
               .smartCurrentLimit(50);
             }
-        }
-     }
+  }
+
+  public static final class PooperSubsystem {
+    public static final SparkFlexConfig pooperArmConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig pooperIntakeConfig = new SparkFlexConfig();   
+
+    static {
+      pooperArmConfig
+            .idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(60)
+            .inverted(false);
+
+      pooperArmConfig
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .positionWrappingEnabled(true)
+        .positionWrappingMinInput(0)
+        .positionWrappingMaxInput(360)
+        .p(0.0015)
+        //.d(0.01)
+        //.i(0.0001)
+        .minOutput(-.75)
+        .maxOutput(.75);
+
+      pooperArmConfig
+        .signals
+        .absoluteEncoderPositionPeriodMs(20)
+        .absoluteEncoderVelocityPeriodMs(20);
+
+      pooperArmConfig
+        .encoder
+        .positionConversionFactor(360.0)
+        .velocityConversionFactor(360.0 / 60);
+
+      pooperIntakeConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50);
+    }
+  }
+}

@@ -196,10 +196,10 @@ public class RobotContainer {
         
         //Pooper
 
-        operator.x().onTrue(new InstantCommand(() -> m_Pooper.runPooper(1.0)));
-        operator.x().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
-        operator.y().onTrue(new InstantCommand(() -> m_Pooper.runPooper(-1.0)));
-        operator.y().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
+        //operator.x().onTrue(new InstantCommand(() -> m_Pooper.runPooper(1.0)));
+        //operator.x().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
+        //operator.y().onTrue(new InstantCommand(() -> m_Pooper.runPooper(-1.0)));
+        //operator.y().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
     
 
         drivetrain.registerTelemetry(logger::telemeterize);

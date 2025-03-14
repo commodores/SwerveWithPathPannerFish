@@ -22,8 +22,8 @@ public class Constants {
     }
 
     public static final class PooperConstants{
-        public static final int pooperMotor = 10;
-        public static final int pooperIntake = 11;
+        public static final int pooperArmMotor = 10;
+        public static final int pooperIntakeMotor = 11;
     }
 
     public static final class ElevatorSetpoints {
@@ -45,6 +45,13 @@ public class Constants {
         public static final double kAlgaeLow = 165;    //---Position 5
         public static final double kAlgaeHigh = 165;   //---Position 6
 
+    }
+
+    public static final class PooperArmSetpoints {
+        public static final double kStow = 0;  //---Position 0
+        public static final double kFloor = 0;       //---Position 1
+        public static final double kScore = 0;      //---Position 2
+        
     }
 
 }
