@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -10,17 +11,11 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class Climber extends SubsystemBase {
-    private final TalonFX climberMotor = new TalonFX(13, "drivecan");
+    private final TalonFX climberMotor = new TalonFX(ClimberConstants.climberMotor, "drivecan");
     private final Servo climberServo = new Servo(9);
     private boolean locked = false;
 
-    // Constants
-    private static final double GEAR_RATIO = 64.0 * 3.5;  // 224:1 total
-    private static final double DEGREES_PER_ROTATION = 360.0 / GEAR_RATIO;  // 1.6071 degrees per rotation
-
-    private static final double START_ANGLE = 7.0;     // Initial angle from parallel
-    private static final double GRAB_ANGLE = 82.51595633370536;     // Perpendicular to floor
-    private static final double CLIMB_ANGLE = -26.0;   // 100 degrees past perpendicular
+    
 
     public Climber() {
         final TalonFXConfiguration climberConfig = new TalonFXConfiguration();
@@ -30,8 +25,6 @@ public class Climber extends SubsystemBase {
         climberConfig.CurrentLimits.SupplyCurrentLimit = 60;
         climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-       // climberMotor.setInverted(locked ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise);
-
         climberMotor.getConfigurator().apply(climberConfig);
 
         resetClimbEncoder();
@@ -39,11 +32,15 @@ public class Climber extends SubsystemBase {
     } 
 
     public void resetClimbEncoder() {
-        climberMotor.setPosition(degreesToRotations(START_ANGLE)); // Set encoder to match real-world start angle
+        climberMotor.setPosition(degreesToRotations(ClimberConstants.startAngle)); // Set encoder to match real-world start angle
     }
 
     public double getClimberPositionDegrees() {
         return rotationsToDegrees(climberMotor.getPosition().getValueAsDouble());
+    }
+
+    public void setClimberSpeed(double speed) {
+        climberMotor.set(speed);
     }
 
     public void climberForward() {
@@ -72,6 +69,10 @@ public class Climber extends SubsystemBase {
         locked = false;
     }
 
+    public boolean getIsLocked() {
+        return locked;
+    }
+
     @Override
     public void periodic() {
         // Debugging output
@@ -80,10 +81,10 @@ public class Climber extends SubsystemBase {
 
     // ** Conversion Functions **
     private double rotationsToDegrees(double rotations) {
-        return rotations * DEGREES_PER_ROTATION;
+        return rotations * ClimberConstants.climberDegreesPerRotation;
     }
 
     private double degreesToRotations(double degrees) {
-        return degrees / DEGREES_PER_ROTATION;
+        return degrees / ClimberConstants.climberDegreesPerRotation;
     }
 }

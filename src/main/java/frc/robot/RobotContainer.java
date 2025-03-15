@@ -30,6 +30,7 @@ import frc.robot.commands.LevelOne;
 import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
+import frc.robot.commands.MoveClimber;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -130,11 +131,14 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
 
         //Climber
-        driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberForward()));//Get ready to CLimb!!!
-        driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
+        //driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberForward()));//Get ready to CLimb!!!
+        //driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
-        driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
-        driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
+        //driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
+        //driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
+
+        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3));
+        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -0.5));
         
         // Climber Lock
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards

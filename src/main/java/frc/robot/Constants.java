@@ -13,7 +13,13 @@ public class Constants {
     }
 
     public static final class ClimberConstants{
-        public static final int climberMotor = 2;
+        public static final int climberMotor = 13;
+        public static final double climberRatio = 64.0 * 3.5;  // 224:1 total
+        public static final double climberDegreesPerRotation = 360.0 / climberRatio;  // 1.6071 degrees per rotation
+
+        public static final double startAngle = 7.0;     // Initial angle from parallel
+        public static final double grabAngle = 82.51595633370536;     // Perpendicular to floor
+        public static final double climbAngle = -26.0;   // 100 degrees past perpendicular
     }
 
     public static final class ArmivatorConstants{
