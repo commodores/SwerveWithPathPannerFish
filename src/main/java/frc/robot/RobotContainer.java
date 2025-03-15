@@ -138,10 +138,15 @@ public class RobotContainer {
        // driver.povRight().onTrue(new AlignToBranch(drivetrain, false));
 
         //Drive right straight
-        driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5)));
-        //Drive left straight
-        driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5)));
+        driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5))
+        .alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 1))));
 
+
+        //Drive left straight
+        driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5))
+        .alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 0))));
+
+        
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
         // Drive reverse straight

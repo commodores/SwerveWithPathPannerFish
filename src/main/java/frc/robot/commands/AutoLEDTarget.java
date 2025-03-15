@@ -51,10 +51,22 @@ public class AutoLEDTarget extends Command {
   @Override
   public void execute() {
     error = RobotContainer.m_Limelight.getX();
-
+    //Check error
     if(RobotContainer.m_Limelight.seesTarget()){
-      if ((error > negativeOffset - 0.5 && error < negativeOffset + 0.5) ||
-      (error > positiveOffset - 0.5 && error < positiveOffset + 0.5)) {
+      if(error > -3 && error < 3){
+        m_CANdle.setColor(0, 255, 0);
+      } else {
+        if (ally.get() == Alliance.Red) {
+          m_CANdle.setColor(255, 0, 0);
+        }
+        if (ally.get() == Alliance.Blue) {
+          m_CANdle.setColor(0, 0, 255);
+        }
+      }
+    }
+   /*  if(RobotContainer.m_Limelight.seesTarget()){
+      if ((error > negativeOffset - 3 && error < negativeOffset + 3) ||
+      (error < positiveOffset - 3 && error > positiveOffset + 3)) {
         m_CANdle.setColor(0, 255, 0);
       } else {
         if(ally.isPresent()) {
@@ -65,7 +77,7 @@ public class AutoLEDTarget extends Command {
           }
         }
       }
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.
