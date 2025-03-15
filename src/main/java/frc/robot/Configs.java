@@ -108,8 +108,8 @@ public final class Configs {
 
       pooperArmConfig
         .encoder
-        .positionConversionFactor(360.0)
-        .velocityConversionFactor(360.0 / 60);
+        .positionConversionFactor(360.0 / 15.0)
+        .velocityConversionFactor((360.0 / 15.0) / 60);
 
       pooperIntakeConfig
         .idleMode(IdleMode.kBrake)
