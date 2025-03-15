@@ -32,6 +32,9 @@ import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
+import frc.robot.commands.PooperFloor;
+import frc.robot.commands.PooperScore;
+import frc.robot.commands.PooperStow;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -42,6 +45,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Pooper;
+import frc.robot.subsystems.PooperIntake;
 
 
 public class RobotContainer {
@@ -72,6 +76,8 @@ public class RobotContainer {
     public final static Elevator m_Elevator = new Elevator();
 
     public final static Pooper m_Pooper = new Pooper();
+
+    public final static PooperIntake m_PooperIntake = new PooperIntake();
 
     public final static Limelight m_Limelight = new Limelight();
 
@@ -117,10 +123,13 @@ public class RobotContainer {
                     .withRotationalRate(-driver.getRightX() * (MaxAngularRate*.8)) // Drive counterclockwise with negative X (left)
             )
         );
+
+        //Auto Align
         m_CANdleSub.setDefaultCommand(new AutoLEDTarget(m_CANdleSub));
 
         // reset the field-centric heading on left bumper press
-        driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
+
 
         // Align to LEFT branch
        // driver.povLeft().onTrue(new AlignToBranch(drivetrain, true));
@@ -145,7 +154,7 @@ public class RobotContainer {
         //driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
         //driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
-        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3));
+        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3)); 
         driver.leftBumper().whileTrue(new MoveClimber(m_climber, -0.5));
         
         // Climber Lock
@@ -153,17 +162,6 @@ public class RobotContainer {
         driver.y().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
 
         
-        //intake
-        //driver.x().onTrue(
-        //    new InstantCommand(() -> {
-        //        if (m_Elevator.getElevatorSetpoint()==0) {
-        //            new AutoHopper(m_Intake)
-        //                .andThen(new AutoIntake(m_Intake))
-        //                .andThen(new AutoReverse(m_Intake))
-        //                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(5);
-        //        }
-        //    })
-        //);
 
         //intake
         driver.x().onTrue(
@@ -178,6 +176,15 @@ public class RobotContainer {
         driver.b().onTrue(
             new AutoScore(m_Intake)
         );
+
+        //Pooper
+        operator.back().onTrue(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(1)));
+        operator.back().onFalse(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(0)));
+ 
+
+        operator.start().onTrue(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(-1)));
+        operator.start().onFalse(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(0)));
+
 
         //Manual Intake and Hopper
 
@@ -199,6 +206,10 @@ public class RobotContainer {
         operator.povRight().onTrue(new LevelTwo(m_Arm, m_Elevator));
         operator.a().onTrue(new LevelThree(m_Arm, m_Elevator));
         operator.povUp().onTrue(new LevelFour(m_Arm, m_Elevator));
+
+        operator.b().onTrue(new PooperFloor(m_Pooper));
+        operator.x().onTrue(new PooperStow(m_Pooper));
+        operator.y().onTrue(new PooperScore(m_Pooper));
 
 
         //Algae

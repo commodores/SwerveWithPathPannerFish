@@ -95,7 +95,7 @@ public final class Configs {
         .positionWrappingEnabled(true)
         .positionWrappingMinInput(0)
         .positionWrappingMaxInput(360)
-        .p(0.0015)
+        .p(0.015)
         //.d(0.01)
         //.i(0.0001)
         .minOutput(-.75)
@@ -113,7 +113,7 @@ public final class Configs {
 
       pooperIntakeConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
+        .smartCurrentLimit(80);
     }
   }
 }

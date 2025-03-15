@@ -24,7 +24,6 @@ import frc.robot.Constants.PooperConstants;
 
 public class Pooper extends SubsystemBase {
     private final SparkFlex m_pooperArmMotor;
-    private final SparkFlex m_pooperIntakeMotor;
     private final RelativeEncoder m_encoder;
     private final SparkClosedLoopController m_sparkPidController;
     private final ProfiledPIDController m_profilePID;
@@ -52,12 +51,7 @@ public class Pooper extends SubsystemBase {
 
         setpoint = 0;
 
-        m_pooperIntakeMotor = new SparkFlex(PooperConstants.pooperIntakeMotor, MotorType.kBrushless);
-        
-        m_pooperIntakeMotor.configure(
-        Configs.PooperSubsystem.pooperIntakeConfig,
-        ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
+        m_encoder.setPosition(135);
         
     }
 
@@ -83,7 +77,7 @@ public class Pooper extends SubsystemBase {
     @Override
     public void periodic() {
 
-        //moveArmToAngle();
+        moveArmToAngle();
 
         SmartDashboard.putNumber("Pooper Arm Angle", getAngle());
         SmartDashboard.putNumber(" Pooper Arm Velocity", getVelocity());
@@ -138,10 +132,7 @@ public class Pooper extends SubsystemBase {
         setpoint = setSetpoint;
     }
 
-    public void setIntakeSpeed(double speed) {
-        m_pooperIntakeMotor.set(speed);
-    }
-
+   
 
 
 }
