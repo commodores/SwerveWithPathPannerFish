@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AlignToBranch;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.AutoLEDTarget;
 import frc.robot.commands.AutoReverse;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.FeederStation;
@@ -34,16 +35,18 @@ import frc.robot.commands.MoveClimber;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Pooper;
 
 
 public class RobotContainer {
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    public static double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -69,6 +72,10 @@ public class RobotContainer {
     public final static Elevator m_Elevator = new Elevator();
 
     public final static Pooper m_Pooper = new Pooper();
+
+    public final static Limelight m_Limelight = new Limelight();
+
+    public final static CANdleSubsystem m_CANdleSub = new CANdleSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -110,6 +117,7 @@ public class RobotContainer {
                     .withRotationalRate(-driver.getRightX() * (MaxAngularRate*.8)) // Drive counterclockwise with negative X (left)
             )
         );
+        m_CANdleSub.setDefaultCommand(new AutoLEDTarget(m_CANdleSub));
 
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
