@@ -224,13 +224,6 @@ public class RobotContainer {
 
         operator.leftTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
         operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));
-        
-        //Level1
-
-        //operator.x().onTrue(new InstantCommand(() -> m_Level1.runLevel1(1.0)));
-        //operator.x().onFalse(new InstantCommand(() -> m_Level1.runLevel1(0)));
-        //operator.y().onTrue(new InstantCommand(() -> m_Level1.runLevel1(-1.0)));
-        //operator.y().onFalse(new InstantCommand(() -> m_Level1.runLevel1(0)));
     
 
         drivetrain.registerTelemetry(logger::telemeterize);
