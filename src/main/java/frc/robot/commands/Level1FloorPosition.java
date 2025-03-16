@@ -13,10 +13,10 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Level1Floor extends Command {
+public class Level1FloorPosition extends Command {
    private final Level1Arm m_Level1;
   /** Creates a new Level1Floor. */
-  public Level1Floor(Level1Arm lvlOneSub) {
+  public Level1FloorPosition(Level1Arm lvlOneSub) {
 
     m_Level1 = lvlOneSub;
     addRequirements(m_Level1);

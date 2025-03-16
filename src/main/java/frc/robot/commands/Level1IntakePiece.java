@@ -36,7 +36,6 @@ public class Level1IntakePiece extends Command {
     @Override
     public void end(boolean interrupted) {
         intake.stop();
-        Level1Score();
         System.out.println("Intake stopped. Interrupted: " + interrupted);
     }
 }

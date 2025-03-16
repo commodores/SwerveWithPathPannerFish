@@ -9,10 +9,10 @@ import frc.robot.Constants.Level1ArmSetpoints;
 import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Level1Score extends Command {
+public class Level1ScorePosition extends Command {
   public Level1Arm m_Level1;
   /** Creates a new Level1Score. */
-  public Level1Score(Level1Arm lvlOneSub) {
+  public Level1ScorePosition(Level1Arm lvlOneSub) {
 
     m_Level1 = lvlOneSub;
     addRequirements(m_Level1);

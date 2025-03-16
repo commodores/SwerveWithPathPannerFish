@@ -9,10 +9,10 @@ import frc.robot.Constants.Level1ArmSetpoints;
 import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Level1Stow extends Command {
+public class Level1StowPosition extends Command {
   private final Level1Arm m_Level1;
   /** Creates a new Level1Stow. */
-  public Level1Stow(Level1Arm lvlOneSub) {
+  public Level1StowPosition(Level1Arm lvlOneSub) {
     m_Level1 = lvlOneSub;
     addRequirements(m_Level1);
 

@@ -33,11 +33,11 @@ import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
-import frc.robot.commands.Level1Floor;
+import frc.robot.commands.Level1FloorPosition;
 import frc.robot.commands.Level1IntakePiece;
-import frc.robot.commands.Level1Score;
+import frc.robot.commands.Level1ScorePosition;
 import frc.robot.commands.Level1ScorePiece;
-import frc.robot.commands.Level1Stow;
+import frc.robot.commands.Level1StowPosition;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -190,7 +190,9 @@ public class RobotContainer {
         //operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
         //operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
 
-        operator.back().onTrue(new Level1IntakePiece(m_Level1Intake, 0.8, 25.0));
+        operator.back().onTrue(new Level1IntakePiece(m_Level1Intake, 0.8, 25.0)
+        .andThen(new Level1ScorePosition(m_Level1)));
+        
         operator.start().onTrue(new Level1ScorePiece(m_Level1Intake, -0.8, 5.0, 1.5));
 
 
@@ -215,9 +217,9 @@ public class RobotContainer {
         operator.a().onTrue(new LevelThree(m_Arm, m_Elevator));
         operator.povUp().onTrue(new LevelFour(m_Arm, m_Elevator));
 
-        operator.b().onTrue(new Level1Floor(m_Level1));
-        operator.x().onTrue(new Level1Stow(m_Level1));
-        operator.y().onTrue(new Level1Score(m_Level1));
+        operator.b().onTrue(new Level1FloorPosition(m_Level1));
+        operator.x().onTrue(new Level1StowPosition(m_Level1));
+        operator.y().onTrue(new Level1ScorePosition(m_Level1));
 
 
         //Algae
