@@ -113,7 +113,7 @@ public final class Configs {
 
       level1IntakeConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(80);
+        .smartCurrentLimit(60);
     }
   }
 }

@@ -34,7 +34,9 @@ import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
 import frc.robot.commands.Level1Floor;
+import frc.robot.commands.Level1IntakePiece;
 import frc.robot.commands.Level1Score;
+import frc.robot.commands.Level1ScorePiece;
 import frc.robot.commands.Level1Stow;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
@@ -181,12 +183,15 @@ public class RobotContainer {
         );
 
         //Level1
-        operator.back().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(1)));
-        operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
+        //operator.back().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(1)));
+        //operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
  
 
-        operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
-        operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
+        //operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
+        //operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
+
+        operator.back().onTrue(new Level1IntakePiece(m_Level1Intake, 0.8, 25.0));
+        operator.start().onTrue(new Level1ScorePiece(m_Level1Intake, -0.8, 5.0, 1.5));
 
 
         //Manual Intake and Hopper
