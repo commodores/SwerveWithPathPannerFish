@@ -79,17 +79,17 @@ public final class Configs {
             }
   }
 
-  public static final class PooperSubsystem {
-    public static final SparkFlexConfig pooperArmConfig = new SparkFlexConfig();
-    public static final SparkFlexConfig pooperIntakeConfig = new SparkFlexConfig();   
+  public static final class Level1Subsystem {
+    public static final SparkFlexConfig level1ArmConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig level1IntakeConfig = new SparkFlexConfig();   
 
     static {
-      pooperArmConfig
+      level1ArmConfig
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(60)
             .inverted(false);
 
-      pooperArmConfig
+      level1ArmConfig
         .closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .positionWrappingEnabled(true)
@@ -101,17 +101,17 @@ public final class Configs {
         .minOutput(-.75)
         .maxOutput(.75);
 
-      pooperArmConfig
+      level1ArmConfig
         .signals
         .absoluteEncoderPositionPeriodMs(20)
         .absoluteEncoderVelocityPeriodMs(20);
 
-      pooperArmConfig
+      level1ArmConfig
         .encoder
         .positionConversionFactor(360.0 / 15.0)
         .velocityConversionFactor((360.0 / 15.0) / 60);
 
-      pooperIntakeConfig
+      level1IntakeConfig
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(80);
     }

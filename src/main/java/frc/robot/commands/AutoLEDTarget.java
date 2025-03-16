@@ -9,6 +9,7 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CANdleSubsystem;
 
@@ -18,6 +19,10 @@ public class AutoLEDTarget extends Command {
   private final CANdleSubsystem m_CANdle;
   private static final double negativeOffset = -6.5;
   private static final double positiveOffset = 6.5;
+
+  private static final String LIMELIGHT_NAME = "limelight-front";
+  private static final int LEFT_BRANCH_PIPELINE = 0;
+  private static final int RIGHT_BRANCH_PIPELINE = 1;
   double error;
 
   Optional<Alliance> ally;
@@ -50,10 +55,10 @@ public class AutoLEDTarget extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    error = RobotContainer.m_Limelight.getX();
+    error = LimelightHelpers.getTX(LIMELIGHT_NAME);
     //Check error
-    if(RobotContainer.m_Limelight.seesTarget()){
-      if(error > -3 && error < 3){
+    if(LimelightHelpers.getTV(LIMELIGHT_NAME)){
+      if(error > -2 && error < 2){
         m_CANdle.setColor(0, 255, 0);
       } else {
         if (ally.get() == Alliance.Red) {
@@ -64,20 +69,7 @@ public class AutoLEDTarget extends Command {
         }
       }
     }
-   /*  if(RobotContainer.m_Limelight.seesTarget()){
-      if ((error > negativeOffset - 3 && error < negativeOffset + 3) ||
-      (error < positiveOffset - 3 && error > positiveOffset + 3)) {
-        m_CANdle.setColor(0, 255, 0);
-      } else {
-        if(ally.isPresent()) {
-          if (ally.get() == Alliance.Red) {
-            m_CANdle.setColor(255, 0, 0); 
-          } else if (ally.get() == Alliance.Blue) {
-            m_CANdle.setColor(0, 0, 255);
-          }
-        }
-      }
-    }*/
+   
   }
 
   // Called once the command ends or is interrupted.

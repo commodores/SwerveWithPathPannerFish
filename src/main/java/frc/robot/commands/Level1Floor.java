@@ -7,19 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.ElevatorSetpoints;
-import frc.robot.Constants.PooperArmSetpoints;
+import frc.robot.Constants.Level1ArmSetpoints;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Pooper;
+import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PooperFloor extends Command {
-   private final Pooper m_Pooper;
-  /** Creates a new PooperFloor. */
-  public PooperFloor(Pooper lvlOneSub) {
+public class Level1Floor extends Command {
+   private final Level1Arm m_Level1;
+  /** Creates a new Level1Floor. */
+  public Level1Floor(Level1Arm lvlOneSub) {
 
-    m_Pooper = lvlOneSub;
-    addRequirements(m_Pooper);
+    m_Level1 = lvlOneSub;
+    addRequirements(m_Level1);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,8 +28,8 @@ public class PooperFloor extends Command {
   @Override
   public void initialize() {
 
-     m_Pooper.resetAndMoveArmToAngle(PooperArmSetpoints.kFloor);
-     m_Pooper.setArmSetpoint(1);
+     m_Level1.resetAndMoveArmToAngle(Level1ArmSetpoints.kFloor);
+     m_Level1.setArmSetpoint(1);
   
   }
 

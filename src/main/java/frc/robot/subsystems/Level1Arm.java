@@ -19,26 +19,26 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
-import frc.robot.Constants.PooperArmSetpoints;
-import frc.robot.Constants.PooperConstants;
+import frc.robot.Constants.Level1ArmSetpoints;
+import frc.robot.Constants.Level1Constants;
 
-public class Pooper extends SubsystemBase {
-    private final SparkFlex m_pooperArmMotor;
+public class Level1Arm extends SubsystemBase {
+    private final SparkFlex m_level1ArmMotor;
     private final RelativeEncoder m_encoder;
     private final SparkClosedLoopController m_sparkPidController;
     private final ProfiledPIDController m_profilePID;
     private final ArmFeedforward feedforward;
     private static final double ALLOWABLE_ERROR = 1; //TODO change allowable error to make it more accurate or to make scoring faster
-    private double m_armGoalAngle = PooperArmSetpoints.kStow;
+    private double m_armGoalAngle = Level1ArmSetpoints.kStow;
     private double setpoint;//0 stow, 1 floor, 2 score)
 
-    public Pooper() {
-        m_pooperArmMotor = new SparkFlex(PooperConstants.pooperArmMotor, MotorType.kBrushless);
-        m_sparkPidController = m_pooperArmMotor.getClosedLoopController();
-        m_encoder = m_pooperArmMotor.getEncoder();
+    public Level1Arm() {
+        m_level1ArmMotor = new SparkFlex(Level1Constants.level1ArmMotor, MotorType.kBrushless);
+        m_sparkPidController = m_level1ArmMotor.getClosedLoopController();
+        m_encoder = m_level1ArmMotor.getEncoder();
 
-        m_pooperArmMotor.configure(
-        Configs.PooperSubsystem.pooperArmConfig,
+        m_level1ArmMotor.configure(
+        Configs.Level1Subsystem.level1ArmConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
 
@@ -79,11 +79,11 @@ public class Pooper extends SubsystemBase {
 
         moveArmToAngle();
 
-        SmartDashboard.putNumber("Pooper Arm Angle", getAngle());
-        SmartDashboard.putNumber(" Pooper Arm Velocity", getVelocity());
-        SmartDashboard.putNumber("Pooper Arm Goal Angle", m_armGoalAngle);
-        SmartDashboard.putBoolean("Pooper Arm At Goal", isArmAtGoal());
-        SmartDashboard.putNumber("Pooper Arm Setpoint", setpoint);
+        SmartDashboard.putNumber("Level1 Arm Angle", getAngle());
+        SmartDashboard.putNumber(" Level1 Arm Velocity", getVelocity());
+        SmartDashboard.putNumber("Level1 Arm Goal Angle", m_armGoalAngle);
+        SmartDashboard.putBoolean("Level1 Arm At Goal", isArmAtGoal());
+        SmartDashboard.putNumber("Level1 Arm Setpoint", setpoint);
     }
 
 
@@ -97,15 +97,15 @@ public class Pooper extends SubsystemBase {
     }
 
     public double getSpeed() {
-        return m_pooperArmMotor.getAppliedOutput();
+        return m_level1ArmMotor.getAppliedOutput();
     }
 
     public void stop() {
-        m_pooperArmMotor.set(0);
+        m_level1ArmMotor.set(0);
     }
 
     public void setSpeed(double speed) {
-        m_pooperArmMotor.set(speed);
+        m_level1ArmMotor.set(speed);
     }
 
     public double getAngle() {
@@ -121,7 +121,7 @@ public class Pooper extends SubsystemBase {
     }
 
     public boolean isAtGoalAngle() {
-        return (Math.abs(this.getAngle() - this.getArmGoalAngle()) <= Pooper.ALLOWABLE_ERROR);
+        return (Math.abs(this.getAngle() - this.getArmGoalAngle()) <= Level1Arm.ALLOWABLE_ERROR);
     }
 
     public double getArmSetpoint() {

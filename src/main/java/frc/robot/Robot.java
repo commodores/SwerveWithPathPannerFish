@@ -57,12 +57,11 @@ public class Robot extends TimedRobot {
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
       // Limelight names
-      String[] limelights = {"limelight-front", "limelight-back"} ;
+      String[] limelights = {"limelight-front"} ;
 
       // Place to store standard deviations of the limelights' readings
       double limelightAvgStdDev[] = new double[limelights.length];
       
-
       // Constants for dynamic standard deviation threshold
       double baseStdDev = 0.2; // Base standard deviation at close range
       double k_d = 0.05;       // Scaling factor for distance

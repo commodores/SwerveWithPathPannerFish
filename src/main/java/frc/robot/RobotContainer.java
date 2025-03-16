@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AlignBranch;
 import frc.robot.commands.AlignToBranch;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
@@ -32,9 +33,9 @@ import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
-import frc.robot.commands.PooperFloor;
-import frc.robot.commands.PooperScore;
-import frc.robot.commands.PooperStow;
+import frc.robot.commands.Level1Floor;
+import frc.robot.commands.Level1Score;
+import frc.robot.commands.Level1Stow;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -43,9 +44,8 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Pooper;
-import frc.robot.subsystems.PooperIntake;
+import frc.robot.subsystems.Level1Arm;
+import frc.robot.subsystems.Level1Intake;
 
 
 public class RobotContainer {
@@ -75,11 +75,9 @@ public class RobotContainer {
     public final static Arm m_Arm = new Arm();
     public final static Elevator m_Elevator = new Elevator();
 
-    public final static Pooper m_Pooper = new Pooper();
+    public final static Level1Arm m_Level1 = new Level1Arm();
 
-    public final static PooperIntake m_PooperIntake = new PooperIntake();
-
-    public final static Limelight m_Limelight = new Limelight();
+    public final static Level1Intake m_Level1Intake = new Level1Intake();
 
     public final static CANdleSubsystem m_CANdleSub = new CANdleSubsystem();
 
@@ -132,19 +130,19 @@ public class RobotContainer {
 
 
         // Align to LEFT branch
-       // driver.povLeft().onTrue(new AlignToBranch(drivetrain, true));
+        driver.povLeft().onTrue(new AlignBranch(drivetrain, true));
 
         // Align to RIGHT branch
-       // driver.povRight().onTrue(new AlignToBranch(drivetrain, false));
+        driver.povRight().onTrue(new AlignBranch(drivetrain, false));
 
         //Drive right straight
-        driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5))
-        .alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 1))));
+        //driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5))
+        //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 1))));
 
 
         //Drive left straight
-        driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5))
-        .alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 0))));
+        //driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5))
+        //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 0))));
 
         
         // Drive forward straight
@@ -182,13 +180,13 @@ public class RobotContainer {
             new AutoScore(m_Intake)
         );
 
-        //Pooper
-        operator.back().onTrue(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(1)));
-        operator.back().onFalse(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(0)));
+        //Level1
+        operator.back().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(1)));
+        operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
  
 
-        operator.start().onTrue(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(-1)));
-        operator.start().onFalse(new InstantCommand(() -> m_PooperIntake.setIntakeSpeed(0)));
+        operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
+        operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
 
 
         //Manual Intake and Hopper
@@ -212,9 +210,9 @@ public class RobotContainer {
         operator.a().onTrue(new LevelThree(m_Arm, m_Elevator));
         operator.povUp().onTrue(new LevelFour(m_Arm, m_Elevator));
 
-        operator.b().onTrue(new PooperFloor(m_Pooper));
-        operator.x().onTrue(new PooperStow(m_Pooper));
-        operator.y().onTrue(new PooperScore(m_Pooper));
+        operator.b().onTrue(new Level1Floor(m_Level1));
+        operator.x().onTrue(new Level1Stow(m_Level1));
+        operator.y().onTrue(new Level1Score(m_Level1));
 
 
         //Algae
@@ -222,12 +220,12 @@ public class RobotContainer {
         operator.leftTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
         operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));
         
-        //Pooper
+        //Level1
 
-        //operator.x().onTrue(new InstantCommand(() -> m_Pooper.runPooper(1.0)));
-        //operator.x().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
-        //operator.y().onTrue(new InstantCommand(() -> m_Pooper.runPooper(-1.0)));
-        //operator.y().onFalse(new InstantCommand(() -> m_Pooper.runPooper(0)));
+        //operator.x().onTrue(new InstantCommand(() -> m_Level1.runLevel1(1.0)));
+        //operator.x().onFalse(new InstantCommand(() -> m_Level1.runLevel1(0)));
+        //operator.y().onTrue(new InstantCommand(() -> m_Level1.runLevel1(-1.0)));
+        //operator.y().onFalse(new InstantCommand(() -> m_Level1.runLevel1(0)));
     
 
         drivetrain.registerTelemetry(logger::telemeterize);

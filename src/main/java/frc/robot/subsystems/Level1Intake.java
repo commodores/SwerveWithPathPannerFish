@@ -19,18 +19,18 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
-import frc.robot.Constants.PooperArmSetpoints;
-import frc.robot.Constants.PooperConstants;
+import frc.robot.Constants.Level1ArmSetpoints;
+import frc.robot.Constants.Level1Constants;
 
-public class PooperIntake extends SubsystemBase {
-    private final SparkFlex m_pooperIntakeMotor;
+public class Level1Intake extends SubsystemBase {
+    private final SparkFlex m_level1IntakeMotor;
     
-    public PooperIntake() {
+    public Level1Intake() {
       
-        m_pooperIntakeMotor = new SparkFlex(PooperConstants.pooperIntakeMotor, MotorType.kBrushless);
+        m_level1IntakeMotor = new SparkFlex(Level1Constants.level1IntakeMotor, MotorType.kBrushless);
         
-        m_pooperIntakeMotor.configure(
-        Configs.PooperSubsystem.pooperIntakeConfig,
+        m_level1IntakeMotor.configure(
+        Configs.Level1Subsystem.level1IntakeConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
 
@@ -51,7 +51,7 @@ public class PooperIntake extends SubsystemBase {
   
 
     public void setIntakeSpeed(double speed) {
-        m_pooperIntakeMotor.set(speed);
+        m_level1IntakeMotor.set(speed);
     }
 
 

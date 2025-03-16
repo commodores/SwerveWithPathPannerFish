@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.PooperArmSetpoints;
-import frc.robot.subsystems.Pooper;
+import frc.robot.Constants.Level1ArmSetpoints;
+import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PooperStow extends Command {
-  private final Pooper m_Pooper;
-  /** Creates a new PooperStow. */
-  public PooperStow(Pooper lvlOneSub) {
-    m_Pooper = lvlOneSub;
-    addRequirements(m_Pooper);
+public class Level1Stow extends Command {
+  private final Level1Arm m_Level1;
+  /** Creates a new Level1Stow. */
+  public Level1Stow(Level1Arm lvlOneSub) {
+    m_Level1 = lvlOneSub;
+    addRequirements(m_Level1);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -22,8 +22,8 @@ public class PooperStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Pooper.resetAndMoveArmToAngle(PooperArmSetpoints.kStow);
-     m_Pooper.setArmSetpoint(0);
+    m_Level1.resetAndMoveArmToAngle(Level1ArmSetpoints.kStow);
+     m_Level1.setArmSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
