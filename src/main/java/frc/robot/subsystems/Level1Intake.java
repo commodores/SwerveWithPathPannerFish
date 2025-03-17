@@ -5,6 +5,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.Level1Constants;
@@ -41,6 +42,7 @@ public class Level1Intake extends SubsystemBase {
     @Override
     public void periodic() {
         // Optional: Log motor speed for debugging
-        System.out.println("Intake Speed: " + m_level1IntakeMotor.get());
+        SmartDashboard.putNumber("Motor Current", getMotorCurrent());
+
     }
 }

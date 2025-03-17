@@ -17,25 +17,22 @@ public class Level1IntakePiece extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("Intake started at speed: " + speed);
         intake.setIntakeSpeed(speed);
     }
 
     @Override
     public void execute() {
-        double current = intake.getMotorCurrent();
-        System.out.println("Intake Current: " + current);
     }
 
     @Override
     public boolean isFinished() {
         // Stop when the motor current exceeds the threshold (indicating a game piece is held)
-        return intake.getMotorCurrent() > currentThreshold;
+        //return intake.getMotorCurrent() > currentThreshold;
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.stop();
-        System.out.println("Intake stopped. Interrupted: " + interrupted);
     }
 }

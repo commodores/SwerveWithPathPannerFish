@@ -21,7 +21,6 @@ public class Level1ScorePiece extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("Scoring piece...");
         intake.setIntakeSpeed(scoreSpeed);
         timer.reset();
         timer.start();
@@ -29,20 +28,18 @@ public class Level1ScorePiece extends Command {
 
     @Override
     public void execute() {
-        double current = intake.getMotorCurrent();
-        System.out.println("Scoring Current: " + current);
     }
 
     @Override
     public boolean isFinished() {
         // Stop if current drops below threshold (piece is ejected) OR timeout reached
-        return intake.getMotorCurrent() < minCurrentThreshold || timer.hasElapsed(maxTime);
+        //return intake.getMotorCurrent() < minCurrentThreshold || timer.hasElapsed(maxTime);
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.stop();
         timer.stop();
-        System.out.println("Scoring stopped. Interrupted: " + interrupted);
     }
 }

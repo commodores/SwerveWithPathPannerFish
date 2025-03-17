@@ -102,6 +102,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("AlgaeLow", new LowAlgae(m_Arm, m_Elevator));
         NamedCommands.registerCommand("AlgaeHigh", new HighAlgae(m_Arm, m_Elevator));
 
+        NamedCommands.registerCommand("LvlOneScorePos", new Level1ScorePosition(m_Level1));
+        NamedCommands.registerCommand("LvlOneScorePiece", new Level1ScorePiece(m_Level1Intake,-0.8, 5.0, 1.5));
+
+
         NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToBranch(drivetrain, true));
         NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToBranch(drivetrain, false));
         
@@ -160,7 +164,7 @@ public class RobotContainer {
         //driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
 
         driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3)); 
-        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -0.5));
+        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -.5));
         
         // Climber Lock
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
@@ -190,11 +194,15 @@ public class RobotContainer {
         //operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
         //operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
 
-        operator.back().onTrue(new Level1IntakePiece(m_Level1Intake, 0.8, 25.0)
+        operator.back().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(.8)));
+        //.andThen(new Level1ScorePosition(m_Level1)));
+        operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.stop())
         .andThen(new Level1ScorePosition(m_Level1)));
         
-        operator.start().onTrue(new Level1ScorePiece(m_Level1Intake, -0.8, 5.0, 1.5));
-
+        //operator.start().onTrue(new Level1ScorePiece(m_Level1Intake, -1, 5.0, 1.5));
+        operator.start().onTrue(new Level1ScorePosition(m_Level1));
+        operator.start().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
+        operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.stop()));
 
         //Manual Intake and Hopper
 

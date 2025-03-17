@@ -9,7 +9,7 @@ public class AlignBranch extends Command {
     private final CommandSwerveDrivetrain drivetrain;
 
     // PID Constants
-    private static final double kP_Strafe = 0.05;
+    private static final double kP_Strafe = 0.1;
 
     // Tolerances & Limits
     private static final double TX_TOLERANCE = 2.0; // Stop if within this tx range

@@ -18,7 +18,7 @@ public class Constants {
         public static final double climberDegreesPerRotation = 360.0 / climberRatio;  // 1.6071 degrees per rotation
 
         public static final double startAngle = 7.0;     // Initial angle from parallel
-        public static final double grabAngle = 64;     // Perpendicular to floor
+        public static final double grabAngle = 95;//64;     // Perpendicular to floor
         public static final double climbAngle = -10.0;   // 100 degrees past perpendicular
     }
 
@@ -55,7 +55,7 @@ public class Constants {
 
     public static final class Level1ArmSetpoints {
         public static final double kStow = 125;  //---Position 0
-        public static final double kFloor = 4;       //---Position 1
+        public static final double kFloor = 7;       //---Position 1
         public static final double kScore = 108;      //---Position 2
         
     }

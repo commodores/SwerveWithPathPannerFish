@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.131,
-        "y": 1.071
+        "x": 7.240573770491803,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7020832500863725,
-        "y": 1.5147426959572468
+        "x": 6.248080736929734,
+        "y": 3.9989843665313787
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "PushedOffLineMiddle"
     },
     {
       "anchor": {
-        "x": 3.692,
-        "y": 3.036
+        "x": 5.790061475409836,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 2.9397147570978053,
-        "y": 2.4642618503421634
+        "x": 6.5594973516766615,
+        "y": 3.9956595291770545
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "(lvl1)score1M"
     }
   ],
   "rotationTargets": [],
@@ -33,24 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "LevelOne",
-      "waypointRelativePos": 0,
+      "name": "LvlOneScorePos",
+      "waypointRelativePos": 0.3079000675219344,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "LevelOne"
-        }
-      }
-    },
-    {
-      "name": "LevelFour",
-      "waypointRelativePos": 0.22,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "LevelFour"
+          "name": "LvlOneScorePos"
         }
       }
     }
@@ -65,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "RightPaths",
+  "folder": "MiddlePaths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 55.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

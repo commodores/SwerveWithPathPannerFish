@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "lvl4StartLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
+            "pathName": "backR"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "get2L"
+            "pathName": "(lvl1)score1R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LvlOneScorePiece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "(lvl1)get2R"
           }
         },
         {
@@ -43,7 +49,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score2L"
+            "pathName": "score2R"
           }
         },
         {
@@ -55,7 +61,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3L"
+            "pathName": "get3R"
           }
         },
         {
@@ -79,7 +85,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score3L"
+            "pathName": "score3R"
           }
         },
         {
@@ -92,6 +98,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left",
+  "folder": "Right",
   "choreoAuto": false
 }

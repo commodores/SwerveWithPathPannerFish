@@ -22,7 +22,7 @@ public class Climber extends SubsystemBase {
 
         climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        climberConfig.CurrentLimits.SupplyCurrentLimit = 60;
+        climberConfig.CurrentLimits.SupplyCurrentLimit = 80;
         climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
         climberMotor.getConfigurator().apply(climberConfig);

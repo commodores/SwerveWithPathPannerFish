@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "lvl4StartLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
+            "pathName": "backL"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "get2L"
+            "pathName": "(lvl1)score1L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LvlOneScorePiece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "(lvl1)get2L"
           }
         },
         {
