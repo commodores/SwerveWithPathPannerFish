@@ -5,31 +5,34 @@
 package frc.robot.commands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
+import edu.wpi.first.wpilibj2.command.button.CommandStadiaController;
 import frc.robot.Constants.AlignToBranchConstants;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class AlignToReefTagRelative extends Command {
   private PIDController xController, yController, rotController;
   private boolean isRightScore;
   private Timer dontSeeTagTimer, stopTimer;
-  private CommandSwerveDrivetrain drivetrain;
+  private CommandSwerveDrivetrain drivebase;
+  private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric();
   private double tagID = -1;
 
-  public AlignToReefTagRelative(boolean isRightScore, CommandSwerveDrivetrain drivetrain) {
+  public AlignToReefTagRelative(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
     xController = new PIDController(AlignToBranchConstants.X_REEF_ALIGNMENT_P, 0.0, 0);  // Vertical movement
     yController = new PIDController(AlignToBranchConstants.Y_REEF_ALIGNMENT_P, 0.0, 0);  // Horitontal movement
     rotController = new PIDController(AlignToBranchConstants.ROT_REEF_ALIGNMENT_P, 0, 0);  // Rotation
     this.isRightScore = isRightScore;
-    this.drivetrain = drivetrain;
-    addRequirements(drivetrain);
+    this.drivebase = drivebase;
+    addRequirements(drivebase);
   }
 
   @Override
@@ -48,64 +51,56 @@ public class AlignToReefTagRelative extends Command {
     yController.setSetpoint(isRightScore ? AlignToBranchConstants.Y_SETPOINT_REEF_ALIGNMENT : -AlignToBranchConstants.Y_SETPOINT_REEF_ALIGNMENT);
     yController.setTolerance(AlignToBranchConstants.Y_TOLERANCE_REEF_ALIGNMENT);
 
-    tagID = LimelightHelpers.getFiducialID("");
+    tagID = LimelightHelpers.getFiducialID("limelight");
   }
 
   @Override
   public void execute() {
-    if (LimelightHelpers.getTV("") && LimelightHelpers.getFiducialID("") == tagID) {
+    if (LimelightHelpers.getTV("limelight") && LimelightHelpers.getFiducialID("limelight") == tagID) {
       this.dontSeeTagTimer.reset();
 
-      double[] postions = LimelightHelpers.getBotPose_TargetSpace("");
+      double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight");
       SmartDashboard.putNumber("x", postions[2]);
 
       double xSpeed = xController.calculate(postions[2]);
       SmartDashboard.putNumber("xspee", xSpeed);
       double ySpeed = -yController.calculate(postions[0]);
-      double rotValue = -rotController.calculate(postions[4]);
+      double rotValue = rotController.calculate(postions[4]);
 
-      // Apply movement correction
-        drivetrain.applyRequest(() -> 
-            new SwerveRequest.RobotCentric()
-                .withVelocityX(xSpeed)
-                .withVelocityY(ySpeed)
-                .withRotationalRate(rotValue)
-        ).schedule();
+      drivebase.setControl(drive
+        .withVelocityX(xSpeed) // Drive forward with negative Y(forward)
+        .withVelocityY(ySpeed) // Drive left with negative X (left)
+        .withRotationalRate(rotValue));
 
-      //drivebase.drive(new Translation2d(xSpeed, ySpeed), rotValue, false);
-
-      if (!rotController.atSetpoint() ||
-          !yController.atSetpoint() ||
-          !xController.atSetpoint()) {
-        stopTimer.reset();
-      }
-    } else {
-      drivetrain.applyRequest(() -> 
-            new SwerveRequest.RobotCentric()
-                .withVelocityX(0)
-                .withVelocityY(0)
-                .withRotationalRate(0)
-        ).schedule();
+    if (!rotController.atSetpoint() ||
+        !yController.atSetpoint() ||
+        !xController.atSetpoint()) {
+      stopTimer.reset();
+    }
+     
+     else {
+      drivebase.setControl(drive
+        .withVelocityX(0) // Drive forward with negative Y(forward)
+        .withVelocityY(0) // Drive left with negative X (left)
+        .withRotationalRate(0));
     }
 
-    SmartDashboard.putNumber("poseValidTimer", stopTimer.get());
+      SmartDashboard.putNumber("poseValidTimer", stopTimer.get());
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.applyRequest(() -> 
-            new SwerveRequest.RobotCentric()
-                .withVelocityX(0)
-                .withVelocityY(0)
-                .withRotationalRate(0)
-        ).schedule();
+    drivebase.setControl(drive
+        .withVelocityX(0) // Drive forward with negative Y(forward)
+        .withVelocityY(0) // Drive left with negative X (left)
+        .withRotationalRate(0));
   }
 
   @Override
   public boolean isFinished() {
     // Requires the robot to stay in the correct position for 0.3 seconds, as long as it gets a tag in the camera
     return this.dontSeeTagTimer.hasElapsed(AlignToBranchConstants.DONT_SEE_TAG_WAIT_TIME) ||
-        stopTimer.hasElapsed(AlignToBranchConstants
-        .POSE_VALIDATION_TIME);
+        stopTimer.hasElapsed(AlignToBranchConstants.POSE_VALIDATION_TIME);
   }
 }

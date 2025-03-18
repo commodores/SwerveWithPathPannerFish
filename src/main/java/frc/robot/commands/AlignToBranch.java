@@ -21,7 +21,7 @@ public class AlignToBranch extends Command {
     private static final int REQUIRED_STABLE_FRAMES = 5; // Frames needed to "lock in"
 
     // Limelight Constants
-    private static final String LIMELIGHT_NAME = "limelight-front";
+    private static final String LIMELIGHT_NAME = "limelight";
     private static final int LEFT_BRANCH_PIPELINE = 0;
     private static final int RIGHT_BRANCH_PIPELINE = 1;
     

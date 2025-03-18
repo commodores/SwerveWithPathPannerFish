@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AlignBranch;
 import frc.robot.commands.AlignToBranch;
+import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoLEDTarget;
@@ -136,18 +137,18 @@ public class RobotContainer {
 
 
         // Align to LEFT branch
-        //driver.povLeft().onTrue(new AlignBranch(drivetrain, true));
+        driver.povLeft().onTrue(new AlignToReefTagRelative(false, drivetrain));
 
         // Align to RIGHT branch
-        //driver.povRight().onTrue(new AlignBranch(drivetrain, false));
+        driver.povRight().onTrue(new AlignToReefTagRelative(true, drivetrain));
 
         //Drive right straight
-        driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5)));
+        //driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5)));
         //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 1))));
 
 
         //Drive left straight
-        driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5)));
+        //driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5)));
         //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 0))));
 
         
