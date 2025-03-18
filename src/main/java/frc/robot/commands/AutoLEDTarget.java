@@ -15,12 +15,8 @@ import frc.robot.subsystems.CANdleSubsystem;
 public class AutoLEDTarget extends Command {
 
   private final CANdleSubsystem m_CANdle;
-  private static final double negativeOffset = -6.5;
-  private static final double positiveOffset = 6.5;
 
   private static final String LIMELIGHT_NAME = "limelight";
-  private static final int LEFT_BRANCH_PIPELINE = 0;
-  private static final int RIGHT_BRANCH_PIPELINE = 1;
   
   // Corrected Tolerances
   private static final double RY_TOLERANCE = 1;
@@ -63,9 +59,9 @@ public class AutoLEDTarget extends Command {
 
     // Check if values are within tolerance
     if (LimelightHelpers.getTV(LIMELIGHT_NAME)) {
-      if (Math.abs(tx - 0.19) <= TX_TOLERANCE &&
+      if ((Math.abs(tx - 0.19) <= TX_TOLERANCE || Math.abs(tx + 0.19) <= TX_TOLERANCE)&&
           Math.abs(tz + 0.52) <= TZ_TOLERANCE &&
-          Math.abs(ry - 1.5) <= RY_TOLERANCE) {
+          Math.abs(ry) <= RY_TOLERANCE) {
         m_CANdle.setColor(0, 255, 0); // Green if within tolerance
       } else {
         if (ally.isPresent()) {

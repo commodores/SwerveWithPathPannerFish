@@ -5,11 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.ElevatorSetpoints;
 import frc.robot.Constants.Level1ArmSetpoints;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Level1Arm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */

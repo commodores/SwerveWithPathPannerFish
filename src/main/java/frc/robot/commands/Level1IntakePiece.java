@@ -6,12 +6,10 @@ import frc.robot.subsystems.Level1Intake;
 public class Level1IntakePiece extends Command {
     private final Level1Intake intake;
     private final double speed;
-    private final double currentThreshold; // Current threshold for detecting game piece
 
-    public Level1IntakePiece(Level1Intake intake, double speed, double currentThreshold) {
+    public Level1IntakePiece(Level1Intake intake, double speed) {
         this.intake = intake;
         this.speed = speed;
-        this.currentThreshold = currentThreshold;
         addRequirements(intake);
     }
 

@@ -17,7 +17,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ArmivatorConstants;
@@ -40,7 +39,6 @@ public class Elevator extends SubsystemBase {
     private final ElevatorFeedforward feedforward;
 
     private double m_goalHeight = ElevatorSetpoints.kFeederStation;
-    private boolean wasZeroResetByTOF = false;
 
     private double setpoint;//(0 feeder,1,2,3,4, 5 algae low, 6 algae high)
 
@@ -87,19 +85,6 @@ public class Elevator extends SubsystemBase {
         return getElevatorDistanceInInch()>=20;
     }
 
-    /** Zero the elevator encoder when the laser reads min. */
-  private void zeroElevatorOnLaser() {
-    if (!wasZeroResetByTOF && isAtBottom()) {
-      // Zero the encoder laser sees min to
-      // prevent constant zeroing while retracted
-      m_encoder.setPosition(0);
-      wasZeroResetByTOF = true;
-    } else if (getElevatorDistanceInInch()>=2) {
-      wasZeroResetByTOF = false;
-    }      
-  }
-
-
     public void stop() {
         m_elevatorMotor.set(0);
     }
@@ -120,7 +105,6 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator Goal Height", m_goalHeight);
         SmartDashboard.putNumber("Elevator Setpoint", setpoint);
 
-       // zeroElevatorOnLaser();
     }
 
     public double getEncoderVel() {
@@ -161,16 +145,5 @@ public class Elevator extends SubsystemBase {
     public void setElevatorSetpoint(double setSetpoint) {
         setpoint = setSetpoint;
     }
-
-    //command factories//
-    public Command createResetPidControllerCommand() {
-        return runOnce(this::resetPidController);
-    }
-
-    public Command createMoveElevatorToHeightCommand(double height) {
-        return createResetPidControllerCommand().andThen(
-        runEnd(() -> goToHeight(), m_elevatorMotor::stopMotor)).withName("Elevator go to height" + height);
-    }
-
 
 }

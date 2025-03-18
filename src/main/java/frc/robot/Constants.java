@@ -66,14 +66,17 @@ public class Constants {
 
         public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
         public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.52;//-0.34;  // Vertical pose
-        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.04;//0.02;
-        public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.19;//0.16;  // Horizontal pose
-        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.04;// 0.02;
+        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.52;
+        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
+        public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.16;
+        public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = -0.19;
+        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.02;
 
 
         public static final double DONT_SEE_TAG_WAIT_TIME = .5;
-        public static final double POSE_VALIDATION_TIME = .3;//0.3;
+        public static final double POSE_VALIDATION_TIME = .3;
+        public static final double POSE_TOTAL_TIME = 5.0;
+
     }
 
 }

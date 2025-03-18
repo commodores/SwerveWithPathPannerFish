@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.AlignBranch;
-import frc.robot.commands.AlignToBranch;
 import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
@@ -35,7 +33,6 @@ import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
 import frc.robot.commands.Level1FloorPosition;
-import frc.robot.commands.Level1IntakePiece;
 import frc.robot.commands.Level1ScorePosition;
 import frc.robot.commands.Level1ScorePiece;
 import frc.robot.commands.Level1StowPosition;
@@ -76,6 +73,7 @@ public class RobotContainer {
     public final static Climber m_climber = new Climber();
 
     public final static Arm m_Arm = new Arm();
+    
     public final static Elevator m_Elevator = new Elevator();
 
     public final static Level1Arm m_Level1 = new Level1Arm();
@@ -107,9 +105,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("LvlOneScorePiece", new Level1ScorePiece(m_Level1Intake,-0.8, 5.0, 1.5));
 
 
-        NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToBranch(drivetrain, true));
-        NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToBranch(drivetrain, false));
-        
+        NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToReefTagRelative(false, drivetrain));
+        NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToReefTagRelative(true, drivetrain));
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);      
@@ -135,22 +132,11 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
 
-
         // Align to LEFT branch
         driver.povLeft().onTrue(new AlignToReefTagRelative(false, drivetrain));
 
         // Align to RIGHT branch
         driver.povRight().onTrue(new AlignToReefTagRelative(true, drivetrain));
-
-        //Drive right straight
-        //driver.povRight().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(-.5)));
-        //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 1))));
-
-
-        //Drive left straight
-        //driver.povLeft().whileTrue(drivetrain.applyRequest(()-> forwardStraight.withVelocityX(0).withVelocityY(.5)));
-        //.alongWith(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight-front", 0))));
-
         
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
@@ -158,20 +144,12 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
 
         //Climber
-        //driver.rightBumper().onTrue(new InstantCommand(() -> m_climber.climberForward()));//Get ready to CLimb!!!
-        //driver.rightBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
-
-        //driver.leftBumper().onTrue(new InstantCommand(() -> m_climber.climberBack()));//CLIMB!!!!!
-        //driver.leftBumper().onFalse(new InstantCommand(() -> m_climber.stopClimber()));
-
-        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3)); 
-        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -.5));
+        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3));//Get ready to CLimb!!!
+        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -.5));//CLIMB!!!!!
         
-        // Climber Lock
+        //Climber Lock
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
-        driver.y().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward
-
-        
+        driver.y().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward        
 
         //intake
         driver.x().onTrue(
@@ -188,30 +166,19 @@ public class RobotContainer {
         );
 
         //Level1
-        //operator.back().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(1)));
-        //operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
- 
-
-        //operator.start().onTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
-        //operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(0)));
-
         operator.back().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(.8)));
-        //.andThen(new Level1ScorePosition(m_Level1)));
         operator.back().onFalse(new InstantCommand(() -> m_Level1Intake.stop())
         .andThen(new Level1ScorePosition(m_Level1)));
         
-        //operator.start().onTrue(new Level1ScorePiece(m_Level1Intake, -1, 5.0, 1.5));
         operator.start().onTrue(new Level1ScorePosition(m_Level1));
         operator.start().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
         operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.stop()));
 
         //Manual Intake and Hopper
-
         operator.leftBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(1.0)));
         operator.leftBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
         operator.rightBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(-1.0)));
-        operator.rightBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
-        
+        operator.rightBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));        
 
         // Arm and Elevator Position Commands
         operator.povLeft().onTrue(
@@ -230,9 +197,7 @@ public class RobotContainer {
         operator.x().onTrue(new Level1StowPosition(m_Level1));
         operator.y().onTrue(new Level1ScorePosition(m_Level1));
 
-
         //Algae
-
         operator.leftTrigger().onTrue(new LowAlgae(m_Arm, m_Elevator));
         operator.rightTrigger().onTrue(new HighAlgae(m_Arm, m_Elevator));
     
