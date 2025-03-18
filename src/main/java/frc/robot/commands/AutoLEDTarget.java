@@ -23,9 +23,9 @@ public class AutoLEDTarget extends Command {
   private static final int RIGHT_BRANCH_PIPELINE = 1;
   
   // Corrected Tolerances
-  private static final double RY_TOLERANCE = 0.5;
-  private static final double TX_TOLERANCE = 0.04;
-  private static final double TZ_TOLERANCE = 0.02;
+  private static final double RY_TOLERANCE = 1;
+  private static final double TX_TOLERANCE = 0.06;
+  private static final double TZ_TOLERANCE = 0.04;
 
   double error;
   double tx;
@@ -57,8 +57,8 @@ public class AutoLEDTarget extends Command {
   @Override
   public void execute() {
     double[] positions = LimelightHelpers.getBotPose_TargetSpace(LIMELIGHT_NAME);
-    tx = positions[2];
-    tz = positions[0];
+    tx = positions[0];
+    tz = positions[2];
     ry = positions[4];
 
     // Check if values are within tolerance

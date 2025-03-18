@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandStadiaController;
+import frc.robot.Constants;
 import frc.robot.Constants.AlignToBranchConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -60,12 +61,14 @@ public class AlignToReefTagRelative extends Command {
       this.dontSeeTagTimer.reset();
 
       double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight");
-      SmartDashboard.putNumber("x", postions[2]);
+      SmartDashboard.putNumber("x", postions[0]);
+      SmartDashboard.putNumber("y or tz", postions[2]);
+      SmartDashboard.putNumber("r", postions[4]);
 
       double xSpeed = xController.calculate(postions[2]);
       SmartDashboard.putNumber("xspee", xSpeed);
       double ySpeed = -yController.calculate(postions[0]);
-      double rotValue = rotController.calculate(postions[4]);
+      double rotValue = -rotController.calculate(postions[4]);
 
       drivebase.setControl(drive
         .withVelocityX(xSpeed) // Drive forward with negative Y(forward)
