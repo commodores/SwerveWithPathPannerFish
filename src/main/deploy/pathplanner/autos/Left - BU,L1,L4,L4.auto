@@ -25,13 +25,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "(lvl1)get2L"
+            "pathName": "get2l"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignToBranch_Left"
+            "name": "AutoAlignToCoralStation"
           }
         },
         {
@@ -61,13 +61,25 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoAlignToBranch_Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoScore"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "get3L"
+            "pathName": "get3l"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
           }
         },
         {
@@ -92,6 +104,12 @@
           "type": "path",
           "data": {
             "pathName": "(lvl4)score3L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {
