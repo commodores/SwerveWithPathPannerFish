@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get2R"
+            "pathName": "get2r"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score2R"
+            "pathName": "score2r"
           }
         },
         {
@@ -73,7 +73,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3R"
+            "pathName": "get3r"
           }
         },
         {
@@ -103,7 +103,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score3R"
+            "pathName": "score3r"
           }
         },
         {
