@@ -141,7 +141,7 @@ public class RobotContainer {
         driver.rightStick().onTrue(new AlignToReefTagRelative(true, drivetrain));
 
         //Align to Coral Station
-        driver.povDown().onTrue(new AlignToCoralStation(drivetrain));
+        driver.start().onTrue(new AlignToCoralStation(drivetrain));
         
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
@@ -165,12 +165,10 @@ public class RobotContainer {
 
         //intake
         driver.x().onTrue(
-            new FeederStation(m_Arm,m_Elevator).withTimeout(.001)
-                .andThen(new AutoHopper(m_Intake))
+            new AutoHopper(m_Intake)
                 .andThen(new AutoIntake(m_Intake))
                 .andThen(new AutoReverse(m_Intake))
-                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10)
-        );
+                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10));
 
         //Score
         driver.b().onTrue(

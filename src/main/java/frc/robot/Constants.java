@@ -67,15 +67,15 @@ public class Constants {
         public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
         public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
         public static final double X_SETPOINT_REEF_ALIGNMENT = -0.53;
-        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.01;
+        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
         public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.17;
         public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = -0.16;
-        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.01;
+        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.02;
 
 
         public static final double DONT_SEE_TAG_WAIT_TIME = .5;
-        public static final double POSE_VALIDATION_TIME = .1;
-        public static final double POSE_TOTAL_TIME = 3.0;
+        public static final double POSE_VALIDATION_TIME = .01;
+        public static final double POSE_TOTAL_TIME = 2.0;
 
     }
 
@@ -94,7 +94,7 @@ public class Constants {
 
 
         public static final double DONT_SEE_TAG_WAIT_TIME = .5;
-        public static final double POSE_VALIDATION_TIME = .1;
+        public static final double POSE_VALIDATION_TIME = .01;
         public static final double POSE_TOTAL_TIME = 3.0;
 
     }
