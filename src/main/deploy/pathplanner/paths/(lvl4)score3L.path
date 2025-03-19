@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.066905737704918,
-        "y": 6.955993852459016
+        "x": 1.3747500000000001,
+        "y": 7.008500000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6829877183299509,
-        "y": 6.5313411847517004
+        "x": 1.768527080590696,
+        "y": 6.669700842946524
       },
       "isLocked": false,
       "linkedName": "coralStation"
     },
     {
       "anchor": {
-        "x": 3.812090163934426,
-        "y": 5.133862704918033
+        "x": 3.596311475409836,
+        "y": 5.565420081967212
       },
       "prevControl": {
-        "x": 3.0529477034588135,
-        "y": 5.702098050892147
+        "x": 2.9635559972582093,
+        "y": 6.145381634363225
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.21607022282241062,
+      "waypointRelativePos": 0.3079000675219375,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

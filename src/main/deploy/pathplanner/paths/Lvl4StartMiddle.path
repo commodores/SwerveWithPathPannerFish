@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.098,
+        "x": 8.0077868852459,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.6549187628701425,
-        "y": 3.9983334644359245
+        "x": 8.564705648116044,
+        "y": 3.998333464435925
       },
       "isLocked": false,
-      "linkedName": "lvl4StartMiddle"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.790061475409836,
-        "y": 4.198821721311475
+        "x": 6.389446721311475,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 5.2768555422315355,
-        "y": 4.197970551182518
+        "x": 5.876240788133175,
+        "y": 3.999148829871043
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.05062034739454261,
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

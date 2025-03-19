@@ -54,28 +54,48 @@ public class Constants {
     }
 
     public static final class Level1ArmSetpoints {
-        public static final double kStow = 125;  //---Position 0
-        public static final double kFloor = 7;       //---Position 1
-        public static final double kScore = 108;      //---Position 2        
+        public static final double kStow = 120;  //---Position 0
+        public static final double kFloor = -4;       //---Position 1
+        public static final double kScore = 100;      //---Position 2        
     }
 
     public static final class AlignToBranchConstants {
-        public static final double X_REEF_ALIGNMENT_P = 3.3;//.5;
-        public static final double Y_REEF_ALIGNMENT_P = 3.3;//1;
+        public static final double X_REEF_ALIGNMENT_P = 3.2;//.5; foward and back when talking about robot
+        public static final double Y_REEF_ALIGNMENT_P = 4;//1; left and right when talking about robot
         public static final double ROT_REEF_ALIGNMENT_P = 0.1625;
 
         public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
         public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.52;
-        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
-        public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.16;
-        public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = -0.19;
-        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.02;
+        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.53;
+        public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.01;
+        public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.17;
+        public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = -0.16;
+        public static final double Y_TOLERANCE_REEF_ALIGNMENT =0.01;
 
 
         public static final double DONT_SEE_TAG_WAIT_TIME = .5;
-        public static final double POSE_VALIDATION_TIME = .3;
-        public static final double POSE_TOTAL_TIME = 5.0;
+        public static final double POSE_VALIDATION_TIME = .1;
+        public static final double POSE_TOTAL_TIME = 3.0;
+
+    }
+
+    public static final class AlignToCoralStationConstants{
+
+        public static final double X_CORALSTATION_ALIGNMENT_P = 3.2;//.5; foward and back when talking about robot
+        public static final double Y_CORALSTATION_ALIGNMENT_P = 4;//1; left and right when talking about robot
+        public static final double ROT_CORALSTATION_ALIGNMENT_P = 0.1625;
+
+        public static final double ROT_SETPOINT_CORALSTATION_ALIGNMENT = 0;  // Rotation
+        public static final double ROT_TOLERANCE_CORALSTATION_ALIGNMENT = 1.5;
+        public static final double X_SETPOINT_CORALSTATION_ALIGNMENT = -0.45;
+        public static final double X_TOLERANCE_CORALSTATION_ALIGNMENT = 0.02;
+        public static final double Y_SETPOINT_CORALSTATION_ALIGNMENT = 0.0;
+        public static final double Y_TOLERANCE_CORALSTATION_ALIGNMENT =0.02;
+
+
+        public static final double DONT_SEE_TAG_WAIT_TIME = .5;
+        public static final double POSE_VALIDATION_TIME = .1;
+        public static final double POSE_TOTAL_TIME = 3.0;
 
     }
 

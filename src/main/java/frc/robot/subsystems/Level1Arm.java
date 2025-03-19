@@ -51,7 +51,7 @@ public class Level1Arm extends SubsystemBase {
 
         setpoint = 0;
 
-        m_encoder.setPosition(135);
+        m_encoder.setPosition(128);
         
     }
 

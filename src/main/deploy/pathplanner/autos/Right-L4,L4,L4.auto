@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "lvl4StartLeft"
+            "pathName": "lvl4StartRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Right"
           }
         },
         {
@@ -19,7 +25,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get2L"
+            "pathName": "get2R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
           }
         },
         {
@@ -43,7 +55,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score2L"
+            "pathName": "score2R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {
@@ -55,7 +73,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3L"
+            "pathName": "get3R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
           }
         },
         {
@@ -79,7 +103,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score3L"
+            "pathName": "score3R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Right"
           }
         },
         {
@@ -92,6 +122,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left",
+  "folder": "Right",
   "choreoAuto": false
 }

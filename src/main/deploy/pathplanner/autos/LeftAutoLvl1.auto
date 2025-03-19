@@ -31,6 +31,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoAlignToBranch_Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoHopper"
           }
         },
@@ -49,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score2L"
+            "pathName": "(lvl4)score2L"
           }
         },
         {
@@ -85,7 +91,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "score3L"
+            "pathName": "(lvl4)score3L"
           }
         },
         {

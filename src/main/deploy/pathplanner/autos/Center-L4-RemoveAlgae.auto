@@ -13,6 +13,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoAlignToBranch_Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoScore"
           }
         },
@@ -20,6 +26,12 @@
           "type": "path",
           "data": {
             "pathName": "AlgaeBackUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeLow"
           }
         },
         {
@@ -35,7 +47,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "RemoveAlgae"
+                  "name": "AutoIntake"
                 }
               }
             ]

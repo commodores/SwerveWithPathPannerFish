@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AlignToCoralStation;
 import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
@@ -107,6 +108,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToReefTagRelative(false, drivetrain));
         NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToReefTagRelative(true, drivetrain));
+        NamedCommands.registerCommand("AutoAlignToCoralStation", new AlignToCoralStation(drivetrain));
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);      
@@ -133,15 +135,25 @@ public class RobotContainer {
         driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
 
         // Align to LEFT branch
-        driver.povLeft().onTrue(new AlignToReefTagRelative(false, drivetrain));
+        driver.leftStick().onTrue(new AlignToReefTagRelative(false, drivetrain));
 
         // Align to RIGHT branch
-        driver.povRight().onTrue(new AlignToReefTagRelative(true, drivetrain));
+        driver.rightStick().onTrue(new AlignToReefTagRelative(true, drivetrain));
+
+        //Align to Coral Station
+        driver.povDown().onTrue(new AlignToCoralStation(drivetrain));
         
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
+
         // Drive reverse straight
-        driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
+        //driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
+        
+        // Drive left robot relative
+        driver.povLeft().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0).withVelocityY(.5)));
+        
+        // Drive right robot relative
+        driver.povRight().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0).withVelocityY(-.5)));
 
         //Climber
         driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3));//Get ready to CLimb!!!
