@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.3844999999999998,
-        "y": 1.694749999999999
+        "x": 1.2621575342465754,
+        "y": 1.192658390410959
       },
       "prevControl": {
-        "x": 2.5472544800439056,
-        "y": 2.6296159905071734
+        "x": 2.4249120142904816,
+        "y": 2.1275243809181292
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "coralStationR"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

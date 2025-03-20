@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.105506966437931,
-        "y": 3.9989843665313787
+        "x": 6.098,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": "PushedOffLineMiddle"
@@ -20,8 +20,8 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 6.5594973516766615,
-        "y": 3.9956595291770545
+        "x": 6.790061475409836,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "MiddlePaths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
