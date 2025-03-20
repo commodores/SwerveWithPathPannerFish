@@ -64,10 +64,15 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
+    public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
     private final CommandXboxController driver = new CommandXboxController(0);
     private final CommandXboxController operator = new CommandXboxController(1);
 
-    public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final AlignToCoralStation alignToCoralStation = new AlignToCoralStation(drivetrain);
+
+    private final AlignToReefTagRelative alignLeft = new AlignToReefTagRelative(false, drivetrain);
+    private final AlignToReefTagRelative alignRight = new AlignToReefTagRelative(true, drivetrain);    
 
     public final static Intake m_Intake = new Intake();
 
@@ -135,13 +140,13 @@ public class RobotContainer {
         driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
 
         // Align to LEFT branch
-        driver.leftStick().onTrue(new AlignToReefTagRelative(false, drivetrain));
+        driver.leftStick().onTrue(alignLeft);
 
         // Align to RIGHT branch
-        driver.rightStick().onTrue(new AlignToReefTagRelative(true, drivetrain));
+        driver.rightStick().onTrue(alignRight);
 
         //Align to Coral Station
-        driver.start().onTrue(new AlignToCoralStation(drivetrain));
+        driver.start().onTrue(alignToCoralStation);
         
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
@@ -167,13 +172,26 @@ public class RobotContainer {
         driver.x().onTrue(
             new AutoHopper(m_Intake)
                 .andThen(new AutoIntake(m_Intake))
+                .andThen(new InstantCommand(() -> alignToCoralStation.cancel()))
                 .andThen(new AutoReverse(m_Intake))
                 .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10));
 
         //Score
         driver.b().onTrue(
             new AutoScore(m_Intake)
+                .alongWith(new InstantCommand(() -> {
+                    alignLeft.cancel();
+                    alignRight.cancel();
+                    alignToCoralStation.cancel();
+                }))
         );
+
+        //driver.b().onTrue(new InstantCommand(() -> {
+        //    alignLeft.cancel();
+        //    alignRight.cancel();
+        //    alignToCoralStation.cancel();
+        //    new AutoScore(m_Intake).schedule();  // Explicitly schedule AutoScore
+        //}));
 
         //Level1
         operator.back().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(.8)));
@@ -185,10 +203,10 @@ public class RobotContainer {
         operator.start().onFalse(new InstantCommand(() -> m_Level1Intake.stop()));
 
         //Manual Intake and Hopper
-        operator.leftBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(1.0)));
-        operator.leftBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
-        operator.rightBumper().onTrue(new InstantCommand(() -> m_Intake.runBothManual(-1.0)));
-        operator.rightBumper().onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));        
+        operator.leftBumper().whileTrue(new InstantCommand(() -> m_Intake.runBothManual(1.0)))
+                            .onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
+        operator.rightBumper().whileTrue(new InstantCommand(() -> m_Intake.runBothManual(-1.0)))
+                             .onFalse(new InstantCommand(() -> m_Intake.runBothManual(0)));
 
         // Arm and Elevator Position Commands
         operator.povLeft().onTrue(
