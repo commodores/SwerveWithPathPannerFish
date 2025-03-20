@@ -22,7 +22,6 @@ import frc.robot.commands.AlignToCoralStation;
 import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoLEDTarget;
 import frc.robot.commands.AutoReverse;
 import frc.robot.commands.AutoScore;
 import frc.robot.commands.FeederStation;
@@ -40,7 +39,6 @@ import frc.robot.commands.Level1StowPosition;
 import frc.robot.commands.RemoveAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
@@ -85,8 +83,6 @@ public class RobotContainer {
     public final static Level1Arm m_Level1 = new Level1Arm();
 
     public final static Level1Intake m_Level1Intake = new Level1Intake();
-
-    public final static CANdleSubsystem m_CANdleSub = new CANdleSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -133,9 +129,7 @@ public class RobotContainer {
             )
         );
 
-        //Auto Align
-        m_CANdleSub.setDefaultCommand(new AutoLEDTarget(m_CANdleSub));
-
+        
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
 
