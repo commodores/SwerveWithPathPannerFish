@@ -7,49 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "backR"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(lvl1)score1R"
+            "pathName": "NewLeftStart"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "LvlOneScorePiece"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(lvl1)get2R"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoHopper"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "score2r"
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {
@@ -61,7 +25,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3r"
+            "pathName": "get2L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
           }
         },
         {
@@ -77,15 +47,83 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoReverse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "score2L"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "AutoReverse"
+            "name": "AutoAlignToBranch_Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "score3r"
+            "pathName": "get3L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoHopper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "score3L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoReverse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {
@@ -98,6 +136,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right",
+  "folder": "Left",
   "choreoAuto": false
 }

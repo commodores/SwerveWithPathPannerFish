@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "(lvl1)StartMiddle"
+            "pathName": "Lvl1StartMiddle"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoScore"
+            "name": "LvlOneScorePiece"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "AlgaeBackUp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlgaeLow"
+            "pathName": "(lvl1)AlgaeBackUp"
           }
         },
         {
@@ -33,15 +27,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "RemoveAlgaePath"
+                  "name": "AlgaeLow"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoIntake"
+                  "pathName": "(lvl1)RemoveAlgaePath"
                 }
               }
             ]

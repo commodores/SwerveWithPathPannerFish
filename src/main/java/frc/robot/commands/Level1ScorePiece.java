@@ -7,7 +7,7 @@ public class Level1ScorePiece extends Command {
     private final Level1Intake intake;
     private final double scoreSpeed; // Speed to eject the game piece
 
-    public Level1ScorePiece(Level1Intake intake, double scoreSpeed, double minCurrentThreshold, double maxTime) {
+    public Level1ScorePiece(Level1Intake intake, double scoreSpeed) {
         this.intake = intake;
         this.scoreSpeed = scoreSpeed;
         addRequirements(intake);

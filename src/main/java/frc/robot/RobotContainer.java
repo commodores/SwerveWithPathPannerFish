@@ -104,7 +104,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AlgaeHigh", new HighAlgae(m_Arm, m_Elevator));
 
         NamedCommands.registerCommand("LvlOneScorePos", new Level1ScorePosition(m_Level1));
-        NamedCommands.registerCommand("LvlOneScorePiece", new Level1ScorePiece(m_Level1Intake,-0.8, 5.0, 1.5));
+        NamedCommands.registerCommand("LvlOneScorePiece", new Level1ScorePiece(m_Level1Intake,-0.8).withTimeout(.5));
 
 
         NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToReefTagRelative(false, drivetrain));
