@@ -5,57 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "lvl4StartRight"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "AutoAlignToBranch_Right"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoScore"
+            "name": "PushBot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "get2R"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignToCoralStation"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoHopper"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "score2R"
+            "pathName": "Lstart"
           }
         },
         {
@@ -73,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3R"
+            "pathName": "Lget2"
           }
         },
         {
@@ -95,15 +53,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AutoReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "score3R"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoReverse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Lscore2"
+                }
+              }
+            ]
           }
         },
         {
@@ -117,11 +82,66 @@
           "data": {
             "name": "AutoScore"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lget3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToCoralStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoHopper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Lscore3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoReverse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Right",
+  "folder": "Left",
   "choreoAuto": false
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0967213114754095,
-        "y": 6.896055327868852
+        "x": 1.16025,
+        "y": 1.0317499999999995
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.855199395462048,
-        "y": 6.59231103572
+        "x": 1.3811049796940105,
+        "y": 1.1779785466568293
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "atCoralStationR"
     },
     {
       "anchor": {
-        "x": 5.526331967213115,
-        "y": 5.469518442622951
+        "x": 3.8005756578947363,
+        "y": 2.504769736842105
       },
       "prevControl": {
-        "x": 6.210880931697183,
-        "y": 6.57244167390224
+        "x": 3.136228099274618,
+        "y": 2.0987780543901553
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.31,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -65,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "LeftPaths",
+  "folder": "RightPaths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }

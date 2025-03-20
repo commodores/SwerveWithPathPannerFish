@@ -32,6 +32,7 @@ import frc.robot.commands.LevelThree;
 import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
+import frc.robot.commands.PushBot;
 import frc.robot.commands.Level1FloorPosition;
 import frc.robot.commands.Level1ScorePosition;
 import frc.robot.commands.Level1ScorePiece;
@@ -110,6 +111,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToReefTagRelative(false, drivetrain));
         NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToReefTagRelative(true, drivetrain));
         NamedCommands.registerCommand("AutoAlignToCoralStation", new AlignToCoralStation(drivetrain));
+        NamedCommands.registerCommand("PushBot", new PushBot(drivetrain));
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);      

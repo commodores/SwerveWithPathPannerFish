@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NewLeftStart"
+            "pathName": "Lstart"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get2L"
+            "pathName": "Lget2"
           }
         },
         {
@@ -59,7 +59,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "score2L"
+                  "pathName": "Lscore2"
                 }
               }
             ]
@@ -80,7 +80,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "get3L"
+            "pathName": "Lget3"
           }
         },
         {
@@ -108,7 +108,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "score3L"
+                  "pathName": "Lscore3"
                 }
               },
               {
