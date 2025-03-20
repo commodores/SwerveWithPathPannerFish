@@ -33,7 +33,7 @@ public class PushBot extends Command {
   @Override
   public void execute() {
           drivebase.setControl(drive
-        .withVelocityX(0.5) // Move towards reef
+        .withVelocityX(-0.5) // Move towards reef
         .withVelocityY(0) // Strafe to branch
         .withRotationalRate(0));// Rotation towards target
   }
