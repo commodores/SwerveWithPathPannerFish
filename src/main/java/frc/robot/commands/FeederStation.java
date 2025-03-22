@@ -14,6 +14,7 @@ public class FeederStation extends Command {
   
   private final Elevator m_Elevator;
   private final Arm m_Arm;
+  double elevatorSetpoint;
 
   /** Creates a new LevelOnePose. */
   public FeederStation(Arm armSub, Elevator elevatorSub) {
@@ -28,9 +29,14 @@ public class FeederStation extends Command {
   @Override
   public void initialize() {
      //Feeder Station
-    m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kFeederStation);
+     elevatorSetpoint = m_Elevator.getElevatorSetpoint();
+
+     if(elevatorSetpoint<2){
+      m_Arm.resetAndMoveArmToAngle(ArmSetpoints.kFeederStation);
+      m_Arm.setArmSetpoint(0);
+     }
+
     m_Elevator.setNewHeight(ElevatorSetpoints.kFeederStation);
-    m_Arm.setArmSetpoint(0);
     m_Elevator.setElevatorSetpoint(0);
   }
 

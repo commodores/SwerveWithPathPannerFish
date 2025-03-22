@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "LevelOne",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.3,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.22,
+      "waypointRelativePos": 0.5455773126265963,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
