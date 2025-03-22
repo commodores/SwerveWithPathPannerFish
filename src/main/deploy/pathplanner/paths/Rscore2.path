@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.5455773126265963,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

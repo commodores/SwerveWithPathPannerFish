@@ -207,18 +207,13 @@ public class RobotContainer {
 
         // Arm and Elevator Position Commands
         operator.povLeft().onTrue(
-            new InstantCommand(() -> {
-                if (m_Elevator.getElevatorSetpoint()==1) {
-                    new FeederStation(m_Arm, m_Elevator).schedule();
-                    new AutoHopper(m_Intake)
-                    .andThen(new AutoIntake(m_Intake))
-                    .andThen(new InstantCommand(() -> alignToCoralStation.cancel()))
-                    .andThen(new AutoReverse(m_Intake))
-                    .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10);
-                }
-            
-            })
+            new FeederStation(m_Arm,m_Elevator).withTimeout(.001)
+                .andThen(new AutoHopper(m_Intake))
+                .andThen(new AutoIntake(m_Intake))
+                .andThen(new AutoReverse(m_Intake))
+                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10)
         );
+
         operator.povDown().onTrue(new LevelOne(m_Arm, m_Elevator));
         operator.povRight().onTrue(new LevelTwo(m_Arm, m_Elevator));
         operator.a().onTrue(new LevelThree(m_Arm, m_Elevator));
