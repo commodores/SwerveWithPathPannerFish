@@ -165,12 +165,13 @@ public class RobotContainer {
         driver.y().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward        
 
         //intake
-        driver.x().onTrue(
+    /*    operator.povLeft().onTrue(
             new AutoHopper(m_Intake)
                 .andThen(new AutoIntake(m_Intake))
                 .andThen(new InstantCommand(() -> alignToCoralStation.cancel()))
                 .andThen(new AutoReverse(m_Intake))
-                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10));
+                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10)); 
+                */
 
         //Score
         driver.b().onTrue(
@@ -209,7 +210,13 @@ public class RobotContainer {
             new InstantCommand(() -> {
                 if (m_Elevator.getElevatorSetpoint()==1) {
                     new FeederStation(m_Arm, m_Elevator).schedule();
+                    new AutoHopper(m_Intake)
+                    .andThen(new AutoIntake(m_Intake))
+                    .andThen(new InstantCommand(() -> alignToCoralStation.cancel()))
+                    .andThen(new AutoReverse(m_Intake))
+                    .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10);
                 }
+            
             })
         );
         operator.povDown().onTrue(new LevelOne(m_Arm, m_Elevator));

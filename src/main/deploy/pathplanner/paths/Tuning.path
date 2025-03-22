@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.4084016393442615,
-        "y": 4.0
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.706651639344262,
-        "y": 3.9354999999999993
-      },
-      "isLocked": false,
-      "linkedName": "(lvl1)AlgaeBackUp"
-    },
-    {
-      "anchor": {
-        "x": 5.75,
-        "y": 4.015249999999999
-      },
-      "prevControl": {
-        "x": 5.500411116155406,
-        "y": 3.974076091258659
-      },
-      "nextControl": {
-        "x": 5.999588883844594,
-        "y": 4.05642390874134
+        "x": 2.9177702146368825,
+        "y": 7.003349129857429
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.372438524590163,
-        "y": 4.015249999999999
+        "x": 7.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 7.617998570126732,
-        "y": 4.062156972147843
+        "x": 6.033517567950349,
+        "y": 6.996412285243552
       },
       "nextControl": null,
       "isLocked": false,
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "MiddlePaths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

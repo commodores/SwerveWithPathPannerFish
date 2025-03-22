@@ -41,19 +41,26 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "AutoReverse"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoIntake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoReverse"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -96,25 +103,32 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoIntake"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Lscore3"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoIntake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoReverse"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoReverse"
+                  "pathName": "Lscore3"
                 }
               }
             ]

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.894500000000001,
-        "y": 6.94025
+        "x": 6.185655737704918,
+        "y": 6.248719262295082
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.16025,
-        "y": 6.90125
+        "x": 1.3905737704918033,
+        "y": 6.608350409836065
       },
       "prevControl": {
-        "x": 1.404700603519352,
-        "y": 6.84886772781728
+        "x": 1.6350243740111554,
+        "y": 6.555968137653345
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "coralStation"
+      "linkedName": "newCoralStationL"
     }
   ],
   "rotationTargets": [],

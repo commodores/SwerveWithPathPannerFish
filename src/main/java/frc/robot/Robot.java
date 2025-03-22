@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final boolean kUseLimelight = true;
+  private final boolean kUseLimelight = false;
 
   private final Field2d field;
 

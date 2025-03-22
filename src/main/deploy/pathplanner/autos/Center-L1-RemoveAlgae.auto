@@ -23,19 +23,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "AlgaeLow"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "AlgaeLow"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "(lvl1)RemoveAlgaePath"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RemoveAlgae"
                 }
               }
             ]
