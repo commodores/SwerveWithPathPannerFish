@@ -19,7 +19,7 @@ public class Constants {
 
         public static final double startAngle = 7.0;     // Initial angle from parallel
         public static final double grabAngle = 95;//64;     // Perpendicular to floor
-        public static final double climbAngle = -10.0;   // 100 degrees past perpendicular
+        public static final double climbAngle = -15.0;   // 100 degrees past perpendicular
     }
 
     public static final class ArmivatorConstants{
