@@ -21,6 +21,7 @@ public class AlignToReefTagRelative extends Command {
   private CommandSwerveDrivetrain drivebase;
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric();
   private double tagID = -1;
+  private double rampTime = 0.5; // seconds to full speed
 
   public AlignToReefTagRelative(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
     xController = new PIDController(AlignToBranchConstants.X_REEF_ALIGNMENT_P, 0.0, 0);     // Move towards reef
@@ -63,7 +64,8 @@ public class AlignToReefTagRelative extends Command {
       SmartDashboard.putNumber("tz", postions[2]);
       SmartDashboard.putNumber("ry", postions[4]);
 
-      double xSpeed = xController.calculate(postions[2]);       // Move towards reef
+      double ramp = Math.min(1.0, totalTimer.get() / rampTime);
+      double xSpeed = xController.calculate(postions[2])*ramp;       // Move towards reef
       double ySpeed = -yController.calculate(postions[0]);      // Strafe to branch
       double rotValue = -rotController.calculate(postions[4]);  // Rotation towards target
 

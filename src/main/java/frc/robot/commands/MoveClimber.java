@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.Climber;
 
 public class MoveClimber extends Command {
@@ -26,13 +25,8 @@ public class MoveClimber extends Command {
             return;
         }
 
-        // Move only if within limits
-        if ((speed > 0 && climber.getClimberPositionDegrees() < ClimberConstants.grabAngle) || 
-            (speed < 0 && climber.getClimberPositionDegrees() > ClimberConstants.climbAngle)) {
-            climber.setClimberSpeed(speed);
-        } else {
-            climber.stopClimber();
-        }
+        climber.setClimberSpeed(speed);
+        
     }
 
     @Override

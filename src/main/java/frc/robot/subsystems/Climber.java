@@ -24,6 +24,11 @@ public class Climber extends SubsystemBase {
         climberConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         climberConfig.CurrentLimits.SupplyCurrentLimit = 80;
         climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        climberConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        climberConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degreesToRotations(ClimberConstants.grabAngle);
+        climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        climberConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degreesToRotations(ClimberConstants.climbAngle);
+        climberConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.5; // or 1.0 for even smoother
 
         climberMotor.getConfigurator().apply(climberConfig);
 
