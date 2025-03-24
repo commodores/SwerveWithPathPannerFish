@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.714329268927213,
-        "y": 2.1169374055732977
+        "x": 2.6615846890387376,
+        "y": 1.987938125290937
       },
       "isLocked": false,
       "linkedName": "atCoralStationR"
     },
     {
       "anchor": {
-        "x": 3.5023026315789467,
-        "y": 2.6490953947368414
+        "x": 3.452,
+        "y": 2.49656762295082
       },
       "prevControl": {
-        "x": 2.6831354018013625,
-        "y": 2.0773544014609664
+        "x": 2.350418258102563,
+        "y": 1.8010065924090055
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "scoreR"
     }
   ],
   "rotationTargets": [],
@@ -56,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.3,
-    "maxAcceleration": 4.3,
+    "maxVelocity": 4.1,
+    "maxAcceleration": 4.1,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

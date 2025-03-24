@@ -28,7 +28,7 @@ public class Climber extends SubsystemBase {
         climberConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degreesToRotations(ClimberConstants.grabAngle);
         climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         climberConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degreesToRotations(ClimberConstants.climbAngle);
-        climberConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.5; // or 1.0 for even smoother
+        climberConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 1; // or 1.0 for even smoother
 
         climberMotor.getConfigurator().apply(climberConfig);
 

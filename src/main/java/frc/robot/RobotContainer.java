@@ -157,8 +157,8 @@ public class RobotContainer {
         driver.povRight().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0).withVelocityY(-.5)));
 
         //Climber
-        driver.rightBumper().whileTrue(new MoveClimber(m_climber, 0.3));//Get ready to CLimb!!!
-        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -.5));//CLIMB!!!!!
+        driver.rightBumper().whileTrue(new MoveClimber(m_climber, .5));//Get ready to CLimb!!!
+        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -1));//CLIMB!!!!!
         
         //Climber Lock
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards

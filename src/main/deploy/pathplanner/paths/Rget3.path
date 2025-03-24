@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4753479184998497,
-        "y": 2.7907474489964073
+        "x": 3.5068330422984397,
+        "y": 2.797936123378186
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.16025,
-        "y": 1.0317499999999995
+        "x": 1.7741803278688524,
+        "y": 1.8732069672131149
       },
       "prevControl": {
-        "x": 2.1826441070931053,
-        "y": 1.7657353094139154
+        "x": 2.22068025174363,
+        "y": 2.2009395288030706
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "coralStationR"
     }
   ],
   "rotationTargets": [],
@@ -56,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.3,
-    "maxAcceleration": 4.3,
+    "maxVelocity": 4.1,
+    "maxAcceleration": 4.1,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -65,7 +65,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.0
+    "rotation": 37.74680538727478
   },
   "reversed": false,
   "folder": "RightPaths",
