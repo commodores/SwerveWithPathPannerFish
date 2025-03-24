@@ -18,7 +18,7 @@ public class Constants {
         public static final double climberDegreesPerRotation = 360.0 / climberRatio;  // 1.6071 degrees per rotation
 
         public static final double startAngle = 7.0;     // Initial angle from parallel
-        public static final double grabAngle = 95;//64;     // Perpendicular to floor
+        public static final double grabAngle = 90;//64;     // Perpendicular to floor
         public static final double climbAngle = -15.0;   // 100 degrees past perpendicular
     }
 
@@ -87,13 +87,13 @@ public class Constants {
 
         public static final double ROT_SETPOINT_CORALSTATION_ALIGNMENT = 0;  // Rotation
         public static final double ROT_TOLERANCE_CORALSTATION_ALIGNMENT = 1.5;
-        public static final double X_SETPOINT_CORALSTATION_ALIGNMENT = -0.45;
+        public static final double X_SETPOINT_CORALSTATION_ALIGNMENT = -0.455;
         public static final double X_TOLERANCE_CORALSTATION_ALIGNMENT = 0.02;
         public static final double Y_SETPOINT_CORALSTATION_ALIGNMENT = 0.0;
         public static final double Y_TOLERANCE_CORALSTATION_ALIGNMENT =0.02;
 
 
-        public static final double DONT_SEE_TAG_WAIT_TIME = .5;
+        public static final double DONT_SEE_TAG_WAIT_TIME = 5;
         public static final double POSE_VALIDATION_TIME = .01;
         public static final double POSE_TOTAL_TIME = 3.0;
 
