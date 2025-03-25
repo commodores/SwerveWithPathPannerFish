@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Lvl1StartMiddle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LvlOneScorePiece"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(lvl1)AlgaeBackUp"
+            "pathName": "TuningBack"
           }
         },
         {
@@ -31,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AlignToCenterReef"
+            "name": "RemoveAlgae"
           }
         },
         {
@@ -39,15 +27,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "(lvl1)RemoveAlgaePath"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "RemoveAlgae"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Tuning"
                 }
               }
             ]

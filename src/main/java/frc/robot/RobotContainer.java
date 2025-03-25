@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AlignToCoralStation;
+import frc.robot.commands.AlignToCenterReef;
 import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.AutoHopper;
 import frc.robot.commands.AutoIntake;
@@ -69,6 +70,7 @@ public class RobotContainer {
     private final CommandXboxController operator = new CommandXboxController(1);
 
     private final AlignToCoralStation alignToCoralStation = new AlignToCoralStation(drivetrain);
+    private final AlignToCenterReef alignToCenterReef = new AlignToCenterReef(drivetrain);
 
     private final AlignToReefTagRelative alignLeft = new AlignToReefTagRelative(false, drivetrain);
     private final AlignToReefTagRelative alignRight = new AlignToReefTagRelative(true, drivetrain);    
@@ -93,7 +95,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
         NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(1.5));
-        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(3));
+        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(2));
 
 
         NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));
@@ -101,8 +103,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("LevelTwo", new LevelTwo(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelThree", new LevelThree(m_Arm, m_Elevator));
         NamedCommands.registerCommand("LevelFour", new LevelFour(m_Arm, m_Elevator));
-        NamedCommands.registerCommand("AlgaeLow", new LowAlgae(m_Arm, m_Elevator));
-        NamedCommands.registerCommand("AlgaeHigh", new HighAlgae(m_Arm, m_Elevator));
+        NamedCommands.registerCommand("AlgaeLow", new LowAlgae(m_Arm, m_Elevator).withTimeout(.5));
+        NamedCommands.registerCommand("AlgaeHigh", new HighAlgae(m_Arm, m_Elevator).withTimeout(.5));
 
         NamedCommands.registerCommand("LvlOneScorePos", new Level1ScorePosition(m_Level1));
         NamedCommands.registerCommand("LvlOneScorePiece", new Level1ScorePiece(m_Level1Intake,-0.8).withTimeout(.5));
@@ -111,6 +113,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoAlignToBranch_Left", new AlignToReefTagRelative(false, drivetrain));
         NamedCommands.registerCommand("AutoAlignToBranch_Right", new AlignToReefTagRelative(true, drivetrain));
         NamedCommands.registerCommand("AutoAlignToCoralStation", new AlignToCoralStation(drivetrain));
+        NamedCommands.registerCommand("AlignToCenterReef", new AlignToCenterReef(drivetrain));
         NamedCommands.registerCommand("PushBot", new PushBot(drivetrain));
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -131,6 +134,10 @@ public class RobotContainer {
             )
         );
 
+        m_climber.setDefaultCommand(
+            new MoveClimber(m_climber, 0.0) // Set to 0 so it stops moving when no input
+                );
+
         
         // reset the field-centric heading on left bumper press
         driver.back().onTrue(drivetrain.runOnce(()-> drivetrain.seedFieldCentric()));
@@ -142,13 +149,16 @@ public class RobotContainer {
         driver.rightStick().onTrue(alignRight);
 
         //Align to Coral Station
-        driver.start().onTrue(alignToCoralStation);
+        driver.leftBumper().onTrue(alignToCoralStation);
+
+        //Align to take off Algae
+        driver.rightBumper().onTrue(alignToCenterReef);
         
         // Drive forward straight
         driver.povUp().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0.5).withVelocityY(0)));
 
         // Drive reverse straight
-        //driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
+        driver.povDown().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
         
         // Drive left robot relative
         driver.povLeft().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0).withVelocityY(.5)));
@@ -157,8 +167,13 @@ public class RobotContainer {
         driver.povRight().whileTrue(drivetrain.applyRequest(() ->  forwardStraight.withVelocityX(0).withVelocityY(-.5)));
 
         //Climber
-        driver.rightBumper().whileTrue(new MoveClimber(m_climber, .5));//Get ready to CLimb!!!
-        driver.leftBumper().whileTrue(new MoveClimber(m_climber, -1));//CLIMB!!!!!
+       // driver.rightBumper().whileTrue(new MoveClimber(m_climber, .5));//Get ready to CLimb!!!
+        //driver.leftBumper().whileTrue(new MoveClimber(m_climber, -1));//CLIMB!!!!!
+
+        // Climber
+        driver.rightTrigger().whileTrue(new MoveClimber(m_climber, 0.5)); // Get ready to Climb!!!
+        driver.leftTrigger().whileTrue(new MoveClimber(m_climber, -1));  // CLIMB!!!!!
+
         
         //Climber Lock
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards

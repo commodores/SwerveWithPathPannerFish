@@ -41,22 +41,45 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "RemoveAlgae"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "(lvl4)RemoveAlgaePath"
-                }
-              }
-            ]
+            "pathName": "(lvl4)RemoveAlgaePath"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Remove2Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeHigh"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlignToCenterReef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Remove3Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlignToCenterReef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BackUpFrom3Algae"
           }
         }
       ]

@@ -12,20 +12,20 @@
         "y": 7.025157678324293
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "tuningStart"
     },
     {
       "anchor": {
-        "x": 2.0,
+        "x": 5.214651639344262,
         "y": 7.0
       },
       "prevControl": {
-        "x": 2.451348122938417,
+        "x": 5.665999762282679,
         "y": 6.99183106837394
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "tuningEnd"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
