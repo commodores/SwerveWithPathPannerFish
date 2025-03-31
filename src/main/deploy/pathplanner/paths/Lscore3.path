@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0788934426229508,
-        "y": 6.920030737704917
+        "x": 1.17,
+        "y": 6.989
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3001904074508623,
-        "y": 6.803722297091374
+        "x": 1.501649201280103,
+        "y": 6.773043304721252
       },
       "isLocked": false,
       "linkedName": "atCoralStationL"
     },
     {
       "anchor": {
-        "x": 3.56,
-        "y": 5.613
+        "x": 3.6855,
+        "y": 5.155999999999999
       },
       "prevControl": {
-        "x": 2.618213207056258,
-        "y": 6.104084847597489
+        "x": 2.882100987486737,
+        "y": 5.691079694532893
       },
       "nextControl": null,
       "isLocked": false,
@@ -56,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.1,
-    "maxAcceleration": 4.1,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

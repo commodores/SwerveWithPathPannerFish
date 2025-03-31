@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.0
+        "x": 3.6952499999999997,
+        "y": 2.962249999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.1311086850165,
-        "y": 7.025157678324293
+        "x": 3.4536390905510537,
+        "y": 2.8044013400111236
       },
       "isLocked": false,
-      "linkedName": "tuningStart"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 7.0
+        "x": 1.1992500000000001,
+        "y": 1.05125
       },
       "prevControl": {
-        "x": 6.451348122938417,
-        "y": 6.99183106837394
+        "x": 1.7494640136437218,
+        "y": 1.4283280398727771
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "tuningEnd"
+      "linkedName": "coralStationR"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "LevelOne",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.13,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -44,13 +44,13 @@
       }
     },
     {
-      "name": "LevelFour",
-      "waypointRelativePos": 0.1404456448345656,
+      "name": "Feeder",
+      "waypointRelativePos": 0.46,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "LevelFour"
+          "name": "Feeder"
         }
       }
     }
@@ -65,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 52.88313931672966
   },
   "reversed": false,
-  "folder": null,
+  "folder": "RightPaths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }

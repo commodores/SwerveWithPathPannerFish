@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.0
+        "x": 1.17,
+        "y": 6.989
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.1311086850165,
-        "y": 7.025157678324293
+        "x": 1.5069564253509349,
+        "y": 6.767444667630951
       },
       "isLocked": false,
-      "linkedName": "tuningStart"
+      "linkedName": "atCoralStationL"
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 7.0
+        "x": 3.6075,
+        "y": 5.16575
       },
       "prevControl": {
-        "x": 6.451348122938417,
-        "y": 6.99183106837394
+        "x": 2.8126886167580967,
+        "y": 5.735826170506578
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "tuningEnd"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "LevelOne",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.3,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.1404456448345656,
+      "waypointRelativePos": 0.35,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -65,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -59.931417178137565
   },
   "reversed": false,
-  "folder": null,
+  "folder": "LeftPaths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -54.825277042148436
   },
   "useDefaultConstraints": true
 }

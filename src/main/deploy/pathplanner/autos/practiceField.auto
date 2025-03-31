@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Tuning"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "TuningBack"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignToBranch_Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
           }
         }
       ]

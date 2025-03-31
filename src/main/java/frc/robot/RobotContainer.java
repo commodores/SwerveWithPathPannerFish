@@ -94,7 +94,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoHopper", new AutoHopper(m_Intake));
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
-        NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(1.5));
+        NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(2.5));
         NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(2));
 
 
@@ -226,7 +226,7 @@ public class RobotContainer {
                 .andThen(new AutoHopper(m_Intake))
                 .andThen(new AutoIntake(m_Intake))
                 .andThen(new AutoReverse(m_Intake))
-                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(10)
+                .andThen(new LevelOne(m_Arm, m_Elevator).withTimeout(.001)).withTimeout(15)
         );
 
         operator.povDown().onTrue(new LevelOne(m_Arm, m_Elevator));

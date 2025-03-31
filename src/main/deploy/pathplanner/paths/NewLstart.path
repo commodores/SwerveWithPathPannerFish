@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.0
+        "x": 7.108,
+        "y": 6.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.1311086850165,
-        "y": 7.025157678324293
+        "x": 6.8174209413553815,
+        "y": 6.151907098039571
       },
       "isLocked": false,
-      "linkedName": "tuningStart"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 7.0
+        "x": 5.02125,
+        "y": 5.312
       },
       "prevControl": {
-        "x": 6.451348122938417,
-        "y": 6.99183106837394
+        "x": 5.270515324894897,
+        "y": 5.292848033911862
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "tuningEnd"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.1404456448345656,
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -65,10 +65,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "LeftPaths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

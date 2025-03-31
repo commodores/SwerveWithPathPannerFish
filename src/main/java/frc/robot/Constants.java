@@ -66,7 +66,7 @@ public class Constants {
 
         public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;  // Rotation
         public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1;
-        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.53;
+        public static final double X_SETPOINT_REEF_ALIGNMENT = -0.52;
         public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.02;
         public static final double Y_SETPOINT_REEF_ALIGNMENT_RIGHT = 0.17;
         public static final double Y_SETPOINT_REEF_ALIGNMENT_LEFT = -0.16;
