@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8174209413553815,
-        "y": 6.151907098039571
+        "x": 6.773231657031656,
+        "y": 6.138167885146446
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.02125,
-        "y": 5.312
+        "x": 5.0115,
+        "y": 5.26325
       },
       "prevControl": {
-        "x": 5.270515324894897,
-        "y": 5.292848033911862
+        "x": 5.286689314717786,
+        "y": 5.246483868353106
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.35,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

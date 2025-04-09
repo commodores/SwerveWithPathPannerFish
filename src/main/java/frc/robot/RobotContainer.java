@@ -179,6 +179,10 @@ public class RobotContainer {
         driver.a().onTrue(new InstantCommand(() -> m_climber.unLockClimber()));//climber can go foward and backwards
         driver.y().onTrue(new InstantCommand(() -> m_climber.lockClimber()));//climber can only go backward        
 
+        //Lvl1 Score driver
+        driver.x().whileTrue(new InstantCommand(() -> m_Level1Intake.setIntakeSpeed(-1)));
+        driver.x().onFalse(new InstantCommand(() -> m_Level1Intake.stop()));
+
         //intake
     /*    operator.povLeft().onTrue(
             new AutoHopper(m_Intake)

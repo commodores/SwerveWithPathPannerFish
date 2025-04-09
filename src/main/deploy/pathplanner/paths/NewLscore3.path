@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.92925,
-        "y": 5.34125
+        "x": 3.7401639344262296,
+        "y": 5.2897028688524586
       },
       "prevControl": {
-        "x": 3.105547314405599,
-        "y": 5.867459743185226
+        "x": 2.9164612488318284,
+        "y": 5.8159126120376845
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.35,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

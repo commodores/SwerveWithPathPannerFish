@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6306715471316853,
-        "y": 1.9398921956880586
+        "x": 2.4894638964338034,
+        "y": 1.9906008564494966
       },
       "isLocked": false,
-      "linkedName": "atCoralStationR"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.65625,
-        "y": 2.8744999999999994
+        "x": 3.788114754098361,
+        "y": 2.8082479508196716
       },
       "prevControl": {
-        "x": 2.6161855480159195,
-        "y": 2.2238570586967956
+        "x": 2.913675549162876,
+        "y": 2.1849837509610226
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "scoreR"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

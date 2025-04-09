@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.3332500000000005,
-        "y": 2.8744999999999994
+        "x": 5.190676229508196,
+        "y": 2.8082479508196716
       },
       "prevControl": {
-        "x": 5.6312899781796695,
-        "y": 2.8617808737571937
+        "x": 5.488716207687865,
+        "y": 2.795528824576866
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RstartEndPoint"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.35,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

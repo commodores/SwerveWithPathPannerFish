@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignToBranch_Right"
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Rget2"
+            "pathName": "NewRget2"
           }
         },
         {
@@ -75,7 +75,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignToBranch_Left"
+            "name": "AutoAlignToBranch_Right"
           }
         },
         {
@@ -87,7 +87,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Rget3"
+            "pathName": "NewRget3"
           }
         },
         {
@@ -137,7 +137,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignToBranch_Right"
+            "name": "AutoAlignToBranch_Left"
           }
         },
         {

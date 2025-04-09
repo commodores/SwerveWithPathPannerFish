@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5069564253509349,
-        "y": 6.767444667630951
+        "x": 1.5087812619530065,
+        "y": 6.782131625512455
       },
       "isLocked": false,
       "linkedName": "atCoralStationL"
     },
     {
       "anchor": {
-        "x": 3.6075,
-        "y": 5.16575
+        "x": 3.6855,
+        "y": 5.10725
       },
       "prevControl": {
-        "x": 2.8126886167580967,
-        "y": 5.735826170506578
+        "x": 2.8965496711950847,
+        "y": 5.6502619498642375
       },
       "nextControl": null,
       "isLocked": false,

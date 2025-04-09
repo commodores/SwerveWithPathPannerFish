@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.406197210757036,
-        "y": 1.1926215080255118
+        "x": 1.4784171914758484,
+        "y": 1.2146724458679314
       },
       "isLocked": false,
-      "linkedName": "atCoralStationR"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.65625,
-        "y": 2.8744999999999994
+        "x": 3.752151639344262,
+        "y": 2.736321721311475
       },
       "prevControl": {
-        "x": 3.1025387216868956,
-        "y": 2.473958791951987
+        "x": 3.086381936063002,
+        "y": 2.3437766624376675
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "scoreR"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     },
     {
       "name": "LevelFour",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.35,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

@@ -35,21 +35,21 @@ public class Constants {
     public static final class ElevatorSetpoints {
         public static final double kFeederStation = 0.0;//---Position 0
         public static final double kLevel1 = 0.0;       //---Position 1
-        public static final double kLevel2 = 10.0;       //---Position 2
+        public static final double kLevel2 = 6.204; //10.0;       //---Position 2
         public static final double kLevel3 = 27.0;      //---Position 3
         public static final double kLevel4 = 27.0;      //---Position 4
         public static final double kAlgaeLow = 1.5;     //---Position 5
-        public static final double kAlgaeHigh = 16.18;  //---Position 6
+        public static final double kAlgaeHigh = 0.0;//16.18;  //---Position 6
     }
 
     public static final class ArmSetpoints {
         public static final double kFeederStation = 27.00;  //---Position 0
         public static final double kLevel1 = 63;       //---Position 1
-        public static final double kLevel2 = 51;      //---Position 2
+        public static final double kLevel2 = 63.9; //51;      //---Position 2
         public static final double kLevel3 = 51;      //---Position 3
         public static final double kLevel4 = 214;        //---Position 4
         public static final double kAlgaeLow = 165;    //---Position 5
-        public static final double kAlgaeHigh = 165;   //---Position 6
+        public static final double kAlgaeHigh = 145;//165;   //---Position 6
 
     }
 
