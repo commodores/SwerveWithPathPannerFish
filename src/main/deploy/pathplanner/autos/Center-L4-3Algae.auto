@@ -43,37 +43,26 @@
         {
           "type": "named",
           "data": {
-            "name": "RemoveAlgae"
+            "name": "RemoveLowAlgae"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "(lvl4)RemoveAlgaePath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlignToCenterReef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RemoveAlgae"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Remove2Algae"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlgaeHigh"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlgaeHigh"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Remove2Algae"
+                }
+              }
+            ]
           }
         },
         {
@@ -85,7 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "RemoveAlgae"
+            "name": "RemoveHighAlgae"
           }
         },
         {
@@ -97,19 +86,13 @@
         {
           "type": "named",
           "data": {
-            "name": "AlgaeHigh"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "AlignToCenterReef"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RemoveAlgae"
+            "name": "RemoveHighAlgae"
           }
         },
         {

@@ -21,7 +21,7 @@ public class AlignToReefTagRelative extends Command {
   private CommandSwerveDrivetrain drivebase;
   private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric();
   private double tagID = -1;
-  private double rampTime = 0.5; // seconds to full speed
+  private double rampTime = 0.25; // .5  seconds to full speed
 
   public AlignToReefTagRelative(boolean isRightScore, CommandSwerveDrivetrain drivebase) {
     xController = new PIDController(AlignToBranchConstants.X_REEF_ALIGNMENT_P, 0.0, 0);     // Move towards reef

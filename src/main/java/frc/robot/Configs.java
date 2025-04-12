@@ -58,8 +58,8 @@ public final class Configs {
         .closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .p(.15)
-        .minOutput(-.45)
-        .maxOutput(.45);      
+        .minOutput(-.55)//-.45
+        .maxOutput(.65); //.45     
     }
   }
 

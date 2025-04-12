@@ -34,11 +34,12 @@ import frc.robot.commands.LevelTwo;
 import frc.robot.commands.LowAlgae;
 import frc.robot.commands.MoveClimber;
 import frc.robot.commands.PushBot;
+import frc.robot.commands.RemoveHighAlgae;
 import frc.robot.commands.Level1FloorPosition;
 import frc.robot.commands.Level1ScorePosition;
 import frc.robot.commands.Level1ScorePiece;
 import frc.robot.commands.Level1StowPosition;
-import frc.robot.commands.RemoveAlgae;
+import frc.robot.commands.RemoveLowAlgae;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -95,7 +96,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_Intake));
         NamedCommands.registerCommand("AutoReverse", new AutoReverse(m_Intake));
         NamedCommands.registerCommand("AutoScore", new AutoScore(m_Intake).withTimeout(2.5));
-        NamedCommands.registerCommand("RemoveAlgae", new RemoveAlgae(m_Intake).withTimeout(2));
+        NamedCommands.registerCommand("RemoveLowAlgae", new RemoveLowAlgae(m_Intake).withTimeout(2));
+        NamedCommands.registerCommand("RemoveHighAlgae", new RemoveHighAlgae(m_Intake).withTimeout(2));
+
 
 
         NamedCommands.registerCommand("Feeder", new FeederStation(m_Arm, m_Elevator));

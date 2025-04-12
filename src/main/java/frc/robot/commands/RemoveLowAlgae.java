@@ -8,14 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoHopper extends Command {
+public class RemoveLowAlgae extends Command {
   /** Creates a new AutoHopper. */
    private final Intake m_Intake;
    double distanceSensorValue;
-  public AutoHopper(Intake intakeSub) {
+  public RemoveLowAlgae(Intake intakeSub) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Intake = intakeSub;
-    distanceSensorValue = 130;
     addRequirements(m_Intake);
   }
 
@@ -27,15 +26,12 @@ public class AutoHopper extends Command {
   @Override
   public void execute() {
 
-    m_Intake.runHopperSpeed(.3);//.2
-    m_Intake.runIntakeSpeed(.2);//.1
-    distanceSensorValue = m_Intake.getInSensorDistance();
+    m_Intake.runIntakeSpeed(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Intake.runHopperSpeed(0);
     m_Intake.runIntakeSpeed(0);
  
   }
@@ -43,7 +39,7 @@ public class AutoHopper extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return m_Intake.getInSensorDistance() < 100;
+   return false;
 
   }
  
